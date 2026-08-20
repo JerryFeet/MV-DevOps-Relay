@@ -1,0 +1,46 @@
+BEGIN
+CREATE SCHEMA
+SET
+CREATE TABLE
+INSERT 0 1
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+INSERT 0 8
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+UPDATE 1
+UPDATE 0
+UPDATE 1
+ALTER TABLE
+DO
+DO
+DO
+CREATE FUNCTION
+psql:lib/db/migrations/0026_stage4b_document_library.sql:138: NOTICE:  trigger "documents_visibility_floor_guard" for relation "documents" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+psql:lib/db/migrations/0026_stage4b_document_library.sql:181: NOTICE:  trigger "document_folders_visibility_floor_guard" for relation "document_folders" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+DO
+CREATE INDEX
+CREATE INDEX
+psql:scripts/stage4b-folder-floor-fixture.sql:77: NOTICE:  PASS: database trigger rejected below-floor INSERT.
+psql:scripts/stage4b-folder-floor-fixture.sql:77: NOTICE:  PASS: database trigger rejected invalid folder tightening.
+psql:scripts/stage4b-folder-floor-fixture.sql:77: NOTICE:  PASS: public legacy financials migrated to verified_owners.
+DO
+ fixture_result |  category  |      folder       |   visibility
+----------------+------------+-------------------+-----------------
+ PASS           | financials | Financial Reports | verified_owners
+(1 row)
+
+ROLLBACK
+PASS: transaction rolled back; no fixture rows or schema objects persisted.
