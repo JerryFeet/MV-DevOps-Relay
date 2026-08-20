@@ -1,0 +1,1 @@
+{"check":"stage3-f5-schema-integrity","expectedTables":["facility_booking_config_normalization_audit","facility_operating_hours_conflicts"],"presentTables":["facility_booking_config_normalization_audit","facility_operating_hours_conflicts"],"missingTables":[],"fixtureReady":true}
