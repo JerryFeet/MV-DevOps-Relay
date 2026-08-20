@@ -1,47 +1,42 @@
-# Madain Village HOA Portal — Stage 3 evidence manifest (r5)
+# Madain Village HOA Portal — Stage 3 evidence manifest (r6)
 
 **Evidence date:** 2026-08-20  
 **Stage:** Stage 3  
-**Revision:** r5  
+**Revision:** r6  
 **Classification:** Correction status delivery; **not** a Stage 3 acceptance or release package.  
 **Release decision:** **DO NOT DEPLOY**
 
-## r5 evidence inventory and SHA-256 hashes
+## r6 evidence inventory and SHA-256 hashes
 
 | File | Exact GitHub blob | SHA-256 |
 |---|---|---|
-| `Stage-3-HOA-Mobile-Contract-Audit-2026-08-20-r5.md` | `acde0a0803c9d843e4094988ff7ee6e02686e372` | `05c521970cf4b4b2de26910b90edb9775cea41cfffe5c995ab00bdf465d675cd` |
-| `Stage-3-UAT-Delivery-Status-Report-2026-08-20-r5.md` | `ed9d18994799a89953f24715e78db62b1396b576` | `2748972073910617d37e04510b2d3a27966f635e8a3aea5a84f422d5f33b9e99` |
+| `Stage-3-HOA-Mobile-Contract-Audit-2026-08-20-r6.md` | `15f5f8648710d722de226e4c7222e51eb59a8e64` | `c3da6d1a903e59a3fbf5efde03b3435ca453c5d55ae3c303cef293199a144e71` |
+| `Stage-3-UAT-Delivery-Status-Report-2026-08-20-r6.md` | `735ae227291c94cd31829a726d79058945bdc204` | `31e6899a841327ed8528b1dc1d58db5bf30a58163562ee830c6d2be9f64431c6` |
 
-Each r5 artefact was committed independently. The final evidence-content commit is:
+Each r6 artefact was committed independently. The final r6 evidence-content commit is:
 
-`a6b0378a8485f347c9dc77ae75c6ee3f87f98b98`
+`9ca3e8e1db54e08b95279e35ea41b97c8d01a502`
 
-This manifest must be published in a separate manifest-only commit after that evidence-content commit. The hashes above were calculated from the exact pushed GitHub blobs, not only from local files.
+This manifest is published separately after that evidence-content commit. The listed SHA-256 values were calculated from the exact pushed GitHub blobs.
 
-## Retained baseline evidence
+## Historical retention
 
-The standard four-file r4 delivery bundle and its ZIP fallback remain available and unchanged. The r4 manifest and evidence-content commit (`5571b7e6167325145d8edf3c6cedb567e765784f`) remain the authoritative hash record for:
-
-- `Stage-3-UAT-Delivery-Status-Report-2026-08-20-r4.md`
-- `Stage-3-UAT-Migration-2026-08-20-r4.sql`
-- `Stage-3-UAT-Schema-Only-2026-08-20-r4.sql`
-- `HOA-Stage-3-Schema-Source-2026-08-20-r4.md`
-- the r4 F5 rollback, mobile-contract, and development-database integrity companions.
-
-r5 is a correction companion for mobile document access and guest-history pagination. It does not amend, force-push, rebase, replace, or delete prior evidence.
+- r4 remains the standard four-file Stage 3 delivery bundle and ZIP fallback.
+- r5 remains an immutable correction record.
+- r6 corrects the r5 web popup-policy gap by opening the web target synchronously before token/fetch work.
+- No prior evidence artefact was amended, force-pushed, rebased, deleted, or replaced.
 
 ## Schema and data boundary
 
-- r5 introduces no schema or database migration artefact.
-- The retained r4 schema-only export was checked before r4 publication for no `INSERT` and no `COPY ... FROM stdin` sections.
-- r5 contains no resident rows, document contents, phone numbers, identity data, private object-storage keys, credentials, secrets, production data, or production output.
+- r6 introduces no schema or database migration artefact.
+- No r6 artefact includes resident rows, document contents, phone numbers, identity data, private object-storage keys, credentials, secrets, production data, or production output.
+- r6 remains a status-only package and does not authorize acceptance or deployment.
 
 ## Verify from the repository root
 
 ```sh
 cat <<'EOF' | sha256sum -c -
-05c521970cf4b4b2de26910b90edb9775cea41cfffe5c995ab00bdf465d675cd  evidence/stage-3/Stage-3-HOA-Mobile-Contract-Audit-2026-08-20-r5.md
-2748972073910617d37e04510b2d3a27966f635e8a3aea5a84f422d5f33b9e99  evidence/stage-3/Stage-3-UAT-Delivery-Status-Report-2026-08-20-r5.md
+c3da6d1a903e59a3fbf5efde03b3435ca453c5d55ae3c303cef293199a144e71  evidence/stage-3/Stage-3-HOA-Mobile-Contract-Audit-2026-08-20-r6.md
+31e6899a841327ed8528b1dc1d58db5bf30a58163562ee830c6d2be9f64431c6  evidence/stage-3/Stage-3-UAT-Delivery-Status-Report-2026-08-20-r6.md
 EOF
 ```
