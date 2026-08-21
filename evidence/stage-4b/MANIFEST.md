@@ -1,64 +1,30 @@
-# Stage 4b — r3 Evidence Manifest
-**Date:** 2026-08-21  
-**E2E result:** 72 passed, 10 skipped (0 failed) — 4.0 minutes  
-**Unit tests:** API 1,274 | Portal 1,377 | Mobile 393 — all pass  
-**TypeScript:** API clean | Portal clean  
-**Translation guard:** all keys translated
+# Stage 4b r4 — Evidence Manifest
+Generated: 2026-08-21
 
----
+| File | Description | Lines |
+|------|-------------|-------|
+| `stage4b-r4-status.md` | Full status report — r4 Δ summary, named skipped-test list, seeded E2E results, tenant J5 coverage statement, H4 pagination work | — |
+| `stage4b-r4-schema-only.sql` | Genuine `pg_dump --schema-only` against the development database (PostgreSQL 16.10). 28 ENUMs, 2 trigger functions, 33 tables. | 3165 |
+| `stage4b-r4-rollback.sql` | Rollback for migration 0028 (identical to r3 rollback — r4 is evidence-only). | 65 |
+| `MANIFEST.md` | This file. | — |
 
-## Files in this delivery
+## How to verify the schema dump
 
-| File | Description |
-|---|---|
-| `stage4b-r3-status.md` | Full status report covering all four outstanding items from r2 review |
-| `stage4b-r3-schema-snapshot.sql` | Schema comments for document library tables and triggers as of r3 |
-| `stage4b-r3-migrations.txt` | List of all three Stage 4b migrations applied to the development database |
-| `stage4b-r3-rollback.sql` | Rollback fixture to revert migration 0028 if needed |
-| `MANIFEST.md` | This file |
+```bash
+# Confirm the dump is a genuine pg_dump header (not hand-written):
+head -6 stage4b-r4-schema-only.sql
+# Expected: "-- Dumped from database version 16.10" and "-- Dumped by pg_dump version 16.10"
 
----
+# Confirm the cascade trigger function is present:
+grep "cascade_folder_visibility_floor" stage4b-r4-schema-only.sql
+# Expected: CREATE FUNCTION and CREATE TRIGGER lines
 
-## Changes in r3
+# Confirm the visibility floor guard is also present:
+grep "enforce_document_visibility_floor" stage4b-r4-schema-only.sql
+```
 
-### 1. Cascade trigger (Decision 60)
-- `lib/db/migrations/0028_stage4b_folder_cascade.sql` — AFTER/cascade replaces BEFORE/refuse on `document_folders`
-- `artifacts/api-server/src/routes/documents.ts` — removes 400 refusal, wraps in `db.transaction`, returns `cascadedDocuments: N`
-- `artifacts/api-server/src/__tests__/helpers/mockDb.ts` — `updateAll` semantics for bulk cascades
-- `artifacts/api-server/src/__tests__/documentsCrossUserPrivacy.test.ts` — cascade assertion (was refusal assertion)
+## r3 companion files
 
-### 2. Automated browser evidence for visibility model
-- `artifacts/hoa-portal/e2e/documents-admin.spec.ts` — NEW: 5 admin-session document tests
-- `artifacts/hoa-portal/playwright.config.ts` — registers `documents-admin.spec.ts` in admin project
-- `artifacts/hoa-mobile/__tests__/documentsLibraryContract.test.ts` — pre-existing; confirmed passing
-- Tenant/household_member role E2E deferred to consolidated UAT (no Clerk test accounts; explicit per decision 61)
-
-### 3. J6 print suppression + honest disclaimer
-- `artifacts/hoa-portal/src/pages/portal/documents.tsx` — `openDocument()` wraps view-only blob in print-suppressing HTML iframe wrapper
-- `artifacts/hoa-portal/src/lib/translations.ts` — English and Arabic `doc_view_only_warning` state honest limit (mentions print suppression, screenshot risk, and "do not publish if must not circulate")
-
-### 4. J7 mobile parity (confirmed pre-existing)
-- `artifacts/hoa-mobile/__tests__/documentsLibraryContract.test.ts` — both contract assertions pass
-- No code changes required; mobile already uses authenticated endpoint and respects `canDownload`
-
----
-
-## E2E test breakdown (82 tests, 1 worker)
-
-- **72 passed** — all authentication, role-redirect, document library, announcements, facilities, guests, vehicles, key-contacts round-trip, admin dashboard, and waha-cred tests
-- **10 skipped** — all data-dependent (no facilities seeded, no documents seeded in dev database, no guest-dialog trigger)
-- **0 failed**
-
-New tests added this revision:
-- `[admin] Document Library — admin visibility model > admin sees the document management controls` ✓
-- `[admin] Document Library — admin visibility model > admin document list renders or shows empty state` ✓
-- `[admin] Document Library — admin visibility model > admin sees visibility restriction badges when documents exist` — SKIPPED (no documents in dev database)
-- `[admin] Document Library — admin visibility model > API document response does not expose fileUrl to admin` ✓
-- `[admin] Document Library — admin visibility model > folder navigation renders with both English and Arabic names` ✓
-
----
-
-## Not included in r3
-- Stage 3 work (separate deliverable)
-- Deployment (Stage 3 still open; no deployment authorized)
-- Stage 4b acceptance claim (submitted for reviewer sign-off)
+The r3 directory (`stage4b-delivery-2026-08-21-r3/`) is retained unchanged.
+`stage4b-r3-schema-snapshot.sql` (hand-written migration SQL) is a companion to
+this genuine dump — both describe the same schema state; the pg_dump is authoritative.
