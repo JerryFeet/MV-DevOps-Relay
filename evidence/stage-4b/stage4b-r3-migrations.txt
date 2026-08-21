@@ -1,0 +1,29 @@
+Stage 4b r3 — Applied Migrations
+Generated: 2026-08-21
+
+Migration files applied to the development database in Stage 4b (all three revisions):
+
+  lib/db/migrations/0026_stage4b_document_library.sql
+    Original Stage 4b document library schema:
+    - Creates document_folders and documents tables
+    - Installs documents_visibility_floor_guard BEFORE trigger (enforce_document_visibility_floor)
+    - Installs document_folders_visibility_floor_guard BEFORE trigger (enforce_folder_visibility_floor)
+    - Seeds eight default folders (four all_portal_users, three verified_owners, one admin_only triage)
+
+  lib/db/migrations/0027_stage4b_document_visibility_floor_fix.sql
+    r2 repair migration:
+    - Strengthens the document-level BEFORE trigger to re-check the folder floor on UPDATE
+    - Re-installs the folder-level BEFORE/refuse trigger (unchanged behaviour)
+
+  lib/db/migrations/0028_stage4b_folder_cascade.sql  ← NEW in r3
+    r3 cascade migration:
+    - Replaces enforce_folder_visibility_floor() BEFORE trigger with
+      cascade_folder_visibility_floor() AFTER trigger on document_folders
+    - Cascade semantics: tightening a folder raises all sub-floor documents in the same statement
+    - Loosening never cascades downward
+    - Drops the obsolete enforce_folder_visibility_floor() function
+    - Includes an integrity assertion (raises EXCEPTION if any document remains below its floor)
+
+Current trigger state (post-r3):
+  document_folders_visibility_floor_guard  AFTER UPDATE OF default_visibility  → cascade_folder_visibility_floor()
+  documents_visibility_floor_guard         BEFORE INSERT OR UPDATE             → enforce_document_visibility_floor()
