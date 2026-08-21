@@ -1,0 +1,106 @@
+-- Stage 4b r3 — Schema Snapshot
+-- Generated: 2026-08-21
+-- Covers: document library tables and triggers (as of r3)
+
+-- ───────────────────────────────────────────────────────────────
+-- Table: document_folders
+-- ───────────────────────────────────────────────────────────────
+--   id                    integer  NOT NULL  PK  (sequence)
+--   name                  text     NOT NULL
+--   name_ar               text     NOT NULL
+--   default_visibility    text     NOT NULL  DEFAULT 'all_portal_users'
+--                         CHECK IN ('all_portal_users','verified_owners','admin_only')
+--   default_download_mode text     NOT NULL  DEFAULT 'download_allowed'
+--                         CHECK IN ('download_allowed','view_only')
+--   sort_order            integer  NOT NULL  DEFAULT 0
+--   is_active             boolean  NOT NULL  DEFAULT true
+--   is_triage             boolean  NOT NULL  DEFAULT false
+--   created_at            timestamptz NOT NULL DEFAULT now()
+--   updated_at            timestamptz NOT NULL DEFAULT now()
+--   UNIQUE INDEX on (name)
+--   INDEX on (is_active, sort_order)
+--
+-- Trigger:
+--   document_folders_visibility_floor_guard
+--   AFTER UPDATE OF default_visibility
+--   FOR EACH ROW
+--   EXECUTE FUNCTION cascade_folder_visibility_floor()
+--
+--   Semantics: when default_visibility is raised (tightened), every document
+--   in the folder whose visibility is below the new floor is raised to match it.
+--   Loosening the folder floor DOES NOT cascade downward.
+
+-- ───────────────────────────────────────────────────────────────
+-- Table: documents
+-- ───────────────────────────────────────────────────────────────
+--   id               integer  NOT NULL  PK  (sequence)
+--   title            text     NOT NULL
+--   description      text     NULLABLE
+--   category         text     NOT NULL  DEFAULT 'general'
+--   file_url         text     NOT NULL  (internal object storage path; never exposed in API responses)
+--   mime_type        text     NULLABLE
+--   file_size        integer  NULLABLE
+--   is_public        boolean  NOT NULL  DEFAULT false
+--   uploaded_by_id   integer  NOT NULL  FK → users.id
+--   created_at       timestamptz NOT NULL DEFAULT now()
+--   updated_at       timestamptz NOT NULL DEFAULT now()
+--   folder_id        integer  NOT NULL  FK → document_folders.id
+--   visibility       text     NOT NULL
+--                    CHECK IN ('all_portal_users','verified_owners','admin_only')
+--   download_mode    text     NOT NULL
+--                    CHECK IN ('download_allowed','view_only')
+--   is_archived      boolean  NOT NULL  DEFAULT false
+--   archived_at      timestamptz NULLABLE
+--   archived_by_id   integer  NULLABLE  FK → users.id
+--   replaced_by_id   integer  NULLABLE  FK → documents.id
+--   replacement_reason text   NULLABLE
+--
+-- Trigger (unchanged from r2):
+--   documents_visibility_floor_guard
+--   BEFORE INSERT OR UPDATE
+--   FOR EACH ROW
+--   EXECUTE FUNCTION enforce_document_visibility_floor()
+--
+--   Semantics: rejects any INSERT or UPDATE that would set a document's
+--   visibility below its folder's default_visibility.
+
+-- ───────────────────────────────────────────────────────────────
+-- Visibility rank (for reference; enforced in application and triggers)
+-- ───────────────────────────────────────────────────────────────
+--   all_portal_users  →  rank 1  (least restrictive)
+--   verified_owners   →  rank 2
+--   admin_only        →  rank 3  (most restrictive)
+
+-- ───────────────────────────────────────────────────────────────
+-- Folder seeding (development database as of 2026-08-21)
+-- ───────────────────────────────────────────────────────────────
+--   Rules and Regulations     floor=all_portal_users
+--   User Manual               floor=all_portal_users
+--   Forms                     floor=all_portal_users
+--   Notices                   floor=all_portal_users
+--   Invoices                  floor=verified_owners
+--   Financial Reports         floor=verified_owners
+--   Minutes of Meeting        floor=verified_owners
+--   Unmapped legacy documents  floor=admin_only  (is_triage=true)
+
+-- ───────────────────────────────────────────────────────────────
+-- API surface (documents route — r3 changes)
+-- ───────────────────────────────────────────────────────────────
+-- PATCH /api/document-folders/:id
+--   • Accepts defaultVisibility, defaultDownloadMode, name, nameAr, sortOrder, isActive
+--   • If defaultVisibility is raised (tightened):
+--       - Runs folder update + document cascade in a db.transaction
+--       - Returns { ...folderFields, cascadedDocuments: N } when N > 0
+--   • If defaultVisibility is unchanged or lowered (loosened):
+--       - Returns { ...folderFields } with no cascadedDocuments key
+--   • No longer returns 400 "cannot be tightened while it contains less-restrictive documents"
+--
+-- GET /api/documents[?folderId=]
+--   • Returns only documents the authenticated user may see (role-filtered)
+--   • Never includes file_url; includes canDownload (derived from download_mode)
+--
+-- GET /api/documents/:id/download
+--   • Returns the binary file with headers:
+--       Content-Disposition: inline (view-only) or attachment (download_allowed)
+--       Cache-Control: private, no-store (view-only)
+--   • Enforces role visibility check before streaming
