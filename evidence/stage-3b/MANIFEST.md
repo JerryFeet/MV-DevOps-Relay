@@ -1,18 +1,23 @@
 # Stage 3b — Evidence MANIFEST
-Generated: 2026-08-21
+Generated: 2026-08-21 (r2 — addresses all r1 review blockers)
 
-| File | Description | Blob SHA | Commit SHA |
-|---|---|---|---|
-| stage3b-status.md | Full status report: X6, G1-G6, test results | a0690f40f7494e960fb776256c913f9bdfae4b89 | 4cc9d37df2c11386ff14a32bea3a2c55224bc368 |
+| File | Description | Blob SHA |
+|---|---|---|
+| stage3b-status.md | r1 status report (archived; see r2) | a0690f40f7 |
+| stage3b-status-r2.md | r2 full status: suites, migration, pg_dump, G1–G6 test map, payment finding | 461846c258 |
+| 0029_remove_supervisor_role.sql | Migration SQL: 6-step user_role enum rebuild (renamed from 0020) | afedc60461 |
+| pg_dump_user_role.md | pg_dump --schema-only for user_role — confirms enum = {owner,tenant,admin,guard} | 754c9058bf |
 
-## Summary
+## r2 Summary
 
-- **X6 (supervisor removal):** DB migration 0020 applied, enum updated, all API routes, portal routes, translations, and tests cleaned.
-- **G1 (additional vehicle archived):** Pre-existing. Stale translation keys removed.
-- **G2 (renovation scope multi-select):** Pre-existing — 5 approved categories, bilingual. Stale scope keys removed.
-- **G3 (contractor licence removed):** Pre-existing. Stale translation key removed.
-- **G4 (contractor mobile PhoneInput):** Pre-existing — E.164 validation in place.
-- **G5 (all renovation fields mandatory):** Pre-existing — client + server validation.
-- **G6 (permit payment removed):** API returns 410 for permit payment branches. Active flows (Waha Pass replacement, Guest Day Pass) confirmed live (401, not 404/410). Stale payment translation keys removed.
-- **Translation guard:** 60 files / 1358 tests — all passing (2026-08-21 13:57 UTC+3).
-- **Type check:** Clean — 0 errors (portal + API server).
+All five r1 reviewer blockers addressed:
+
+1. **Full suites run**: API 1272/1272 (76 files), portal 1358/1358 (60 files), mobile 405/405 (16 files), E2E 81 passed / 6 skipped / 0 failed.
+2. **Migration collision resolved**: 0020_remove_supervisor_role renamed to 0029. Full ordered list 0001–0029 verified, no other collisions.
+3. **Migration SQL + pg_dump published**: See `0029_remove_supervisor_role.sql` and `pg_dump_user_role.md`. Enum confirmed = {owner, tenant, admin, guard}.
+4. **G6 payment regression**: No automated test coverage exists for `/waha-pass/:id/replacement-pay` or Guest Day Pass payment paths (PaymentService stubbed null in all tests). Finding documented; deferred to consolidated UAT round.
+5. **G1–G6 per-test references**: Full table with file + line + assertion published in `stage3b-status-r2.md` §5.
+
+## E2E note
+
+The supervisor E2E spec was converted to `test.skip` (X6: supervisor no longer in `user_role` enum; `setUserRoleByEmail("supervisor")` would throw a DB enum-cast error). Coverage equivalent confirmed by owner/tenant/guard redirect specs.
