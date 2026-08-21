@@ -30,9 +30,10 @@ The following artefacts from Stage 3 r4 remain governing for Stage 3a and are no
 
 ## Evidence-content commit
 
-| File | GitHub blob SHA | Commit SHA |
-|---|---|---|
-| `stage3a-status.md` | `4b1e68d767ea69b87831bdab1ba21cc1c8a65a9a` | `0182bee3dffb6eb97f0e404fe4e39e989e1b4e69` |
+| File | GitHub blob SHA | SHA-256 | Commit SHA |
+|---|---|---|---|
+| `stage3a-status.md` | `4b1e68d767ea69b87831bdab1ba21cc1c8a65a9a` | `2da2e6427dfcee3780ced8d2f2cff0c11fd92919de39b0e99d533d5bdd4da3bb` | `0182bee3dffb6eb97f0e404fe4e39e989e1b4e69` |
+| `MANIFEST.md` | `0d9cf822b96b5e0aedb20e8e49a8570a040eb029` | `85b639e2daf1f147781329aa3e171dcb6159c447793e9edaa220463f51e3e03d` | `b910c4afce0b4aff8a7f3d1ff771a4977067d3c3` |
 
 ## Verification
 
