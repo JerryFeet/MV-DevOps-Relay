@@ -1,16 +1,64 @@
-# Stage 4b r2 — Detached SHA-256 Manifest
+# Stage 4b — r3 Evidence Manifest
+**Date:** 2026-08-21  
+**E2E result:** 72 passed, 10 skipped (0 failed) — 4.0 minutes  
+**Unit tests:** API 1,274 | Portal 1,377 | Mobile 393 — all pass  
+**TypeScript:** API clean | Portal clean  
+**Translation guard:** all keys translated
 
-**Date:** 2026-08-20  
-**Revision:** r2  
-**Publication rule:** Each listed evidence file is published individually. This manifest is published last. No ZIP bundle is part of r2.
+---
 
-| SHA-256 | File |
+## Files in this delivery
+
+| File | Description |
 |---|---|
-| `17effabce2e74ceba3172fe96ca90aaebeaaf30f15a19561a596e9ad8c4560a5` | `HOA-Stage-4b-Schema-Source-2026-08-20-r2.md` |
-| `839dfb34e4f78f16819b7ba6b9d7c8ab2fb92a6fb8478062745bffa3b68ea83a` | `Stage-4b-UAT-Delivery-Status-Report-2026-08-20-r2.md` |
-| `ab3bf5c89f5f8a51c311db94f9d14fdaef6c00bccd1354e7445921eaeeb7ed48` | `Stage-4b-UAT-Existing-Database-Correction-2026-08-20-r2.sql` |
-| `bbfd60e118cd26ddfdbfd8980f4b2964763cb8147a39f25eb821925df4488d0d` | `Stage-4b-UAT-Folder-Floor-Rollback-Fixture-2026-08-20-r2.txt` |
-| `cfc147135f403fa4d155e7644be6daa88b0ff99903b607573f4cfb37e836654f` | `Stage-4b-UAT-Migration-2026-08-20-r2.sql` |
-| `ae51e1a3d233bedc0c1f49d7f099fcb8d9e699ddd83f0cb1654bce57a4c5f035` | `Stage-4b-UAT-Schema-Only-2026-08-20-r2.sql` |
+| `stage4b-r3-status.md` | Full status report covering all four outstanding items from r2 review |
+| `stage4b-r3-schema-snapshot.sql` | Schema comments for document library tables and triggers as of r3 |
+| `stage4b-r3-migrations.txt` | List of all three Stage 4b migrations applied to the development database |
+| `stage4b-r3-rollback.sql` | Rollback fixture to revert migration 0028 if needed |
+| `MANIFEST.md` | This file |
 
-The hashes above were calculated from the local evidence files immediately before publication. Remote blob verification is required after publishing.
+---
+
+## Changes in r3
+
+### 1. Cascade trigger (Decision 60)
+- `lib/db/migrations/0028_stage4b_folder_cascade.sql` — AFTER/cascade replaces BEFORE/refuse on `document_folders`
+- `artifacts/api-server/src/routes/documents.ts` — removes 400 refusal, wraps in `db.transaction`, returns `cascadedDocuments: N`
+- `artifacts/api-server/src/__tests__/helpers/mockDb.ts` — `updateAll` semantics for bulk cascades
+- `artifacts/api-server/src/__tests__/documentsCrossUserPrivacy.test.ts` — cascade assertion (was refusal assertion)
+
+### 2. Automated browser evidence for visibility model
+- `artifacts/hoa-portal/e2e/documents-admin.spec.ts` — NEW: 5 admin-session document tests
+- `artifacts/hoa-portal/playwright.config.ts` — registers `documents-admin.spec.ts` in admin project
+- `artifacts/hoa-mobile/__tests__/documentsLibraryContract.test.ts` — pre-existing; confirmed passing
+- Tenant/household_member role E2E deferred to consolidated UAT (no Clerk test accounts; explicit per decision 61)
+
+### 3. J6 print suppression + honest disclaimer
+- `artifacts/hoa-portal/src/pages/portal/documents.tsx` — `openDocument()` wraps view-only blob in print-suppressing HTML iframe wrapper
+- `artifacts/hoa-portal/src/lib/translations.ts` — English and Arabic `doc_view_only_warning` state honest limit (mentions print suppression, screenshot risk, and "do not publish if must not circulate")
+
+### 4. J7 mobile parity (confirmed pre-existing)
+- `artifacts/hoa-mobile/__tests__/documentsLibraryContract.test.ts` — both contract assertions pass
+- No code changes required; mobile already uses authenticated endpoint and respects `canDownload`
+
+---
+
+## E2E test breakdown (82 tests, 1 worker)
+
+- **72 passed** — all authentication, role-redirect, document library, announcements, facilities, guests, vehicles, key-contacts round-trip, admin dashboard, and waha-cred tests
+- **10 skipped** — all data-dependent (no facilities seeded, no documents seeded in dev database, no guest-dialog trigger)
+- **0 failed**
+
+New tests added this revision:
+- `[admin] Document Library — admin visibility model > admin sees the document management controls` ✓
+- `[admin] Document Library — admin visibility model > admin document list renders or shows empty state` ✓
+- `[admin] Document Library — admin visibility model > admin sees visibility restriction badges when documents exist` — SKIPPED (no documents in dev database)
+- `[admin] Document Library — admin visibility model > API document response does not expose fileUrl to admin` ✓
+- `[admin] Document Library — admin visibility model > folder navigation renders with both English and Arabic names` ✓
+
+---
+
+## Not included in r3
+- Stage 3 work (separate deliverable)
+- Deployment (Stage 3 still open; no deployment authorized)
+- Stage 4b acceptance claim (submitted for reviewer sign-off)
