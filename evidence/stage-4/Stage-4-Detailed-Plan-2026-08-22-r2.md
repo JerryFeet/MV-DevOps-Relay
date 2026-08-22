@@ -55,7 +55,7 @@ This revision incorporates the three additions made after r1:
 ## Verification completed
 
 - API type check and full suite: **85 files, 1,374 tests passing**.
-- Portal type check and suite: **61 files, 1,365 tests passing**.
+- Portal type check and suite: **62 files, 1,367 tests passing**.
 - Mobile type check and suite: **16 files, 414 tests passing**.
 - Focused Clerk browser UAT passed for the unverified-owner Contact HOA state: the scope note and verification explanation render, and no submission fields are available.
 - Focused seeded verified-owner Playwright UAT passed: the scope note is above the “New Message” tab and form fields, and the “Send to HOA” button enables after a subject and details are entered without submitting a record.
