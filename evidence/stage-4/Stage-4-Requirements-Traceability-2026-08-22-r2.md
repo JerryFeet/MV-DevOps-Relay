@@ -25,7 +25,7 @@
 ## Verification summary
 
 - API: **1,374 passing tests across 85 files** and type check passed.
-- Portal: **1,365 passing tests across 61 files** and type check passed.
+- Portal: **1,367 passing tests across 62 files** and type check passed.
 - Mobile: **414 passing tests across 16 files** and type check passed.
 - Focused Clerk browser UAT for K5 passed with no page-level console or API errors.
 - Focused seeded verified-owner Playwright UAT passed: the scope note is visibly above the form and the Send action enables once the required text fields are filled.
