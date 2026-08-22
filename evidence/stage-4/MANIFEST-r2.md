@@ -4,14 +4,14 @@
 **Repository:** `JerryFeet/MV-DevOps-Relay`  
 **Branch:** `main`  
 **Evidence directory:** `evidence/stage-4/`  
-**Evidence-content commit ID:** `c0e1794e8fc70347aee3058b674f8155a12e4179`
+**Evidence-content commit ID:** `eb446b5e48dc6f0f529a87ebdd9c74fc9c2cb6e4`
 
 This manifest records SHA-256 values calculated from the exact bytes fetched from the pushed GitHub blobs. The two r2 evidence files were committed individually; this manifest is published in a separate manifest-only commit.
 
 | File | Bytes | SHA-256 | GitHub blob SHA | Content commit |
 |---|---:|---|---|---|
-| `Stage-4-Detailed-Plan-2026-08-22-r2.md` | 5,433 | `0068ba73e750ac652e6321389d16de45c3ff5d14cc27c8724596cfca3b37de9d` | `91ff8adf9f7ef46a9f3fa9265ac8305ca5840cee` | `8b48d35ef6fce6fd55e5b868f4abd5a0ba2fc74e` |
-| `Stage-4-Requirements-Traceability-2026-08-22-r2.md` | 5,099 | `20e5331744d617024d33678a0175b7128a864ef5686b72442d76e6317dc03089` | `92982cea4ef46bc2062a009193ae6d333817cc70` | `c0e1794e8fc70347aee3058b674f8155a12e4179` |
+| `Stage-4-Detailed-Plan-2026-08-22-r2.md` | 5,433 | `5d100739cf0f8dbf085c9c05020cf044b235d18046f8654d3f9b95fbd50d3af6` | `8ed12715b60be48108f0dac537bc52ee93966cb7` | `3280a52f01f59128316cbb25864b1ee40d918c78` |
+| `Stage-4-Requirements-Traceability-2026-08-22-r2.md` | 5,099 | `ea5067d16fbed4b58091da387347f1283292463c42620dd5426660975cb4b7ea` | `87820560a418232b76f70823a1f51d3adffc4d6d` | `eb446b5e48dc6f0f529a87ebdd9c74fc9c2cb6e4` |
 
 ## Scope corrections recorded in r2
 
