@@ -1,0 +1,17 @@
+Stage 5 Phase 2 services-not-ready observation
+Date: 2026-08-23
+
+Prior failed pre-flight log:
+/tmp/logs/e2e_20260823_064521_621_9700b8a7.log
+
+Observed condition:
+- The pre-flight reported HTTP 502 for the portal and /api/healthz.
+- The pre-flight instructed that the API and portal workflows be started.
+
+Current comparison:
+- After restarting the API, portal, and mobile workflows, the rerun reported:
+  "[e2e pre-flight] Portal and API server are reachable ✓"
+- The broad rerun completed with 82 passed, 6 skipped, and 0 failed.
+
+Interpretation:
+The prior output is evidence that the earlier invocation ran before its services were ready. It is not proof of the root cause of the separate historic 10–20 second route-load/hydration issue. That remains an open reliability investigation.
