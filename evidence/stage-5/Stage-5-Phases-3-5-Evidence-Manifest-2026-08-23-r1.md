@@ -11,7 +11,7 @@ Each evidence artifact is delivered individually, not in a ZIP bundle. The SHA-2
 |---|---|
 | `Stage-5-Phase-3-Guest-Day-Pass-Waha-UAT-2026-08-23-r1.md` | `438ed640a72494b45fc1903491f3a3f957603289d3b8bd08f769b14a0ba07ada` |
 | `Stage-5-Phase-4-X3-Notification-Verification-2026-08-23-r1.md` | `c74fc8da04345e2eb2ea241c4d32d5172eb30fd630ec8dad59d8e8d7c91260fc` |
-| `Stage-5-Phase-5-Cross-Channel-Regression-2026-08-23-r1.md` | `9d224ce380223274353dfc8698d4761b7a8fac79b75fb2ae8ce968141d83d0f8` |
+| `Stage-5-Phase-5-Cross-Channel-Regression-2026-08-23-r1.md` | `40028b7586807e570bd31f1eb080814f137beea0c9bede440803ab98173ab02c` |
 
 ## Publication paths
 
