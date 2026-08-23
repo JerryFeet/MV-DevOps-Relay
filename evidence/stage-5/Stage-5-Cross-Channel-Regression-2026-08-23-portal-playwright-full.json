@@ -1,0 +1,18 @@
+{
+  "stage": "5",
+  "generatedAt": "2026-08-23T08:16:42.859Z",
+  "startedAt": "2026-08-23T08:11:47.991Z",
+  "passed": true,
+  "suites": [
+    {
+      "id": "portal-playwright-shard-1",
+      "command": "pnpm --filter @workspace/hoa-portal run e2e -- --shard=1/2",
+      "exitCode": 0,
+      "passed": true,
+      "durationSeconds": 294.9,
+      "logFile": "exports/stage-5/regression-logs/2026-08-23-portal-playwright-shard-1.log",
+      "testsPassed": 82,
+      "testsSkipped": 6
+    }
+  ]
+}
