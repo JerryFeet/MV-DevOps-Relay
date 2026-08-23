@@ -46,8 +46,8 @@ The API contract suite also verifies event-12 email/push creation, mandatory pol
 
 ## Carry-forward positions
 
-- **X8b / T10 evidence:** the existing administrative-refusal test remains in `tenantVerificationAdminBlock.test.ts`; it proves an administrator cannot make the tenancy verification decision reserved to the owner path.
-- **O1 owner-path position:** the verified owner retains the owner-only renewal approval/rejection path. Stage 6B does not grant this decision to administrators; the only administrator renewal action is cancellation.
+- **X8b / T10 evidence:** `tenantVerificationAdminBlock.test.ts` explicitly asserts that an admin receives `403` from `POST /api/unit-verify/1/approve` and `POST /api/unit-verify/1/reject` when the verification is `tenant_request`; the same file includes the unit-owner `200` positive control.
+- **O1 owner-path position:** the verified owner remains the only actor allowed to approve or reject the tenant path for that unit. Stage 6B does not grant this decision to administrators; administration can cancel a pending renewal but can never approve or reject it.
 - **HOA COMMON:** release planning continues to reject the immutable system unit as a tenant/owner release anchor.
 - **`bookings.unit_id`:** remains non-null; no Stage 6B migration or release behavior weakens that constraint.
 
