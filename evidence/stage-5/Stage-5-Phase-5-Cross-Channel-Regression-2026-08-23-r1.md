@@ -25,6 +25,19 @@ The Playwright run completed after pre-flight confirmed portal and API reachabil
 
 The deterministic-provider browser UAT proved both direct Day Pass and Waha replacement success/cancel/retry flows using server-recorded attempts and browser screenshots. It confirmed distinct retry attempts/charges and no entitlement issuance before confirmed settlement.
 
+## Hydration prerequisite closure
+
+The fourth consecutive clean broad portal run completed from a healthy preflight:
+
+- 88 tests discovered
+- 82 passed
+- 6 conditional skips
+- 0 failed
+- duration: 4.6 minutes
+- no new browser-console errors
+
+The earlier red result remains attributable to the documented 502 preflight race, not post-preflight hydration. On this fourth clean run, unrelated portal routes again reached interactive assertions successfully. The Stage 4 portal hydration prerequisite is closed for Stage 5/6A UAT purposes; deployment remains prohibited.
+
 ## Review and remediation
 
 An independent implementation review identified retry concurrency, settlement outbox, date-validation, and pending-result concerns. The implementation was corrected and rechecked:
