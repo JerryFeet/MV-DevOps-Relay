@@ -24,6 +24,7 @@
 | API production build | Passed |
 | Stage 6A focused suites | 2 files, 7 tests passed |
 | API regression suite | 91 files, 1,446 tests passed |
+| Portal Playwright E2E suite | 88 tests: 82 passed, 6 skipped, 0 failed |
 | API health endpoint after migration | `{"status":"ok"}` |
 
 The focused suite proves dry-run mutation safety, dry-run/real-run graph parity, paid future Day Pass count and SAR total, tenant/owner isolation, idempotency, Waha/booking effects, external identity retry semantics, and induced postcondition rollback.
@@ -76,5 +77,7 @@ No orphan remediation update was required during application.
 ## Runtime verification
 
 The API server was restarted after migration. It listens successfully on port 8080, starts the new external identity-deletion scheduler, and no longer emits the pre-migration missing-table error on its first scheduler tick.
+
+The portal E2E rerun passed its pre-flight checks against the restarted API and portal services. It completed with 82 passed, 6 intentionally skipped, and 0 failed.
 
 The existing fail-closed warning for an unset Moyasar secret remains unchanged and is outside Stage 6A scope.
