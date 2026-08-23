@@ -1,0 +1,5 @@
+# Stage 6B lifecycle/X3 evidence SHA-256 manifest
+# Generated after development-only Stage 6B regression and browser validation on 2026-08-23.
+3a89fbe3009f04e83ede37fca7e73bbe9073a96e07c990a092474bf671e4f6a1  evidence/stage-6b/Stage-6B-Lifecycle-X3-Verification-2026-08-23.md
+fed9ebb4e50b3e2e169f0504ceea8e962fbb04fdf6d40236113b43f331d52caa  evidence/stage-6b/Stage-6B-Destructive-Mutation-Inventory-2026-08-23.md
+# Verified source commit: 113935541565160090fd760f0c6a118b3691f878
