@@ -1,0 +1,9 @@
+# Stage 6A corrective evidence SHA-256 manifest — revision 3
+# Generated after final development-only validation on 2026-08-23.
+905ae4aef9a9d43ca5a3d4dac9edbaccb272d0de6fd5c05f8c16d40f1e7185de  evidence/stage-6a/Stage-6A-Corrective-Acceptance-Evidence-2026-08-23-r1.md
+d660ba734c67d6016549c789cf75c866ae598f902d50c488252faa4624cbe3e2  evidence/stage-6a/Stage-6A-Corrective-Acceptance-Evidence-2026-08-23-r2.md
+104fd0557fd8a0a5e4eb092e8c2fca6b7caf42da93409ab0fce84e9758aecc11  evidence/stage-6a/Stage-6A-Corrective-Acceptance-Evidence-2026-08-23-r3.md
+cecdbd5b639fd61d087243ce5c845c9c9cf00436c7a0160b54ff0a7d3ef99fb6  evidence/stage-6a/Stage-6A-Development-Unanchored-Booking-Remediation-2026-08-23-r1.sql
+2cabcf3909a8e7ce786739dfba6e258454973ac447ce7ee94553d0d185e008cf  evidence/stage-6a/Stage-6A-Migration-Qualifying-Fixture-2026-08-23-r1.sql
+6204b1f8314ec099b8f446a8b5747a2e2135416355298e69ddb88431c40aa663  lib/db/migrations/0035_stage6a_common_unit.sql
+b57708edc4e237f38d01e546fbdb71103593adc6b074775f24fb2683a1a36dec  lib/db/migrations/0036_stage6a_common_unit_integrity.sql
