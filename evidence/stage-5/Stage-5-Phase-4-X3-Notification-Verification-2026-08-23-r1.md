@@ -5,11 +5,11 @@ Status: verified; no deployment performed
 
 ## Delivered contract
 
-- Central bilingual Arabic-default catalogue for all 16 X3 events.
+- Central bilingual Arabic-default catalogue for all 16 X3 event definitions.
 - Durable email and push outbox intents with per-channel idempotency.
 - Policy rules: event 8 follows announcement opt-out; events 9 and 12 are mandatory and cannot be suppressed.
 - Retry/backoff and delivery preference behavior remain covered by the notification service suite.
-- Events 13, 14, and 16 are registered and renderable for the later Stage 6 lifecycle producers; no Stage 6 flow was started.
+- X3 status is **13/16 wired**: events 1–12 and 15 have active producers; events 13, 14, and 16 are registered but unfired, reserved for later Stage 6 lifecycle producers. No Stage 6 flow was started.
 
 ## Settlement wiring
 
