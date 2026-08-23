@@ -1,0 +1,16 @@
+Stage 5 Phase 2 broad portal E2E run
+Date: 2026-08-23
+Command: PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=$(which chromium 2>/dev/null) pnpm --filter @workspace/hoa-portal run e2e
+
+Pre-flight:
+[e2e pre-flight] Portal and API server are reachable ✓
+
+Setup:
+- Clerk resident, admin, and verified-resident fixtures were found/created.
+- 88 tests ran with 1 worker.
+
+Terminal result:
+  6 skipped
+  82 passed (5.2m)
+
+No E2E test failures were reported.
