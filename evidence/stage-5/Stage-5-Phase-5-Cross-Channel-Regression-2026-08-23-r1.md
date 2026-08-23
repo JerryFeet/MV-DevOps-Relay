@@ -5,7 +5,7 @@ Status: verified; no deployment performed
 
 ## Repeatable runner
 
-`pnpm run stage5:regression` now records API, portal, mobile, and Playwright checks into timestamped Stage 5 JSON plus local per-suite logs. The single combined command can exceed the hosted shell's fixed five-minute ceiling because the browser suite alone takes about five minutes; the individual commands below are the authoritative completed runs.
+`pnpm run stage5:regression` now records API, portal, mobile, and Playwright checks into timestamped Stage 5 JSON plus local per-suite logs. The single combined command can exceed the hosted shell's fixed five-minute ceiling because the browser suite alone takes about five minutes; the independent `stage5:regression:api`, `:portal`, `:mobile`, and `:e2e` commands each write a complete machine-readable batch report within that limit.
 
 ## Completed regression results
 
