@@ -1,0 +1,26 @@
+{
+  "stage": "5",
+  "generatedAt": "2026-08-23T08:11:43.307Z",
+  "startedAt": "2026-08-23T08:11:28.009Z",
+  "passed": true,
+  "suites": [
+    {
+      "id": "mobile-typecheck",
+      "command": "pnpm --filter @workspace/hoa-mobile run typecheck",
+      "exitCode": 0,
+      "passed": true,
+      "durationSeconds": 5.9,
+      "logFile": "exports/stage-5/regression-logs/2026-08-23-mobile-typecheck.log"
+    },
+    {
+      "id": "mobile-vitest",
+      "command": "pnpm --filter @workspace/hoa-mobile run test",
+      "exitCode": 0,
+      "passed": true,
+      "durationSeconds": 9.4,
+      "logFile": "exports/stage-5/regression-logs/2026-08-23-mobile-vitest.log",
+      "testsPassed": 415,
+      "testsFailed": 0
+    }
+  ]
+}
