@@ -1,0 +1,105 @@
+{
+  "manifestType": "module-source-review",
+  "repository": "JerryFeet/MV-DevOps-Relay",
+  "branch": "main",
+  "relayDirectory": "evidence/adhoc/2026-08-26-module-review",
+  "sourceCount": 12,
+  "entries": [
+    {
+      "localSourcePath": "artifacts/api-server/src/routes/communications.ts",
+      "sha256": "f87192b46cde62701a0bc9c621e5963076ff51ecd75f70ecb35b7cdb9f3f0fc6",
+      "relayPath": "evidence/adhoc/2026-08-26-module-review/api/routes/communications.ts",
+      "relayCommit": "273077203323f8f3204ffd2efd02703c44327b24",
+      "relayBlob": "f6aac4fe5fc298ea64a2f645cae3307905f6c942",
+      "readbackStatus": true
+    },
+    {
+      "localSourcePath": "artifacts/api-server/src/routes/vehicles.ts",
+      "sha256": "09972df851a2d5165743af716419866a5308110b17832f840b527c5491459499",
+      "relayPath": "evidence/adhoc/2026-08-26-module-review/api/routes/vehicles.ts",
+      "relayCommit": "16f661f80a32acc00073bde20294184eaf7da180",
+      "relayBlob": "73c26e012fcc34045552246f35e7ff414579f938",
+      "readbackStatus": true
+    },
+    {
+      "localSourcePath": "artifacts/api-server/src/routes/permits.ts",
+      "sha256": "6ccb19d48f500c84054a14d490df221345e4ee3e38bf86a7eb6a7e53edb0cd13",
+      "relayPath": "evidence/adhoc/2026-08-26-module-review/api/routes/permits.ts",
+      "relayCommit": "dd6791c5e987a17c26aa29d2b632a8b177d47fcb",
+      "relayBlob": "e08ced54cd3a7e7301739796341a805437f160e4",
+      "readbackStatus": true
+    },
+    {
+      "localSourcePath": "artifacts/api-server/src/routes/announcements.ts",
+      "sha256": "825219ec480a986904ec1e82d98b00c01d3e681b78e81ef9c6bdfea93513a24b",
+      "relayPath": "evidence/adhoc/2026-08-26-module-review/api/routes/announcements.ts",
+      "relayCommit": "0727006d3f3024b9f880ae38b642009f270e022f",
+      "relayBlob": "3ea7cb63b56783fcd70292fcd1fd03e077a23d9f",
+      "readbackStatus": true
+    },
+    {
+      "localSourcePath": "artifacts/hoa-portal/src/pages/portal/communications.tsx",
+      "sha256": "61fb34b7d1d0dbf909f9e07a30e1cc3d35791b26c049b9f49cbcd420103ea077",
+      "relayPath": "evidence/adhoc/2026-08-26-module-review/portal/pages/portal/communications.tsx",
+      "relayCommit": "896fd5ded464bf35afe3c559b83cbec8689fc062",
+      "relayBlob": "e6292fe8331a9384dd85b7ceb1285174b443d45a",
+      "readbackStatus": true
+    },
+    {
+      "localSourcePath": "artifacts/hoa-portal/src/pages/portal/vehicles.tsx",
+      "sha256": "23b154faea60bcd5f5114eaa809fd68aab426dc3be263eaaa71952d2012f6195",
+      "relayPath": "evidence/adhoc/2026-08-26-module-review/portal/pages/portal/vehicles.tsx",
+      "relayCommit": "b6e47ccbd38bdeb7b3583b4170dfab13f3120cd8",
+      "relayBlob": "b1e0344e2a67231864ea4e2475aa3496be43728c",
+      "readbackStatus": true
+    },
+    {
+      "localSourcePath": "artifacts/hoa-portal/src/pages/portal/permits.tsx",
+      "sha256": "d1238be2d17b9cabb41fc69c37cd501ff8cdaaf506d8025fbec1f89215d00ba3",
+      "relayPath": "evidence/adhoc/2026-08-26-module-review/portal/pages/portal/permits.tsx",
+      "relayCommit": "9b7225db251e2024b49c1d565e082e3aa7ce28d9",
+      "relayBlob": "cf851a8b2857a2e35fcc62efb3761ee9bc7652fc",
+      "readbackStatus": true
+    },
+    {
+      "localSourcePath": "artifacts/hoa-portal/src/pages/portal/announcements.tsx",
+      "sha256": "073d85a5a1a2172f1c92feca22118a7337492c7d67b49de0a552625be5bc4dd4",
+      "relayPath": "evidence/adhoc/2026-08-26-module-review/portal/pages/portal/announcements.tsx",
+      "relayCommit": "9b3b7857afff814935d3b958dacbcefc8b6823d1",
+      "relayBlob": "5d9c5b0823f6c900866004e2a9d731e60e7f5cc9",
+      "readbackStatus": true
+    },
+    {
+      "localSourcePath": "artifacts/hoa-mobile/app/(home)/(tabs)/communications.tsx",
+      "sha256": "14e6cd68c9e4e4b1b499daa45bdd34be5aa331213ede0b3613a79176efcf4281",
+      "relayPath": "evidence/adhoc/2026-08-26-module-review/mobile/app/(home)/(tabs)/communications.tsx",
+      "relayCommit": "31621b9fc7e153afcba8dda88e4e269d84206a69",
+      "relayBlob": "13edd79c810595129dbc3a0f61f03d36ee36edba",
+      "readbackStatus": true
+    },
+    {
+      "localSourcePath": "artifacts/hoa-mobile/app/(home)/(tabs)/vehicles.tsx",
+      "sha256": "ef773885050acd4fb6bfc448673a6aa4710b949d3d44126a93afd252f3c4f855",
+      "relayPath": "evidence/adhoc/2026-08-26-module-review/mobile/app/(home)/(tabs)/vehicles.tsx",
+      "relayCommit": "2e974c79fcdeb54129f209fc0017adc4812c607c",
+      "relayBlob": "14c5fe7bc02a4cfbde1f08a015dcc718710c6b17",
+      "readbackStatus": true
+    },
+    {
+      "localSourcePath": "artifacts/hoa-mobile/app/(home)/(tabs)/permits.tsx",
+      "sha256": "a5368c1e2e23e0a531a87e22dbef5a9669d238449d1ce999a9dec4bd14d5cbf7",
+      "relayPath": "evidence/adhoc/2026-08-26-module-review/mobile/app/(home)/(tabs)/permits.tsx",
+      "relayCommit": "fa3648b5c6c4631e4403d7757b9ebfea7fbebc74",
+      "relayBlob": "b7e9a42edc5ce35e6670a81ca061bd69a7fe9bd1",
+      "readbackStatus": true
+    },
+    {
+      "localSourcePath": "artifacts/hoa-mobile/app/(home)/(tabs)/announcements.tsx",
+      "sha256": "3dd02a535ebaa6fbeb7c7d613e10b04fdf29f6fcc4c1ffe3d1c294ad033aff1b",
+      "relayPath": "evidence/adhoc/2026-08-26-module-review/mobile/app/(home)/(tabs)/announcements.tsx",
+      "relayCommit": "a34385f1741312d964dee7d856f63644e3afe194",
+      "relayBlob": "b3912354ec4cfe25261446c4e276509ae53eda7b",
+      "readbackStatus": true
+    }
+  ]
+}
