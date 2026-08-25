@@ -1,0 +1,28 @@
+H5 baseline semantic catalog diff — 2026-08-25
+
+STATUS: EMPTY / PASS
+
+Method:
+  1. Create a fresh, disposable PostgreSQL database.
+  2. Apply lib/db/migrations/0000_baseline.sql in one transaction with
+     ON_ERROR_STOP.
+  3. Run scripts/assert-h4-schema-protections.sh against the replay database.
+  4. Normalize and sort tables, columns, constraints, indexes, triggers,
+     functions, enum labels, and sequences from both current UAT and replay.
+  5. Compare the complete line-oriented semantic catalogs.
+
+Results:
+  UAT normalized catalog entries:           1019
+  Replay normalized catalog entries:        1019
+  Unified diff:                             no differences
+  UAT / replay table count:                 41 / 41
+  UAT / replay column count:                563 / 563
+  UAT / replay constraint count:            107 / 107
+  UAT / replay index count:                 137 / 137
+  UAT / replay user-trigger count:          3 / 3
+  H4 raw-protection assertion:              passed
+
+Conclusion:
+  0000_baseline.sql reproduces the current UAT public schema exactly on an
+  empty database. The next verification stage is an authorized destructive
+  UAT rebuild after immediate product-owner confirmation.
