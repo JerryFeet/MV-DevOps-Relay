@@ -1,0 +1,33 @@
+H5 UAT rebuild fixture and protection check — 2026-08-25
+
+STATUS: PASS
+
+Backup before destructive rebuild:
+  sha256 = ff3de8c9123819c60e4227b852e42601cec5e5366c4a4972d28c310d03eeeaeb
+  bytes  = 185145
+  restore-list entries = 472
+  pg_restore --list = passed
+
+Post-rebuild catalog:
+  tables = 41
+  columns = 563
+  constraints = 107
+  indexes = 137
+  user triggers = 3
+
+Required fixtures:
+  active bookable facility = H5 Bookable Community Hall
+  resident-visible document = H5 Resident Welcome Guide
+  owners-only document = H5 Owners Committee Guide
+  system unit = HOA / COMMON / HOACOMMON / is_system=true
+
+Protection checks:
+  H4 catalog assertion = passed
+  staff-unitless invalid linkage = blocked
+  second system unit = blocked
+  COMMON rename = blocked
+  system-unit identity check = present
+  COMMON protection function = present
+  COMMON protection trigger = present
+
+No production mutation was performed.
