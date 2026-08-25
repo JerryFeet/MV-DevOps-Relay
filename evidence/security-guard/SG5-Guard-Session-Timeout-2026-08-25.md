@@ -31,3 +31,9 @@ The mounted test is intentionally page-level: it exercises the real shared Porta
 - This evidence makes no production write, deployment, payment change, live business-data change, or automatic schema migration.
 - This slice proves the mounted client wiring and redirect contract with deterministic fake timers. It does not claim that a guard-authenticated live-browser walkthrough has been completed; that remains a separate guard UAT path.
 - The root redirect is the application’s signed-out entry route; the Clerk sign-out call is the session authority and the portal layout does not implement a second identity system.
+
+---
+
+## Acceptance status update
+
+This preliminary report is superseded for final acceptance by [SG1 and SG5 — Real Guard-Authenticated Walkthrough](SG1-SG5-Real-Guard-Walkthrough-2026-08-25.md). The required real Clerk-authenticated portal/API walkthrough passed on 2026-08-25. Physical-camera hardware scanning remains explicitly manual UAT and is not represented as automated evidence.
