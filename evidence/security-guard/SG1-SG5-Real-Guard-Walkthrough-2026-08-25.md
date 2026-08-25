@@ -32,15 +32,15 @@ The live headless browser attempted **Scan credential**. The portal visibly repo
 
 ## Evidence files
 
-- [Camera fallback in headless UAT](evidence/security-guard/SG1-SG5-Real-Guard-Walkthrough-2026-08-25.png)
-- [Approved Guest Pass](evidence/security-guard/SG1-SG5-Real-Guard-Walkthrough-2026-08-25.png)
-- [Approved paid Guest Day Pass](evidence/security-guard/SG1-SG5-Real-Guard-Walkthrough-2026-08-25.png)
-- [Approved Waha credential](evidence/security-guard/SG1-SG5-Real-Guard-Walkthrough-2026-08-25.png)
-- [National-ID resident search result](evidence/security-guard/SG1-SG5-Real-Guard-Walkthrough-2026-08-25.png)
-- [Approved move-in permit](evidence/security-guard/SG1-SG5-Real-Guard-Walkthrough-2026-08-25.png)
-- [Approved move-out permit](evidence/security-guard/SG1-SG5-Real-Guard-Walkthrough-2026-08-25.png)
-- [Approved renovation permit](evidence/security-guard/SG1-SG5-Real-Guard-Walkthrough-2026-08-25.png)
-- [Clerk sign-in after guard idle timeout](evidence/security-guard/SG1-SG5-Real-Guard-Walkthrough-2026-08-25.png)
+- [Camera fallback in headless UAT](SG1-SG5-Real-Guard-Walkthrough-2026-08-25/00-camera-unavailable-in-headless-uat.png)
+- [Approved Guest Pass](SG1-SG5-Real-Guard-Walkthrough-2026-08-25/01-guest-pass-approved.png)
+- [Approved paid Guest Day Pass](SG1-SG5-Real-Guard-Walkthrough-2026-08-25/02-paid-guest-day-pass-approved.png)
+- [Approved Waha credential](SG1-SG5-Real-Guard-Walkthrough-2026-08-25/03-waha-credential-approved.png)
+- [National-ID resident search result](SG1-SG5-Real-Guard-Walkthrough-2026-08-25/04-national-id-resident-result.png)
+- [Approved move-in permit](SG1-SG5-Real-Guard-Walkthrough-2026-08-25/05-move-in-permit-approved.png)
+- [Approved move-out permit](SG1-SG5-Real-Guard-Walkthrough-2026-08-25/06-move-out-permit-approved.png)
+- [Approved renovation permit](SG1-SG5-Real-Guard-Walkthrough-2026-08-25/07-renovation-permit-approved.png)
+- [Clerk sign-in after guard idle timeout](SG1-SG5-Real-Guard-Walkthrough-2026-08-25/08-guard-signed-out-after-idle-timeout.png)
 
 ## Acceptance statement
 
