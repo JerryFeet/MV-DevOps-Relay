@@ -44,13 +44,23 @@ The reported reduction was **28 tests**. It was not a single unexplained deletio
 
 ### `sponsorAvatarFallback.test.tsx`
 
-- renders a question-mark fallback when imageUrl and name are null/undefined/empty
-- renders no image when imageUrl is absent
-- derives one/two uppercase initials from a name
-- renders no image when only a name is present
-- renders an image, image priority, and a sensible alt fallback when imageUrl is present
+All 15 assertions in this retired avatar/initial fallback file were:
 
-This file contained 15 assertions across those avatar/initial fallback cases and was removed in full.
+- renders "?" when both imageUrl and name are null
+- renders "?" when imageUrl is null and name is undefined
+- renders "?" when imageUrl is null and name is an empty string
+- does not render an `<img>` when imageUrl is null and name is null
+- renders "AK" for name "Ahmed Khalid" when imageUrl is null
+- renders "AK" for name "Ahmed Khalid" when imageUrl is undefined
+- uses the first two words only (slices to 2 initials)
+- upper-cases the initials
+- renders a single initial for a single-word name
+- does not render an `<img>` when only a name is provided
+- renders an `<img>` with the correct src when imageUrl is a non-empty string
+- does not render the initials fallback div when imageUrl is provided
+- renders an `<img>` even when name is null (imageUrl takes priority)
+- sets a sensible alt attribute when name is provided
+- falls back to alt="Sponsor" when name is null
 
 ### `wahaPassResultCard.test.tsx`
 
