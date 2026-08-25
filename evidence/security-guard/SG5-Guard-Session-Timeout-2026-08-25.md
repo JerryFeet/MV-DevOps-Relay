@@ -13,6 +13,8 @@
 
 ## Automated verification
 
+The two focused portal test files pass five tests in total: four timer/role tests plus one mounted PortalLayout timeout test.
+
 | Check | Result | Evidence |
 | --- | --- | --- |
 | Guard timer expires at 15 minutes | PASS | gateSession.test.ts |
