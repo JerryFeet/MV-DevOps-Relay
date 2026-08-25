@@ -1,0 +1,13 @@
+H5 normalized PostgreSQL catalog diff — 2026-08-26
+
+RESULT: EMPTY
+
+Frozen development catalog and a fresh template0 database replayed from
+0000_baseline-2026-08-26-r3.sql each produced 1,064 normalized entries.
+
+The comparison includes public tables, columns and their type/default/identity/
+generated state, constraints, indexes, non-internal triggers, public functions,
+enum labels, and sequences. It excludes only the template0-provided public
+schema comment, which is bootstrap metadata rather than application schema DDL.
+
+No semantic diff hunks were produced.
