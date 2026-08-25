@@ -1,0 +1,64 @@
+H5 semantic schema diff — 2026-08-25
+
+STATUS: NON-EMPTY / BLOCKED
+
+Replay method:
+  1. Create isolated empty PostgreSQL database.
+  2. Apply numbered migrations 0001 through 0037 in lexical order.
+  3. Stop at the first error with ON_ERROR_STOP.
+
+Replay result:
+  Migration: 0001_payment_provider_agnostic.sql
+  Error: ERROR: relation "bookings" does not exist
+  Replay catalog at stop: 0 public tables, 0 columns, 0 constraints.
+
+Current UAT catalog:
+  41 public tables, 563 columns, 107 constraints, 137 indexes, 3 user triggers.
+
+Tables present in current UAT and absent from the replay database:
++ ai_knowledge_chunks
++ ai_knowledge_documents
++ announcement_edit_history
++ announcements
++ bookings
++ communications
++ data_migration_corrections
++ document_folders
++ documents
++ external_identity_deletion_jobs
++ facilities
++ facility_booking_config_normalization_audit
++ facility_operating_hours_conflicts
++ guest_entry_exit_logs
++ guest_pass_verification_logs
++ guest_passes
++ guests
++ hoa_settings
++ household_invitations
++ move_forms
++ notification_events
++ notification_preferences
++ ownership_change_events
++ parking_lots
++ payment_attempts
++ permits
++ push_tokens
++ release_operations
++ residents
++ tenancy_lifecycles
++ tenancy_renewals
++ unit_verification_document_cleanup_retries
++ unit_verification_owner_id_attempts
++ unit_verifications
++ units
++ users
++ vehicles
++ waha_guest_day_passes
++ waha_pass_applications
++ waha_pass_credentials
++ waha_pass_events
+
+Finding:
+  The numbered migration chain has no self-contained base-schema bootstrap.
+  An empty diff cannot be produced until the migration history/ledger gap is
+  resolved without using the deleted Drizzle baseline as a substitute.
