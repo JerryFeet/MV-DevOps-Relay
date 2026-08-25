@@ -35,3 +35,9 @@ The Security Gate page is restricted to guard and admin roles. It prominently id
 
 - This is deterministic automated guard-role acceptance at both the rendered dashboard and API boundaries. The development database currently contains no guard account, so a Clerk-authenticated live-browser guard walkthrough was not run and is not claimed here.
 - No production write, deployment, payment action, automatic schema migration, or live business-data change was made for this evidence.
+
+---
+
+## Acceptance status update
+
+This preliminary report is superseded for final acceptance by [SG1 and SG5 — Real Guard-Authenticated Walkthrough](SG1-SG5-Real-Guard-Walkthrough-2026-08-25.md). The required real Clerk-authenticated portal/API walkthrough passed on 2026-08-25. Physical-camera hardware scanning remains explicitly manual UAT and is not represented as automated evidence.
