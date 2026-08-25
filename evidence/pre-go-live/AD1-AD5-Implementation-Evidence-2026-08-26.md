@@ -28,8 +28,10 @@
 - Replayed the updated baseline into a disposable empty local PostgreSQL
   cluster. The replay catalog contained `waha_replacement_request_status`,
   `waha_replacement_requests`, and `receives_approval_notifications`.
-- The frozen development database was not migrated, reset, pushed, or otherwise
-  altered during this verification.
+- After the replay check, the exact 0044 SQL was manually applied to the
+  development database as one `BEGIN … COMMIT` transaction. No `db:push`,
+  automatic migration, reset, data rewrite, production access, or production
+  migration was used.
 
 ## Final validation
 
@@ -41,6 +43,7 @@
 | H4 schema protection assertions | Passed |
 | API test suite | 97 files passed; 1,383 tests passed; 21 skipped; 0 failed |
 | Portal test suite | 67 files passed; 1,358 tests passed |
+| Full portal E2E suite | 81 passed; 4 skipped; 0 failed (4.9 minutes) |
 | Browser smoke | Passed: resident home exposed no maintenance entry; direct `/portal/maintenance` returned 404; no browser errors |
 | Source whitespace validation | `git diff --check` passed |
 
