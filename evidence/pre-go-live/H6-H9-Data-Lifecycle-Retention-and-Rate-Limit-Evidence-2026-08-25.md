@@ -50,11 +50,9 @@ After API-server restart:
 
 ## Browser regression
 
-- Initial portal Playwright run: **77 passed, 4 skipped, 2 failed**. The two failures were both in the resident Document Library regression spec: it asserted an obsolete anchor-based download control and a missing document-card test hook.
-- The document cards now expose `data-testid="doc-card"` and the regression spec verifies the existing secure authenticated **Download/View button**, rather than an unsafe direct object link.
+- Final configured portal Playwright suite: **79 passed, 4 skipped** in 4.6 minutes.
+- During verification, the resident Document Library regression check was corrected to match the secure authenticated **Download/View button** rather than an obsolete direct-object anchor; document cards expose `data-testid="doc-card"` for a stable list-state assertion.
 - Focused authenticated rerun: **7 passed** — resident/admin/resident setup plus all four Document Library checks.
-
-The focused result confirms the repaired document flow. The original full-run outcome is retained here rather than rewritten as a passing full-suite claim.
 
 ## Known separate test-policy follow-up
 
