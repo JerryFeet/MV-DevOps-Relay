@@ -41,6 +41,8 @@ Suggested recording fields: **Result** = Pass / Fail / Blocked / N/A; **Evidence
 | F6 | Facility data paths | With facilities present, facility booking panel and My Bookings open with a correct populated or empty state. |  |  |
 | G1 | Guest dialog | A verified resident opens and completes the Guest Day Pass registration dialog. |  |  |
 | V1 | Vehicle dialog | A verified resident opens the Add Vehicle dialog and receives the correct validation/state flow. |  |  |
+| H2-V1 | Dalil — mobile English visual review | On the mobile portal, the Dalil navigation label, page/chat header, approved English opening message, empty-document state, and `Ask about the portal or community rules` placeholder are all visible, legible, and correctly ordered. |  |  |
+| H2-V2 | Dalil — mobile Arabic visual review | On the mobile portal in Arabic/RTL, the `دليل` navigation label, page/chat header, approved Arabic opening message, empty-document state, and `اسأل عن البوابة أو أنظمة المجمع` placeholder are visible, legible, and correctly ordered. |  |  |
 | X3-13 | Ownership-release notification | The ownership/release source flow emits event 13 exactly once, to the correct recipient, in the correct language, with durable email/push intent. |  |  |
 | X3-14 | Renewal notification | Renewal reminder/submission/decision emits event 14 exactly once with correct recipient/language/channel behavior. |  |  |
 | X3-16 | Suspension notification | Lease expiry suspension emits event 16 exactly once and does not incorrectly bypass its policy. |  |  |
@@ -71,6 +73,12 @@ Suggested recording fields: **Result** = Pass / Fail / Blocked / N/A; **Evidence
 | O4 | Audit/anonymisation | Account deletion and retained-record anonymisation are auditable while ownership history remains usable. |  |  |
 | O5 | Ownerless registry | Released and never-registered units appear under ownerless registry filters; ordinary B7 incoming-owner claim removes released status. |  |  |
 | O6 | Cancellation idempotency | Ownership cancellation and X3 event 11 occur exactly once within their transaction boundary. |  |  |
+| H2-V3 | Dalil — desktop English visual review | On the desktop portal, the Dalil navigation label, page/chat header, approved English opening message, empty-document state, and input placeholder are visible and consistent with mobile. |  |  |
+| H2-V4 | Dalil — desktop Arabic visual review | On the desktop portal in Arabic/RTL, the `دليل` navigation label, page/chat header, approved Arabic opening message, empty-document state, and input placeholder are visible and consistent with mobile. |  |  |
+| H2-V5 | Dalil — administrator knowledge controls | An administrator sees the knowledge-document audience selector and governance warning; both English and Arabic presentation are visually reviewed. |  |  |
+| SG1-GATE | Security Gate — five guard purposes | On one real guard account, the guard visibly completes National-ID resident lookup, Guest Pass, paid Guest Day Pass, move-in/move-out permit, and renovation-permit checks. Record the visible fields and verify no National ID/Iqama is displayed. |  | `evidence/security-guard/SG-Guard-Manual-UAT-Paths-2026-08-25.md` |
+| SG9-GATE | Security Gate — physical scanner and manual fallback | On a physical device, attempt Guest Pass, paid Guest Day Pass, and Waha camera scans. If camera hardware is unavailable, record the portal fallback and use manual entry only for live classifier verification; do not call typed input a camera scan. |  | `evidence/security-guard/SG-Guard-Manual-UAT-Paths-2026-08-25.md` |
+| SG5-GATE-REALTIME | Security Gate — real-time inactivity timeout | Leave a real guard session untouched for at least 15 minutes while doing unrelated work, then confirm the protected page is replaced by Clerk sign-in and record actual start/return times. |  | `evidence/security-guard/SG-Guard-Manual-UAT-Paths-2026-08-25.md` |
 
 ## D. Completion Record
 
