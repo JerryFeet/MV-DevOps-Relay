@@ -1,0 +1,15 @@
+H5 normalized PostgreSQL catalog diff — 2026-08-27
+
+RESULT: EMPTY
+
+Development and a fresh template0 database replayed from
+lib/db/migrations/0000_baseline.sql each produced the same measured catalog:
+45 public tables, 617 public columns, 132 public constraints, 150 public
+indexes, 3 non-internal triggers, 29 enum types, and 3 public functions.
+
+The comparison covered tables, columns and their type/default/identity/generated
+state, constraints, indexes, non-internal triggers, public functions, enum
+labels, and sequences.
+
+No normalized semantic diff hunks were produced. Only PostgreSQL bootstrap
+metadata and non-semantic dump framing were excluded.
