@@ -1,0 +1,103 @@
+
+ RUN  v4.1.9 /home/runner/workspace/artifacts/api-server
+
+ ✓ src/__tests__/notificationService.test.ts > enqueueNotification > persists a pending row with locale defaulting to 'ar' 2ms
+ ✓ src/__tests__/notificationService.test.ts > enqueueNotification > uses supplied locale when provided 0ms
+ ✓ src/__tests__/notificationService.test.ts > enqueueNotification > returns null for duplicate (idempotency) — same key inserted again 0ms
+ ✓ src/__tests__/notificationService.test.ts > enqueueNotification > stores preferencePolicy correctly 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 1 with a concrete Arabic and English subject 2ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 2 with a concrete Arabic and English subject 1ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 3 with a concrete Arabic and English subject 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 4 with a concrete Arabic and English subject 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 5 with a concrete Arabic and English subject 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 6 with a concrete Arabic and English subject 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 7 with a concrete Arabic and English subject 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 8 with a concrete Arabic and English subject 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 9 with a concrete Arabic and English subject 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 10 with a concrete Arabic and English subject 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 11 with a concrete Arabic and English subject 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 12 with a concrete Arabic and English subject 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 13 with a concrete Arabic and English subject 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 14 with a concrete Arabic and English subject 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 15 with a concrete Arabic and English subject 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 16 with a concrete Arabic and English subject 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 1 using the catalogue policy 1ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 2 using the catalogue policy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 3 using the catalogue policy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 4 using the catalogue policy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 5 using the catalogue policy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 6 using the catalogue policy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 7 using the catalogue policy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 8 using the catalogue policy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 9 using the catalogue policy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 10 using the catalogue policy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 11 using the catalogue policy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 12 using the catalogue policy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 13 using the catalogue policy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 14 using the catalogue policy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 15 using the catalogue policy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 16 using the catalogue policy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > defaults catalogue rendering to Arabic and rejects non-EVT event types 1ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders event 12 as an explicit irreversible account-deletion warning in both languages 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > uses the business key to idempotently retain one record per channel 1ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders mandatory bilingual P2 contract tenancy_pre_expiry_tenant with its role-specific copy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders mandatory bilingual P2 contract tenancy_pre_expiry_landlord with its role-specific copy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders mandatory bilingual P2 contract tenancy_renewal_decision_reminder with its role-specific copy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > interpolates P2 tenancy notification variables and enqueues both mandatory channels 0ms
+ ✓ src/__tests__/notificationService.test.ts > dispatchPendingNotifications — email delivery > delivers an email event and marks it delivered 2ms
+ ✓ src/__tests__/notificationService.test.ts > dispatchPendingNotifications — email delivery > does not dispatch events whose nextAttemptAt is in the future 0ms
+ ✓ src/__tests__/notificationService.test.ts > dispatchPendingNotifications — email delivery > does not dispatch already-delivered events 0ms
+ ✓ src/__tests__/notificationService.test.ts > dispatchPendingNotifications — push delivery > delivers a push event when the user has a valid expo token 1ms
+ ✓ src/__tests__/notificationService.test.ts > dispatchPendingNotifications — push delivery > marks push event delivered even when user has no tokens 0ms
+ ✓ src/__tests__/notificationService.test.ts > preference policy > suppresses event type 8 when user has announcements=false and policy=announcement 0ms
+ ✓ src/__tests__/notificationService.test.ts > preference policy > does NOT suppress event type 8 when user has announcements=true 0ms
+ ✓ src/__tests__/notificationService.test.ts > preference policy > delivers event 9 even when announcements=false (mandatory bypass) 0ms
+ ✓ src/__tests__/notificationService.test.ts > preference policy > delivers event 12 even when all prefs=false (mandatory bypass) 0ms
+ ✓ src/__tests__/notificationService.test.ts > preference policy > delivers when user has no preference row (default opt-in) 0ms
+ ✓ src/__tests__/notificationService.test.ts > retry logic > schedules a retry when delivery fails (attempts < MAX_ATTEMPTS) 2ms
+ ✓ src/__tests__/notificationService.test.ts > retry logic > marks row as 'failed' after MAX_ATTEMPTS (5) failures 0ms
+ ✓ src/__tests__/notificationService.test.ts > retry logic > picks up 'retrying' rows that are due 0ms
+ ✓ src/__tests__/notificationService.test.ts > startNotificationDispatchScheduler > calls setInterval and returns without throwing 1ms
+stdout | src/__tests__/tenancyRenewalNotificationFailure.test.ts > renewal submission notification failure isolation > returns the persisted pending renewal even when immediate C enqueue rejects
+Attention: Clerk collects telemetry data from its SDKs when connected to development instances.
+The data collected is used to inform Clerk's product roadmap.
+To learn more, including how to opt-out from the telemetry program, visit: https://clerk.com/docs/telemetry.
+
+
+stdout | src/__tests__/tenancyLifecycleStage6b.test.ts > F8c / T14d — pending renewal across expiry > suspends access and retains a paid future booking, then restores both after late owner approval
+Attention: Clerk collects telemetry data from its SDKs when connected to development instances.
+The data collected is used to inform Clerk's product roadmap.
+To learn more, including how to opt-out from the telemetry program, visit: https://clerk.com/docs/telemetry.
+
+
+ ✓ src/__tests__/tenancyRenewalNotificationFailure.test.ts > renewal submission notification failure isolation > returns the persisted pending renewal even when immediate C enqueue rejects 608ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > F8c / T14d — pending renewal across expiry > suspends access and retains a paid future booking, then restores both after late owner approval 831ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > T14 scheduler concurrency > keeps a concurrent paid booking confirmed and produces no terminal release during duplicated expiry work 606ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > X3 event 12 — irreversible deletion notice > is enqueued once per channel at the 30-day boundary and remains deduplicated across scheduler reruns 717ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > resolves Clerk metadata locale en to en 2ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > resolves Clerk metadata locale ar to ar 0ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > resolves Clerk metadata locale fr to ar 0ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > resolves Clerk metadata locale undefined to ar 0ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > enforces the renewal submission window at 31 days: rejects 2ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > enforces the renewal submission window at 30 days: accepts 321ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > enforces the renewal submission window at 1 days: accepts 301ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > enforces the renewal submission window at 0 days: rejects 1ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > seeds the 30-day A/B boundary: both recipients receive both mandatory channels 671ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > seeds the 14-day A/B boundary: both recipients receive both mandatory channels 651ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > seeds the 7-day A/B boundary: both recipients receive both mandatory channels 830ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > seeds the 1-day A/B boundary: both recipients receive both mandatory channels 733ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > seeds B-to-C: submission stops B and creates C immediately, then exactly every two days 1409ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > stops C after approval and carries the renewal end date forward 701ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > closes A/B for renewal 2 after renewal 1 established the current lease cycle 996ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > stops C after rejected terminal decision 666ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > stops C after cancelled terminal decision 351ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > continues C through expiry suspension, then caps it at 30 days without lifting suspension 1017ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > does not enqueue A, B, or C after completed move-out / admin release 1ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > does not enqueue A, B, or C after account deletion terminal lifecycle 1ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > does not enqueue A, B, or C after terminal release request 2ms
+
+ Test Files  3 passed (3)
+      Tests  82 passed (82)
+   Start at  14:39:39
+   Duration  12.46s (transform 1.03s, setup 0ms, import 2.85s, tests 11.45s, environment 1ms)
+
