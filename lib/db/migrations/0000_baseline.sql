@@ -2,6 +2,7 @@
 -- PostgreSQL database dump
 --
 
+\restrict 7UwK5bvtHHO4fgV2bFN6koLwdp5PNKFmldgJE1J4tlNbFWOrW7c5EV5N5gTENE6
 
 -- Dumped from database version 16.10
 -- Dumped by pg_dump version 16.10
@@ -220,19 +221,6 @@ CREATE TYPE public.permit_type AS ENUM (
 
 
 --
--- Name: renovation_scope; Type: TYPE; Schema: public; Owner: -
---
-
-CREATE TYPE public.renovation_scope AS ENUM (
-    'cosmetic',
-    'structural',
-    'plumbing_electrical',
-    'exterior_affecting',
-    'kitchen_bathroom'
-);
-
-
---
 -- Name: resident_status; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -376,6 +364,19 @@ CREATE TYPE public.waha_pass_event_type AS ENUM (
 CREATE TYPE public.waha_pass_occupancy_track AS ENUM (
     'owner',
     'tenant'
+);
+
+
+--
+-- Name: waha_replacement_request_status; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.waha_replacement_request_status AS ENUM (
+    'pending_review',
+    'approved',
+    'rejected',
+    'payment_pending',
+    'paid'
 );
 
 
@@ -639,6 +640,23 @@ CREATE SEQUENCE public.announcements_id_seq
 --
 
 ALTER SEQUENCE public.announcements_id_seq OWNED BY public.announcements.id;
+
+
+--
+-- Name: api_rate_limit_counters; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.api_rate_limit_counters (
+    scope text NOT NULL,
+    subject_key text NOT NULL,
+    minute_window_started_at timestamp with time zone NOT NULL,
+    minute_count integer NOT NULL,
+    day_window_started_at timestamp with time zone NOT NULL,
+    day_count integer NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT api_rate_limit_counters_day_count_check CHECK ((day_count >= 1)),
+    CONSTRAINT api_rate_limit_counters_minute_count_check CHECK ((minute_count >= 1))
+);
 
 
 --
@@ -1145,7 +1163,9 @@ CREATE TABLE public.guests (
     status public.guest_status DEFAULT 'pending'::public.guest_status NOT NULL,
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     updated_at timestamp with time zone DEFAULT now() NOT NULL,
-    national_id text
+    national_id text,
+    gender text,
+    CONSTRAINT guests_gender_check CHECK (((gender IS NULL) OR (gender = ANY (ARRAY['male'::text, 'female'::text]))))
 );
 
 
@@ -1336,7 +1356,8 @@ CREATE TABLE public.notification_preferences (
     bookings boolean DEFAULT true NOT NULL,
     guest_passes boolean DEFAULT true NOT NULL,
     created_at timestamp with time zone DEFAULT now() NOT NULL,
-    updated_at timestamp with time zone DEFAULT now() NOT NULL
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    receives_approval_notifications boolean DEFAULT false NOT NULL
 );
 
 
@@ -1555,6 +1576,100 @@ ALTER SEQUENCE public.permits_id_seq OWNED BY public.permits.id;
 
 
 --
+-- Name: portal_help_screenshot_deletion_jobs; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.portal_help_screenshot_deletion_jobs (
+    id integer NOT NULL,
+    ticket_id integer NOT NULL,
+    object_key text NOT NULL,
+    status text DEFAULT 'pending'::text NOT NULL,
+    attempts integer DEFAULT 0 NOT NULL,
+    next_attempt_at timestamp with time zone NOT NULL,
+    last_error text,
+    completed_at timestamp with time zone,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT portal_help_screenshot_deletion_attempts_check CHECK ((attempts >= 0)),
+    CONSTRAINT portal_help_screenshot_deletion_path_check CHECK ((object_key ~~ '/objects/portal-help/%'::text)),
+    CONSTRAINT portal_help_screenshot_deletion_status_check CHECK ((status = ANY (ARRAY['pending'::text, 'retrying'::text, 'completed'::text])))
+);
+
+
+--
+-- Name: portal_help_screenshot_deletion_jobs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.portal_help_screenshot_deletion_jobs_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: portal_help_screenshot_deletion_jobs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.portal_help_screenshot_deletion_jobs_id_seq OWNED BY public.portal_help_screenshot_deletion_jobs.id;
+
+
+--
+-- Name: portal_help_tickets; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.portal_help_tickets (
+    id integer NOT NULL,
+    submitter_user_id integer NOT NULL,
+    submitter_role text NOT NULL,
+    submitter_unit text NOT NULL,
+    category text NOT NULL,
+    details text NOT NULL,
+    screenshot_object_key text,
+    screenshot_content_type text,
+    status text DEFAULT 'pending'::text NOT NULL,
+    admin_reply text,
+    reply_kind text,
+    replied_by_user_id integer,
+    replied_at timestamp with time zone,
+    closed_at timestamp with time zone,
+    screenshot_delete_after timestamp with time zone,
+    screenshot_deleted_at timestamp with time zone,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT portal_help_tickets_category_check CHECK ((category = ANY (ARRAY['account_access'::text, 'unit_household_registration'::text, 'booking_pass'::text, 'payment'::text, 'document_opening'::text, 'vehicle_permit_registration'::text, 'screen_problem'::text]))),
+    CONSTRAINT portal_help_tickets_details_nonblank_check CHECK ((length(btrim(details)) > 0)),
+    CONSTRAINT portal_help_tickets_reply_kind_check CHECK (((reply_kind IS NULL) OR (reply_kind = ANY (ARRAY['reply'::text, 'redirect'::text])))),
+    CONSTRAINT portal_help_tickets_screenshot_mime_check CHECK (((screenshot_content_type IS NULL) OR (screenshot_content_type = ANY (ARRAY['image/jpeg'::text, 'image/png'::text, 'image/webp'::text])))),
+    CONSTRAINT portal_help_tickets_screenshot_pair_check CHECK ((((screenshot_object_key IS NULL) AND (screenshot_content_type IS NULL)) OR ((screenshot_object_key IS NOT NULL) AND (screenshot_content_type IS NOT NULL)))),
+    CONSTRAINT portal_help_tickets_screenshot_path_check CHECK (((screenshot_object_key IS NULL) OR (screenshot_object_key ~~ '/objects/portal-help/%'::text))),
+    CONSTRAINT portal_help_tickets_status_check CHECK ((status = ANY (ARRAY['pending'::text, 'in_progress'::text, 'closed'::text])))
+);
+
+
+--
+-- Name: portal_help_tickets_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.portal_help_tickets_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: portal_help_tickets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.portal_help_tickets_id_seq OWNED BY public.portal_help_tickets.id;
+
+
+--
 -- Name: push_tokens; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1654,10 +1769,11 @@ CREATE TABLE public.residents (
     date_of_birth date,
     id_number text,
     has_portal_access boolean DEFAULT false NOT NULL,
-    id_photo_key text,
     linked_user_id integer,
     middle_name text,
-    phone_normalized text
+    phone_normalized text,
+    gender text,
+    CONSTRAINT residents_gender_check CHECK (((gender IS NULL) OR (gender = ANY (ARRAY['male'::text, 'female'::text]))))
 );
 
 
@@ -1892,6 +2008,10 @@ CREATE TABLE public.unit_verifications (
     cancellation_reason text,
     routed_to text,
     routed_at timestamp with time zone,
+    gender text,
+    approval_bases text,
+    approval_other_text text,
+    CONSTRAINT unit_verifications_gender_check CHECK (((gender IS NULL) OR (gender = ANY (ARRAY['male'::text, 'female'::text])))),
     CONSTRAINT unit_verifications_routed_to_check CHECK (((routed_to IS NULL) OR (routed_to = ANY (ARRAY['owner'::text, 'admin'::text]))))
 );
 
@@ -2082,7 +2202,8 @@ CREATE TABLE public.waha_guest_day_passes (
     issued_at timestamp with time zone,
     verification_token text,
     revoked_at timestamp with time zone,
-    revocation_reason text
+    revocation_reason text,
+    vehicle_plate text
 );
 
 
@@ -2220,6 +2341,47 @@ CREATE SEQUENCE public.waha_pass_events_id_seq
 --
 
 ALTER SEQUENCE public.waha_pass_events_id_seq OWNED BY public.waha_pass_events.id;
+
+
+--
+-- Name: waha_replacement_requests; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.waha_replacement_requests (
+    id integer NOT NULL,
+    application_id integer NOT NULL,
+    original_credential_id integer NOT NULL,
+    requested_by_user_id integer NOT NULL,
+    reason text NOT NULL,
+    status public.waha_replacement_request_status DEFAULT 'pending_review'::public.waha_replacement_request_status NOT NULL,
+    reviewed_by_id integer,
+    review_note text,
+    payment_attempt_id integer,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    reviewed_at timestamp with time zone,
+    paid_at timestamp with time zone,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: waha_replacement_requests_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.waha_replacement_requests_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: waha_replacement_requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.waha_replacement_requests_id_seq OWNED BY public.waha_replacement_requests.id;
 
 
 --
@@ -2405,6 +2567,20 @@ ALTER TABLE ONLY public.permits ALTER COLUMN id SET DEFAULT nextval('public.perm
 
 
 --
+-- Name: portal_help_screenshot_deletion_jobs id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.portal_help_screenshot_deletion_jobs ALTER COLUMN id SET DEFAULT nextval('public.portal_help_screenshot_deletion_jobs_id_seq'::regclass);
+
+
+--
+-- Name: portal_help_tickets id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.portal_help_tickets ALTER COLUMN id SET DEFAULT nextval('public.portal_help_tickets_id_seq'::regclass);
+
+
+--
 -- Name: push_tokens id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2507,6 +2683,13 @@ ALTER TABLE ONLY public.waha_pass_credentials ALTER COLUMN id SET DEFAULT nextva
 --
 
 ALTER TABLE ONLY public.waha_pass_events ALTER COLUMN id SET DEFAULT nextval('public.waha_pass_events_id_seq'::regclass);
+
+
+--
+-- Name: waha_replacement_requests id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.waha_replacement_requests ALTER COLUMN id SET DEFAULT nextval('public.waha_replacement_requests_id_seq'::regclass);
 
 
 --
@@ -2766,6 +2949,22 @@ ALTER TABLE ONLY public.permits
 
 
 --
+-- Name: portal_help_screenshot_deletion_jobs portal_help_screenshot_deletion_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.portal_help_screenshot_deletion_jobs
+    ADD CONSTRAINT portal_help_screenshot_deletion_jobs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: portal_help_tickets portal_help_tickets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.portal_help_tickets
+    ADD CONSTRAINT portal_help_tickets_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: push_tokens push_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2918,6 +3117,21 @@ ALTER TABLE ONLY public.waha_pass_events
 
 
 --
+-- Name: waha_replacement_requests waha_replacement_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.waha_replacement_requests
+    ADD CONSTRAINT waha_replacement_requests_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: api_rate_limit_counters_scope_subject_unique; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX api_rate_limit_counters_scope_subject_unique ON public.api_rate_limit_counters USING btree (scope, subject_key);
+
+
+--
 -- Name: external_identity_deletion_jobs_operation_unique; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2957,6 +3171,13 @@ CREATE INDEX idx_announcement_edit_history_edited_by ON public.announcement_edit
 --
 
 CREATE INDEX idx_announcements_author_id ON public.announcements USING btree (author_id);
+
+
+--
+-- Name: idx_api_rate_limit_counters_updated_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_api_rate_limit_counters_updated_at ON public.api_rate_limit_counters USING btree (updated_at);
 
 
 --
@@ -3167,6 +3388,34 @@ CREATE INDEX idx_permits_unit_id ON public.permits USING btree (unit_id);
 --
 
 CREATE INDEX idx_permits_user_id ON public.permits USING btree (user_id);
+
+
+--
+-- Name: idx_portal_help_screenshot_deletion_due; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_portal_help_screenshot_deletion_due ON public.portal_help_screenshot_deletion_jobs USING btree (status, next_attempt_at);
+
+
+--
+-- Name: idx_portal_help_tickets_attention; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_portal_help_tickets_attention ON public.portal_help_tickets USING btree (status, created_at);
+
+
+--
+-- Name: idx_portal_help_tickets_screenshot_retention; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_portal_help_tickets_screenshot_retention ON public.portal_help_tickets USING btree (screenshot_delete_after, screenshot_deleted_at);
+
+
+--
+-- Name: idx_portal_help_tickets_submitter; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_portal_help_tickets_submitter ON public.portal_help_tickets USING btree (submitter_user_id, created_at);
 
 
 --
@@ -3394,6 +3643,20 @@ CREATE INDEX idx_waha_pass_events_credential_id ON public.waha_pass_events USING
 
 
 --
+-- Name: idx_waha_replacement_requests_application_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_waha_replacement_requests_application_id ON public.waha_replacement_requests USING btree (application_id);
+
+
+--
+-- Name: idx_waha_replacement_requests_status; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_waha_replacement_requests_status ON public.waha_replacement_requests USING btree (status);
+
+
+--
 -- Name: notification_events_delivery_unique; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3478,6 +3741,13 @@ CREATE UNIQUE INDEX uq_parking_lots_unit_building_number ON public.parking_lots 
 
 
 --
+-- Name: uq_portal_help_screenshot_deletion_ticket; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX uq_portal_help_screenshot_deletion_ticket ON public.portal_help_screenshot_deletion_jobs USING btree (ticket_id);
+
+
+--
 -- Name: uq_unit_verification_cleanup_document; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3503,6 +3773,13 @@ CREATE UNIQUE INDEX uq_unit_verifications_claim_per_unit ON public.unit_verifica
 --
 
 CREATE UNIQUE INDEX uq_units_normalised_unit_number ON public.units USING btree (normalised_unit_number);
+
+
+--
+-- Name: uq_waha_replacement_requests_original_credential; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX uq_waha_replacement_requests_original_credential ON public.waha_replacement_requests USING btree (original_credential_id);
 
 
 --
@@ -3634,6 +3911,30 @@ ALTER TABLE ONLY public.permits
 
 ALTER TABLE ONLY public.permits
     ADD CONSTRAINT permits_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: portal_help_screenshot_deletion_jobs portal_help_screenshot_deletion_jobs_ticket_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.portal_help_screenshot_deletion_jobs
+    ADD CONSTRAINT portal_help_screenshot_deletion_jobs_ticket_id_fkey FOREIGN KEY (ticket_id) REFERENCES public.portal_help_tickets(id) ON DELETE CASCADE;
+
+
+--
+-- Name: portal_help_tickets portal_help_tickets_replied_by_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.portal_help_tickets
+    ADD CONSTRAINT portal_help_tickets_replied_by_user_id_fkey FOREIGN KEY (replied_by_user_id) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: portal_help_tickets portal_help_tickets_submitter_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.portal_help_tickets
+    ADD CONSTRAINT portal_help_tickets_submitter_user_id_fkey FOREIGN KEY (submitter_user_id) REFERENCES public.users(id) ON DELETE RESTRICT;
 
 
 --
@@ -3845,7 +4146,40 @@ ALTER TABLE ONLY public.waha_pass_credentials
 
 
 --
+-- Name: waha_replacement_requests waha_replacement_requests_application_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.waha_replacement_requests
+    ADD CONSTRAINT waha_replacement_requests_application_id_fkey FOREIGN KEY (application_id) REFERENCES public.waha_pass_applications(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: waha_replacement_requests waha_replacement_requests_original_credential_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.waha_replacement_requests
+    ADD CONSTRAINT waha_replacement_requests_original_credential_id_fkey FOREIGN KEY (original_credential_id) REFERENCES public.waha_pass_credentials(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: waha_replacement_requests waha_replacement_requests_requested_by_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.waha_replacement_requests
+    ADD CONSTRAINT waha_replacement_requests_requested_by_user_id_fkey FOREIGN KEY (requested_by_user_id) REFERENCES public.users(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: waha_replacement_requests waha_replacement_requests_reviewed_by_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.waha_replacement_requests
+    ADD CONSTRAINT waha_replacement_requests_reviewed_by_id_fkey FOREIGN KEY (reviewed_by_id) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- PostgreSQL database dump complete
 --
 
+\unrestrict 7UwK5bvtHHO4fgV2bFN6koLwdp5PNKFmldgJE1J4tlNbFWOrW7c5EV5N5gTENE6
 
