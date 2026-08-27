@@ -15,7 +15,7 @@ Each file was uploaded individually, read back through GitHub's immutable blob e
 | Task-730-P1-tenant-verification-ar-r2.png | `862d9ef82e5258b395213dde3c6b61a78e9a02ef647a2b12b2a90901c6086204` | `bda9ad065de4174ea0c47c13fbc4e738979ed353` | `e30f06b441ab3e9996a778aedccab62cc58cec93` |
 | Task-730-P1-tenant-verification-en-r2.png | `9ebf56e4a0dc1168b88f944641c5c3804a1272d51902215218890ca896498424` | `5c9a2687863392abc9e62a5e5ce9e756787fb3b2` | `f2807f45b5474002a6df6b1718ec247c28475629` |
 | Task-730-P1-Unit-Selectors-Workbook-Evidence-2026-08-27-r2.md | `ae1fc929f6f7d48f85c05023b43b4f18304d6001ea2c3d4fe5106866e945166c` | `c7b6c721c16732a0cba3933c3f0d9bc0fde56eee` | `c7b73a19273a95344fa128740a1d0f763a60fd9e` |
-| Task-731-P2-rendered-message-source-r2.ts | `abe00fa73cd72898429f1708191d1cd075838a2bfe5f93585f8ffd0f6dce9602` | `e3b86e97ab645d40e26b0cfdbe55e1cf8d57f52f` | `e3b86e97ab645d40e26b0cfdbe55e1cf8d57f52f` |
+| Task-731-P2-rendered-message-source-r2.ts | `abe00fa73cd72898429f1708191d1cd075838a2bfe5f93585f8ffd0f6dce9602` | `1c159b4e4d26a2ced5a56a6d09f2293c478f99ad` | `e3b86e97ab645d40e26b0cfdbe55e1cf8d57f52f` |
 | Task-731-P2-Renewal-Notification-Seeded-Evidence-2026-08-27-r2.md | `c18bf23ec5f3c4b68fd4375f228620b71a14a511840ab0adfa05b07529605c7f` | `029b99689e04648518c2b81a99977575e1e845a4` | `fc28bf53c1bac4f459ccc13ba04b75b33a4202b5` |
 | Task-731-P2-seeded-lifecycle-source-r2.ts | `4c5dc1b2ff9c157d6725d674587a18b186d1b7d3dec33461348675820a4e83a1` | `cfc3ca0df96d496ec311087992adbc04eb431ba0` | `311930f95c41ee042dcd4b322ceb38ec96345910` |
 | Task-731-P2-seeded-vitest-output-r2.txt | `3eb47dab3f735a51cbdd0a3106f167113135cbbd2dd27ffe63762ef8d4b0621d` | `bf68586781323e2ff34398f210adf74b2ebb00d9` | `afde23dc2bfe3b3f8a0d67065907c48b035e404b` |
