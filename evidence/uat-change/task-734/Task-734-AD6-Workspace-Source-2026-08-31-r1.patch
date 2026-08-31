@@ -1,0 +1,851 @@
+});
++    await expect(attentionHeading).toBeVisible({ timeout: 12_000 });
++    await expect(healthHeading).toBeAttached({ timeout: 12_000 });
++
++    const attentionBeforeHealth = await attentionHeading.evaluate((attention, health) =>
++      Boolean(attention.compareDocumentPosition(health as Node) & Node.DOCUMENT_POSITION_FOLLOWING),
++      await healthHeading.elementHandle(),
+     );
+-    await expect(statCards.first()).toBeVisible({ timeout: 12_000 });
++    expect(attentionBeforeHealth).toBe(true);
++
++    for (const label of [
++      "Units registered",
++      "Verified owners",
++      "Active tenancies",
++      "Residents with portal access",
++      "Tenancies expiring in 30 days",
++      "Waha Passes issued",
++      "Bookings this month",
++      "Portal Help opened this month",
++    ]) {
++      await expect(page.getByText(label, { exact: true })).toBeAttached();
++    }
++  });
+ 
+-    const countText = page.locator("text=/\\d+/").first();
+-    await expect(countText).toBeVisible({ timeout: 10_000 });
++  test("AD6 attention panel fits a 390px viewport without horizontal overflow", async ({ page }) => {
++    await page.setViewportSize({ width: 390, height: 844 });
++    await page.goto("/portal/admin");
++    await page.waitForLoadState("domcontentloaded");
++
++    await expect(page.getByRole("heading", { name: "Needs your attention" })).toBeVisible({ timeout: 12_000 });
++    const hasOverflow = await page.evaluate(() =>
++      document.documentElement.scrollWidth > document.documentElement.clientWidth + 1
++    );
++    expect(hasOverflow).toBe(false);
+   });
+ 
+   test("Unit Verification Queue section is visible", async ({ page }) => {
+diff --git a/artifacts/hoa-portal/src/__tests__/adminArabicLayout.test.tsx b/artifacts/hoa-portal/src/__tests__/adminArabicLayout.test.tsx
+index 9545788..726bf75 100644
+--- a/artifacts/hoa-portal/src/__tests__/adminArabicLayout.test.tsx
++++ b/artifacts/hoa-portal/src/__tests__/adminArabicLayout.test.tsx
+@@ -31,6 +31,39 @@ describe("Admin page Arabic translations — completeness", () => {
+     "adm_title",
+     "adm_total_users",
+     "adm_active_residents",
++    "adm_attention_title",
++    "adm_attention_loading",
++    "adm_attention_none",
++    "adm_attention_summary",
++    "adm_attention_normal",
++    "adm_attention_attention",
++    "adm_attention_overdue",
++    "adm_attention_oldest",
++    "adm_attention_owner_verifications",
++    "adm_attention_permits",
++    "adm_attention_waha_applications",
++    "adm_attention_waha_replacements",
++    "adm_attention_ownership_changes",
++    "adm_attention_tenancy_releases",
++    "adm_attention_communications",
++    "adm_attention_portal_help",
++    "adm_community_health",
++    "adm_community_health_desc",
++    "adm_units_registered",
++    "adm_verified_owners",
++    "adm_active_tenancies",
++    "adm_residents_portal_access",
++    "adm_tenancies_expiring_30_days",
++    "adm_tenancies_expiring_30_days_desc",
++    "adm_waha_passes_issued",
++    "adm_bookings_this_month",
++    "adm_bookings_this_month_desc",
++    "adm_portal_help_this_month",
++    "adm_portal_help_this_month_desc",
++    "adm_attention_thresholds_title",
++    "adm_attention_thresholds_desc",
++    "adm_attention_threshold_label",
++    "adm_overdue_threshold_label",
+     "adm_pending_verifications",
+     "adm_pending_permits",
+     "adm_active_move_forms",
+diff --git a/artifacts/hoa-portal/src/__tests__/adminDashboardAd6.test.ts b/artifacts/hoa-portal/src/__tests__/adminDashboardAd6.test.ts
+new file mode 100644
+index 0000000..79044c5
+--- /dev/null
++++ b/artifacts/hoa-portal/src/__tests__/adminDashboardAd6.test.ts
+@@ -0,0 +1,43 @@
++import { describe, expect, it } from "vitest";
++import {
++  DAY_MS,
++  attentionUrgency,
++  formatWaitingAge,
++  normalizeAttentionThresholds,
++  sortAttentionQueues,
++} from "@/lib/adminDashboard";
++
++describe("AD6 admin attention ageing", () => {
++  const now = Date.UTC(2026, 7, 31, 12);
++
++  it("uses the approved normal, attention, and overdue boundaries", () => {
++    const thresholds = { attentionDays: 2, overdueDays: 7 };
++
++    expect(attentionUrgency(new Date(now - (2 * DAY_MS) + 1).toISOString(), thresholds, now)).toBe("normal");
++    expect(attentionUrgency(new Date(now - (2 * DAY_MS)).toISOString(), thresholds, now)).toBe("attention");
++    expect(attentionUrgency(new Date(now - (7 * DAY_MS)).toISOString(), thresholds, now)).toBe("attention");
++    expect(attentionUrgency(new Date(now - (7 * DAY_MS) - 1).toISOString(), thresholds, now)).toBe("overdue");
++  });
++
++  it("enforces a one-day minimum and prevents overdue from preceding attention", () => {
++    expect(normalizeAttentionThresholds(0, 1)).toEqual({ attentionDays: 2, overdueDays: 2 });
++    expect(normalizeAttentionThresholds(5, 3)).toEqual({ attentionDays: 5, overdueDays: 5 });
++  });
++
++  it("sorts queues with work first, oldest work first, and empty queues last", () => {
++    const sorted = sortAttentionQueues([
++      { key: "empty-a", count: 0, oldestAt: null, originalIndex: 0 },
++      { key: "newer", count: 9, oldestAt: "2026-08-30T12:00:00.000Z", originalIndex: 1 },
++      { key: "older", count: 1, oldestAt: "2026-08-20T12:00:00.000Z", originalIndex: 2 },
++      { key: "empty-b", count: 0, oldestAt: null, originalIndex: 3 },
++    ]);
++
++    expect(sorted.map((queue) => queue.key)).toEqual(["older", "newer", "empty-a", "empty-b"]);
++  });
++
++  it("formats the oldest age in English and Arabic", () => {
++    const oldestAt = new Date(now - (3 * DAY_MS)).toISOString();
++    expect(formatWaitingAge(oldestAt, "en", now)).toBe("3 days");
++    expect(formatWaitingAge(oldestAt, "ar", now)).toBe("3 أيام");
++  });
++});
+\ No newline at end of file
+diff --git a/artifacts/hoa-portal/src/lib/adminDashboard.ts b/artifacts/hoa-portal/src/lib/adminDashboard.ts
+new file mode 100644
+index 0000000..e4adca0
+--- /dev/null
++++ b/artifacts/hoa-portal/src/lib/adminDashboard.ts
+@@ -0,0 +1,83 @@
++import type { Lang } from "@/contexts/LanguageContext";
++
++export const DAY_MS = 24 * 60 * 60 * 1000;
++
++export type AttentionUrgency = "normal" | "attention" | "overdue";
++
++export type AttentionThresholds = {
++  attentionDays: number;
++  overdueDays: number;
++};
++
++export type AttentionQueueSummary = {
++  key: string;
++  count: number;
++  oldestAt: string | null;
++  originalIndex: number;
++};
++
++export function normalizeAttentionThresholds(
++  attentionDays: unknown,
++  overdueDays: unknown,
++): AttentionThresholds {
++  const parsedAttention = Number(attentionDays);
++  const safeAttention = Number.isInteger(parsedAttention) && parsedAttention >= 1
++    ? parsedAttention
++    : 2;
++  const parsedOverdue = Number(overdueDays);
++  const safeOverdue = Number.isInteger(parsedOverdue) && parsedOverdue >= 1
++    ? parsedOverdue
++    : 7;
++
++  return {
++    attentionDays: safeAttention,
++    overdueDays: Math.max(safeAttention, safeOverdue),
++  };
++}
++
++export function waitingAgeDays(oldestAt: string | null, nowMs = Date.now()): number {
++  if (!oldestAt) return 0;
++  const timestamp = new Date(oldestAt).getTime();
++  if (!Number.isFinite(timestamp)) return 0;
++  return Math.max(0, (nowMs - timestamp) / DAY_MS);
++}
++
++export function attentionUrgency(
++  oldestAt: string | null,
++  thresholds: AttentionThresholds,
++  nowMs = Date.now(),
++): AttentionUrgency {
++  const ageDays = waitingAgeDays(oldestAt, nowMs);
++  if (ageDays > thresholds.overdueDays) return "overdue";
++  if (ageDays >= thresholds.attentionDays) return "attention";
++  return "normal";
++}
++
++export function sortAttentionQueues<T extends AttentionQueueSummary>(queues: T[]): T[] {
++  return [...queues].sort((left, right) => {
++    const leftHasWork = left.count > 0;
++    const rightHasWork = right.count > 0;
++    if (leftHasWork !== rightHasWork) return leftHasWork ? -1 : 1;
++
++    if (leftHasWork && rightHasWork) {
++      const leftOldest = left.oldestAt ? new Date(left.oldestAt).getTime() : Number.POSITIVE_INFINITY;
++      const rightOldest = right.oldestAt ? new Date(right.oldestAt).getTime() : Number.POSITIVE_INFINITY;
++      if (leftOldest !== rightOldest) return leftOldest - rightOldest;
++    }
++
++    return left.originalIndex - right.originalIndex;
++  });
++}
++
++export function formatWaitingAge(oldestAt: string, lang: Lang, nowMs = Date.now()): string {
++  const days = Math.floor(waitingAgeDays(oldestAt, nowMs));
++  if (lang === "ar") {
++    if (days < 1) return "أقل من يوم";
++    if (days === 1) return "يوم واحد";
++    if (days === 2) return "يومين";
++    return `${days} أيام`;
++  }
++
++  if (days < 1) return "less than 1 day";
++  return `${days} ${days === 1 ? "day" : "days"}`;
++}
+\ No newline at end of file
+diff --git a/artifacts/hoa-portal/src/lib/translations.ts b/artifacts/hoa-portal/src/lib/translations.ts
+index 5c56e7e..7b5804c 100644
+--- a/artifacts/hoa-portal/src/lib/translations.ts
++++ b/artifacts/hoa-portal/src/lib/translations.ts
+@@ -1007,6 +1007,40 @@ const en: Record<string, string> = {
+   adm_title: "Admin Dashboard",
+   adm_total_users: "Total Users",
+   adm_active_residents: "Active Residents",
++  adm_attention_title: "Needs your attention",
++  adm_attention_loading: "Loading attention queues…",
++  adm_attention_none: "Nothing needs your attention.",
++  adm_attention_summary: "{count} items need your attention · oldest waiting {age}",
++  adm_attention_age_unknown: "age unavailable",
++  adm_attention_normal: "Normal",
++  adm_attention_attention: "Attention",
++  adm_attention_overdue: "Overdue",
++  adm_attention_oldest: "Oldest waiting: {age}",
++  adm_attention_owner_verifications: "Owner verifications",
++  adm_attention_permits: "Permit reviews",
++  adm_attention_waha_applications: "Waha Pass applications",
++  adm_attention_waha_replacements: "Waha Pass replacements",
++  adm_attention_ownership_changes: "Ownership changes",
++  adm_attention_tenancy_releases: "Tenancy releases",
++  adm_attention_communications: "Communications",
++  adm_attention_portal_help: "Portal Help",
++  adm_community_health: "Community health",
++  adm_community_health_desc: "Operational health indicators. Period-specific metrics state their reporting window.",
++  adm_units_registered: "Units registered",
++  adm_verified_owners: "Verified owners",
++  adm_active_tenancies: "Active tenancies",
++  adm_residents_portal_access: "Residents with portal access",
++  adm_tenancies_expiring_30_days: "Tenancies expiring in 30 days",
++  adm_tenancies_expiring_30_days_desc: "Active tenancies ending in the rolling 30-day window from today.",
++  adm_waha_passes_issued: "Waha Passes issued",
++  adm_bookings_this_month: "Bookings this month",
++  adm_bookings_this_month_desc: "Non-cancelled bookings scheduled in the current calendar month.",
++  adm_portal_help_this_month: "Portal Help opened this month",
++  adm_portal_help_this_month_desc: "Portal Help tickets opened in the current calendar month.",
++  adm_attention_thresholds_title: "Attention ageing thresholds",
++  adm_attention_thresholds_desc: "Ageing is based on the oldest item in each queue, never the queue count.",
++  adm_attention_threshold_label: "Attention starts after (days)",
++  adm_overdue_threshold_label: "Overdue after (days)",
+   adm_pending_verifications: "Pending Verifications",
+   adm_pending_permits: "Pending Permits",
+   adm_active_move_forms: "Active Move Forms",
+@@ -2470,6 +2504,40 @@ const ar: Record<string, string> = {
+   adm_title: "لوحة التحكم للمسؤول",
+   adm_total_users: "إجمالي المستخدمين",
+   adm_active_residents: "السكان النشطون",
++  adm_attention_title: "يتطلب انتباهك",
++  adm_attention_loading: "جارٍ تحميل قوائم الانتظار…",
++  adm_attention_none: "لا توجد عناصر تتطلب انتباهك.",
++  adm_attention_summary: "{count} عناصر تتطلب انتباهك · أقدمها ينتظر منذ {age}",
++  adm_attention_age_unknown: "العمر غير متاح",
++  adm_attention_normal: "عادي",
++  adm_attention_attention: "يحتاج متابعة",
++  adm_attention_overdue: "متأخر",
++  adm_attention_oldest: "أقدم انتظار: {age}",
++  adm_attention_owner_verifications: "توثيقات المالك",
++  adm_attention_permits: "مراجعات التصاريح",
++  adm_attention_waha_applications: "طلبات بطاقة واحة",
++  adm_attention_waha_replacements: "بدائل بطاقة واحة",
++  adm_attention_ownership_changes: "تغييرات الملكية",
++  adm_attention_tenancy_releases: "إنهاء عقود الإيجار",
++  adm_attention_communications: "المراسلات",
++  adm_attention_portal_help: "مساعدة البوابة",
++  adm_community_health: "صحة المجتمع",
++  adm_community_health_desc: "مؤشرات الصحة التشغيلية مع توضيح فترة القياس للمؤشرات الزمنية.",
++  adm_units_registered: "الوحدات المسجلة",
++  adm_verified_owners: "الملاك الموثقون",
++  adm_active_tenancies: "عقود الإيجار النشطة",
++  adm_residents_portal_access: "السكان الذين لديهم وصول للبوابة",
++  adm_tenancies_expiring_30_days: "عقود تنتهي خلال 30 يوماً",
++  adm_tenancies_expiring_30_days_desc: "عقود الإيجار النشطة التي تنتهي خلال فترة متحركة مدتها 30 يوماً من اليوم.",
++  adm_waha_passes_issued: "بطاقات واحة الصادرة",
++  adm_bookings_this_month: "حجوزات هذا الشهر",
++  adm_bookings_this_month_desc: "الحجوزات غير الملغاة والمجدولة خلال الشهر الميلادي الحالي.",
++  adm_portal_help_this_month: "طلبات المساعدة المفتوحة هذا الشهر",
++  adm_portal_help_this_month_desc: "طلبات مساعدة البوابة المفتوحة خلال الشهر الميلادي الحالي.",
++  adm_attention_thresholds_title: "حدود أعمار عناصر المتابعة",
++  adm_attention_thresholds_desc: "يعتمد التصنيف على عمر أقدم عنصر في كل قائمة، وليس على عدد العناصر.",
++  adm_attention_threshold_label: "تبدأ المتابعة بعد (أيام)",
++  adm_overdue_threshold_label: "يصبح متأخراً بعد (أيام)",
+   adm_pending_verifications: "التحقق المعلق",
+   adm_pending_permits: "التصاريح المعلقة",
+   adm_active_move_forms: "نماذج النقل النشطة",
+diff --git a/artifacts/hoa-portal/src/pages/portal/admin.tsx b/artifacts/hoa-portal/src/pages/portal/admin.tsx
+index 6ea6e75..6cfddeb 100644
+--- a/artifacts/hoa-portal/src/pages/portal/admin.tsx
++++ b/artifacts/hoa-portal/src/pages/portal/admin.tsx
+@@ -24,6 +24,12 @@ import { WahaCredBadge, WahaCredActionCell } from "@/components/WahaCredBadge";
+ import { PhoneInput } from "@/components/PhoneInput";
+ import { TenancyReleaseAdminPanel } from "@/components/TenancyReleaseAdminPanel";
+ import { SELECTABLE_UNIT_REFERENCES } from "@workspace/unit-reference";
++import {
++  attentionUrgency,
++  formatWaitingAge,
++  normalizeAttentionThresholds,
++  sortAttentionQueues,
++} from "@/lib/adminDashboard";
+ 
+ type VerificationItem = {
+   id: number; type: string; status: string; nationalId: string | null; ejarReference: string | null;
+@@ -42,6 +48,29 @@ type Vehicle = {
+   resident?: { fullName: string; nationalId: string | null };
+ };
+ 
++type AdminSummary = {
++  unitsRegistered: number;
++  verifiedOwners: number;
++  activeTenancies: number;
++  residentsWithPortalAccess: number;
++  tenanciesExpiringNext30Days: number;
++  wahaPassesIssued: number;
++  bookingsThisMonth: number;
++  portalHelpTicketsThisMonth: number;
++  attentionThresholdDays: number;
++  overdueThresholdDays: number;
++};
++
++type AttentionQueueKey =
++  | "ownerVerifications"
++  | "permits"
++  | "wahaApplications"
++  | "wahaReplacementRequests"
++  | "ownershipChanges"
++  | "tenancyReleaseCases"
++  | "communications"
++  | "portalHelp";
++
+ // E5: controlled rejection reasons (must match API + schema)
+ const VEHICLE_REJECTION_REASONS = [
+   "registration_name_mismatch",
+@@ -49,22 +78,45 @@ const VEHICLE_REJECTION_REASONS = [
+ ] as const;
+ type VehicleRejectionReason = (typeof VEHICLE_REJECTION_REASONS)[number];
+ 
+-function StatCard({ label, value, icon: Icon, color }: { label: string; value: number | undefined; icon: React.ComponentType<any>; color: string }) {
++function StatCard({
++  label,
++  value,
++  icon: Icon,
++  color,
++  description,
++}: {
++  label: string;
++  value: number | undefined;
++  icon: React.ComponentType<any>;
++  color: string;
++  description?: string;
++}) {
+   return (
+     <div className="bg-white border border-slate-200 rounded-xl p-5">
+       <div className={cn("h-8 w-8 rounded-lg flex items-center justify-center mb-3", color)}>
+         <Icon className="h-4 w-4" />
+       </div>
+       <p className="text-2xl font-bold text-slate-900">{value ?? "—"}</p>
+-      <p className="text-slate-500 text-xs mt-1">{label}</p>
++      <p className="text-slate-500 text-xs mt-1" title={description}>{label}</p>
++      {description && <p className="mt-1 text-[10px] leading-snug text-slate-400">{description}</p>}
+     </div>
+   );
+ }
+ 
+-function Section({ title, children, defaultOpen = true }: { title: string; children: React.ReactNode; defaultOpen?: boolean }) {
++function Section({
++  id,
++  title,
++  children,
++  defaultOpen = true,
++}: {
++  id?: string;
++  title: string;
++  children: React.ReactNode;
++  defaultOpen?: boolean;
++}) {
+   const [open, setOpen] = useState(defaultOpen);
+   return (
+-    <section className="bg-white border border-slate-200 rounded-xl overflow-hidden">
++    <section id={id} className="scroll-mt-6 bg-white border border-slate-200 rounded-xl overflow-hidden">
+       <button className="w-full flex items-center justify-between px-5 py-4 hover:bg-slate-50 transition-colors" onClick={() => setOpen(o => !o)}>
+         <h2 className="text-base font-semibold text-slate-900">{title}</h2>
+         {open ? <ChevronUp className="h-4 w-4 text-slate-400" /> : <ChevronDown className="h-4 w-4 text-slate-400" />}
+@@ -81,7 +133,7 @@ export default function AdminPage() {
+   const { toast } = useToast();
+ 
+   // ── Queries ──
+-  const { data: summary } = useQuery<any>({
++  const { data: summary } = useQuery<AdminSummary>({
+     queryKey: ["adminSummary"],
+     queryFn: () => apiRequest("/admin/summary"),
+     enabled: user?.role === "admin",
+@@ -397,16 +449,79 @@ export default function AdminPage() {
+ 
+   const pendingWahaApps = wahaPassApps.filter(a => a.status === "pending_review");
+ 
++  const attentionThresholds = normalizeAttentionThresholds(
++    summary?.attentionThresholdDays,
++    summary?.overdueThresholdDays,
++  );
++  const attentionQueueDefinitions: Array<{
++    key: AttentionQueueKey;
++    label: string;
++    href: string;
++    dateField: "createdAt" | "releaseRequestedAt";
++  }> = [
++    { key: "ownerVerifications", label: t(lang, "adm_attention_owner_verifications"), href: "#admin-unit-verifications", dateField: "createdAt" },
++    { key: "permits", label: t(lang, "adm_attention_permits"), href: "#admin-permits", dateField: "createdAt" },
++    { key: "wahaApplications", label: t(lang, "adm_attention_waha_applications"), href: "#admin-waha-passes", dateField: "createdAt" },
++    { key: "wahaReplacementRequests", label: t(lang, "adm_attention_waha_replacements"), href: "#admin-waha-replacements", dateField: "createdAt" },
++    { key: "ownershipChanges", label: t(lang, "adm_attention_ownership_changes"), href: "#admin-ownership-changes", dateField: "createdAt" },
++    { key: "tenancyReleaseCases", label: t(lang, "adm_attention_tenancy_releases"), href: "#admin-tenancy-releases", dateField: "releaseRequestedAt" },
++    { key: "communications", label: t(lang, "adm_attention_communications"), href: "#admin-communications", dateField: "createdAt" },
++    { key: "portalHelp", label: t(lang, "adm_attention_portal_help"), href: "/portal/admin/portal-help", dateField: "createdAt" },
++  ];
++  const attentionQueues = sortAttentionQueues(attentionQueueDefinitions.map((definition, originalIndex) => {
++    const items = pendingItems?.[definition.key] ?? [];
++    const oldestAt = items
++      .map((item) => item?.[definition.dateField])
++      .filter((value): value is string => typeof value === "string" && Number.isFinite(new Date(value).getTime()))
++      .sort((left, right) => new Date(left).getTime() - new Date(right).getTime())[0] ?? null;
++
++    return {
++      ...definition,
++      count: items.length,
++      oldestAt,
++      originalIndex,
++    };
++  }));
++  const totalAttentionItems = pendingItems
++    ? attentionQueues.reduce((total, queue) => total + queue.count, 0)
++    : undefined;
++  const oldestAttentionAt = attentionQueues.find((queue) => queue.count > 0)?.oldestAt ?? null;
++  const attentionSummary = totalAttentionItems === undefined
++    ? t(lang, "adm_attention_loading")
++    : totalAttentionItems === 0
++      ? t(lang, "adm_attention_none")
++      : t(lang, "adm_attention_summary")
++        .replace("{count}", String(totalAttentionItems))
++        .replace("{age}", oldestAttentionAt ? formatWaitingAge(oldestAttentionAt, lang) : t(lang, "adm_attention_age_unknown"));
++  const overallAttentionUrgency = attentionUrgency(oldestAttentionAt, attentionThresholds);
++
+   const statCards = [
+-    { label: t(lang, "adm_total_users"), value: summary?.totalUsers, icon: Users, color: "text-blue-600 bg-blue-100" },
+-    { label: t(lang, "adm_active_residents"), value: summary?.activeResidents, icon: Users, color: "text-green-600 bg-green-100" },
+-    { label: t(lang, "adm_pending_verifications"), value: verifications?.length, icon: Shield, color: "text-purple-600 bg-purple-100" },
+-    { label: t(lang, "adm_pending_permits"), value: summary?.pendingPermits ?? 0, icon: Hammer, color: "text-red-600 bg-red-100" },
+-    { label: t(lang, "adm_active_move_forms"), value: summary?.pendingMoveForms ?? 0, icon: Truck, color: "text-orange-600 bg-orange-100" },
+-    { label: t(lang, "adm_registered_guests"), value: summary?.pendingGuests ?? 0, icon: UserPlus, color: "text-pink-600 bg-pink-100" },
+-    { label: t(lang, "adm_pending_vehicles"), value: summary?.pendingVehicles ?? 0, icon: Car, color: "text-amber-600 bg-amber-100" },
+-    { label: t(lang, "waha_pending_stat"), value: summary?.pendingWahaApps ?? 0, icon: KeyRound, color: "text-teal-600 bg-teal-100" },
+-    { label: t(lang, "adm_coo_pending_stat"), value: ownershipChanges.filter((e: any) => e.status === "pending").length, icon: ArrowLeftRight, color: "text-orange-600 bg-orange-100" },
++    { label: t(lang, "adm_units_registered"), value: summary?.unitsRegistered, icon: Building2, color: "text-blue-600 bg-blue-100" },
++    { label: t(lang, "adm_verified_owners"), value: summary?.verifiedOwners, icon: Shield, color: "text-emerald-600 bg-emerald-100" },
++    { label: t(lang, "adm_active_tenancies"), value: summary?.activeTenancies, icon: Users, color: "text-cyan-600 bg-cyan-100" },
++    { label: t(lang, "adm_residents_portal_access"), value: summary?.residentsWithPortalAccess, icon: UserPlus, color: "text-violet-600 bg-violet-100" },
++    {
++      label: t(lang, "adm_tenancies_expiring_30_days"),
++      value: summary?.tenanciesExpiringNext30Days,
++      icon: Clock,
++      color: "text-amber-700 bg-amber-100",
++      description: t(lang, "adm_tenancies_expiring_30_days_desc"),
++    },
++    { label: t(lang, "adm_waha_passes_issued"), value: summary?.wahaPassesIssued, icon: KeyRound, color: "text-teal-600 bg-teal-100" },
++    {
++      label: t(lang, "adm_bookings_this_month"),
++      value: summary?.bookingsThisMonth,
++      icon: BarChart3,
++      color: "text-indigo-600 bg-indigo-100",
++      description: t(lang, "adm_bookings_this_month_desc"),
++    },
++    {
++      label: t(lang, "adm_portal_help_this_month"),
++      value: summary?.portalHelpTicketsThisMonth,
++      icon: MessageSquare,
++      color: "text-rose-600 bg-rose-100",
++      description: t(lang, "adm_portal_help_this_month_desc"),
++    },
+   ];
+ 
+   return (
+@@ -416,81 +531,86 @@ export default function AdminPage() {
+         <h1 className="text-2xl font-bold text-slate-900">{t(lang, "adm_title")}</h1>
+       </div>
+ 
+-      {/* Stat cards */}
+-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+-        {statCards.map(c => <StatCard key={c.label} {...c} />)}
+-      </div>
++      {/* AD6: action first. Tenant renewals remain owner-decided and excluded. */}
++      <section
++        aria-labelledby="admin-attention-heading"
++        className="overflow-hidden rounded-xl border border-slate-200 bg-white"
++      >
++        <div className="border-b border-slate-100 px-5 py-4">
++          <h2 id="admin-attention-heading" className="text-base font-semibold text-slate-900">
++            {t(lang, "adm_attention_title")}
++          </h2>
++          <div
++            className={cn(
++              "mt-3 flex items-start gap-2 rounded-lg border px-4 py-3",
++              totalAttentionItems === 0 && "border-emerald-200 bg-emerald-50 text-emerald-900",
++              totalAttentionItems !== 0 && overallAttentionUrgency === "normal" && "border-blue-200 bg-blue-50 text-blue-900",
++              totalAttentionItems !== 0 && overallAttentionUrgency === "attention" && "border-amber-300 bg-amber-50 text-amber-950",
++              totalAttentionItems !== 0 && overallAttentionUrgency === "overdue" && "border-red-300 bg-red-50 text-red-950",
++            )}
++          >
++            {totalAttentionItems === 0
++              ? <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0" aria-hidden="true" />
++              : <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" aria-hidden="true" />}
++            <p className="text-sm font-semibold sm:text-base" aria-live="polite">{attentionSummary}</p>
++          </div>
++        </div>
+ 
+-      {/* AD1: one compact attention panel. It intentionally excludes tenant
+-          renewals: those decisions remain with the verified unit owner. */}
+-      <Section title={lang === "ar" ? "يتطلب انتباه الإدارة" : "Needs your attention"} defaultOpen={true}>
+-        <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+-          {[
+-            ["ownerVerifications", lang === "ar" ? "تحققات المالك" : "Owner verifications"],
+-            ["permits", lang === "ar" ? "تصاريح" : "Permits"],
+-            ["wahaApplications", lang === "ar" ? "طلبات بطاقة واحة" : "Waha applications"],
+-            ["wahaReplacementRequests", lang === "ar" ? "بدائل بطاقة واحة" : "Waha replacements"],
+-            ["ownershipChanges", lang === "ar" ? "تغييرات الملكية" : "Ownership changes"],
+-            ["tenancyReleaseCases", lang === "ar" ? "حالات إنهاء الإيجار" : "Tenancy releases"],
+-            ["communications", lang === "ar" ? "مراسلات بانتظار الرد" : "Communications"],
+-          ].map(([key, label]) => (
+-            <div key={key} className="rounded-lg border border-amber-100 bg-amber-50/50 p-3">
+-              <p className="text-2xl font-bold text-amber-900">{pendingItems?.[key]?.length ?? "—"}</p>
+-              <p className="text-xs text-amber-800">{label}</p>
+-              {(pendingItems?.[key] ?? []).slice(0, 2).map((item: any) => (
+-                <p key={item.id} className="mt-1 truncate text-xs text-slate-600">
+-                  #{item.id} · {item.status?.replace(/_/g, " ") ?? ""}
+-                </p>
+-              ))}
+-            </div>
+-          ))}
+-          {/* PH1f: Eighth queue for Portal Help */}
+-          {(() => {
+-            const items = pendingItems?.portalHelp ?? [];
+-            const count = items.length;
+-            const oldest = count > 0
+-              ? [...items].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())[0]
+-              : null;
+-
+-            const getAge = (dateStr: string) => {
+-              const diffMs = Date.now() - new Date(dateStr).getTime();
+-              const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+-              const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+-              if (diffDays > 0) return `${diffDays}d`;
+-              return `${Math.max(1, diffHours)}h`;
+-            };
++        <div className="grid grid-cols-1 gap-2 p-4 sm:grid-cols-2 lg:grid-cols-3">
++          {attentionQueues.map((queue) => {
++            const isLoaded = pendingItems !== undefined;
++            const isEmpty = isLoaded && queue.count === 0;
++            const urgency = attentionUrgency(queue.oldestAt, attentionThresholds);
++            const urgencyLabel = t(lang, `adm_attention_${urgency}`);
++            const urgencyClasses = {
++              normal: "border-blue-200 bg-blue-50 text-blue-950 hover:bg-blue-100/70",
++              attention: "border-amber-300 bg-amber-50 text-amber-950 hover:bg-amber-100/70",
++              overdue: "border-red-300 bg-red-50 text-red-950 hover:bg-red-100/70",
++            }[urgency];
+ 
+             return (
+-              <div key="portalHelp" className="rounded-lg border border-amber-100 bg-amber-50/50 p-3 relative group transition-colors hover:bg-amber-100/50">
+-                <Link
+-                  href="/portal/admin/portal-help"
+-                  className="absolute inset-0 z-10"
+-                  aria-label="Manage portal help"
+-                />
+-                <div className="flex items-start justify-between">
++              <a
++                key={queue.key}
++                href={queue.href}
++                className={cn(
++                  "group rounded-lg border p-3 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500",
++                  isEmpty
++                    ? "border-slate-200 bg-slate-50 text-slate-500 hover:bg-slate-100"
++                    : urgencyClasses,
++                )}
++              >
++                <div className="flex items-start justify-between gap-3">
+                   <div>
+-                    <p className="text-2xl font-bold text-amber-900">{count > 0 ? count : "—"}</p>
+-                    <p className="text-xs text-amber-800">{lang === "ar" ? "مساعدة البوابة" : "Portal Help"}</p>
++                    <p className={cn("font-bold", isEmpty ? "text-lg text-slate-500" : "text-2xl")}>
++                      {isLoaded ? queue.count : "—"}
++                    </p>
++                    <p className="text-xs font-medium">{queue.label}</p>
+                   </div>
+-                  {oldest && (
+-                    <span className="text-[10px] font-medium text-amber-700 bg-amber-200/50 px-1.5 py-0.5 rounded">
+-                      oldest: {getAge(oldest.createdAt)}
++                  {!isEmpty && isLoaded && (
++                    <span className="inline-flex items-center gap-1 rounded-full border border-current/20 bg-white/60 px-2 py-1 text-[10px] font-semibold">
++                      {urgency === "overdue" ? <AlertCircle className="h-3 w-3" aria-hidden="true" /> : <Clock className="h-3 w-3" aria-hidden="true" />}
++                      {urgencyLabel}
+                     </span>
+                   )}
+                 </div>
+-                {(pendingItems?.portalHelp ?? []).slice(0, 2).map((item: any) => (
+-                  <p key={item.id} className="mt-1 truncate text-xs text-slate-600">
+-                    #{item.id} · {item.status?.replace(/_/g, " ") ?? ""}
++                {!isEmpty && queue.oldestAt && (
++                  <p className="mt-2 text-xs">
++                    {t(lang, "adm_attention_oldest")
++                      .replace("{age}", formatWaitingAge(queue.oldestAt, lang))}
+                   </p>
+-                ))}
+-              </div>
++                )}
++              </a>
+             );
+-          })()}
++          })}
+         </div>
+-      </Section>
++      </section>
+ 
+       {/* Unit verification queue */}
+-      <Section title={`${t(lang, "adm_unit_queue")} (${verifications?.length ?? 0})`} defaultOpen={true}>
++      <Section
++        id="admin-unit-verifications"
++        title={`${t(lang, "adm_unit_queue")} (${verifications?.length ?? 0})`}
++        defaultOpen={(verifications?.length ?? 0) > 0}
++      >
+         <div className="mt-3 space-y-3">
+           {(!verifications || verifications.length === 0) && (
+             <p className="text-slate-400 text-sm py-3">{t(lang, "adm_no_pending_verifications")}</p>
+@@ -503,7 +623,10 @@ export default function AdminPage() {
+         </div>
+       </Section>
+ 
+-      <Section title={`${t(lang, "sg11_approval_history")} (${approvedVerificationHistory.length})`}>
++      <Section
++        title={`${t(lang, "sg11_approval_history")} (${approvedVerificationHistory.length})`}
++        defaultOpen={approvedVerificationHistory.length > 0}
++      >
+         <div className="mt-3 space-y-3">
+           {approvedVerificationHistory.length === 0 ? (
+             <p className="text-slate-400 text-sm py-3">{t(lang, "sg11_no_approval_history")}</p>
+@@ -513,7 +636,9 @@ export default function AdminPage() {
+         </div>
+       </Section>
+ 
+-      <TenancyReleaseAdminPanel />
++      <div id="admin-tenancy-releases" className="scroll-mt-6">
++        <TenancyReleaseAdminPanel />
++      </div>
+ 
+       {/* Permit queue */}
+       {(() => {
+@@ -531,7 +656,11 @@ export default function AdminPage() {
+           ? pendingPermits
+           : pendingPermits.filter(p => p.status === permitStatusFilter);
+         return (
+-          <Section title={`${t(lang, "adm_permits_section")} (${pendingPermits.length})`} defaultOpen={pendingPermits.length > 0}>
++          <Section
++            id="admin-permits"
++            title={`${t(lang, "adm_permits_section")} (${pendingPermits.length})`}
++            defaultOpen={pendingPermits.length > 0}
++          >
+             <div className="mt-3 space-y-2">
+               <div className="flex items-center gap-2 mb-3">
+                 <span className="text-xs text-slate-500">{t(lang, "per_filter_status")}:</span>
+@@ -590,7 +719,11 @@ export default function AdminPage() {
+       })()}
+ 
+       {/* Additional vehicle approvals */}
+-      <Section title={`${t(lang, "adm_vehicle_requests")} (${pendingVehicles.length})`} defaultOpen={pendingVehicles.length > 0}>
++      <Section
++        id="admin-vehicles"
++        title={`${t(lang, "adm_vehicle_requests")} (${pendingVehicles.length})`}
++        defaultOpen={pendingVehicles.length > 0}
++      >
+         <div className="mt-3 space-y-2">
+           {pendingVehicles.length === 0 && <p className="text-slate-400 text-sm py-2">{t(lang, "adm_no_pending_vehicles")}</p>}
+           {pendingVehicles.map(v => (
+@@ -688,18 +821,24 @@ export default function AdminPage() {
+       </Dialog>
+ 
+       {/* Waha Pass */}
+-      <WahaPassSection
+-        apps={wahaPassApps}
+-        users={allUsers}
+-        onApprove={(id, reviewNote) => approveWahaMutation.mutate({ id, reviewNote })}
+-        onReject={(id, reviewNote) => rejectWahaMutation.mutate({ id, reviewNote })}
+-        onRevoke={(id, credentialId, reason) => revokeWahaMutation.mutate({ id, credentialId, reason })}
+-        approving={approveWahaMutation.isPending}
+-        rejecting={rejectWahaMutation.isPending}
+-        revoking={revokeWahaMutation.isPending}
+-      />
+-
+-      <Section title={lang === "ar" ? `طلبات بديل بطاقة واحة (${pendingItems?.wahaReplacementRequests?.length ?? 0})` : `Waha Pass replacement requests (${pendingItems?.wahaReplacementRequests?.length ?? 0})`} defaultOpen={(pendingItems?.wahaReplacementRequests?.length ?? 0) > 0}>
++      <div id="admin-waha-passes" className="scroll-mt-6">
++        <WahaPassSection
++          apps={wahaPassApps}
++          users={allUsers}
++          onApprove={(id, reviewNote) => approveWahaMutation.mutate({ id, reviewNote })}
++          onReject={(id, reviewNote) => rejectWahaMutation.mutate({ id, reviewNote })}
++          onRevoke={(id, credentialId, reason) => revokeWahaMutation.mutate({ id, credentialId, reason })}
++          approving={approveWahaMutation.isPending}
++          rejecting={rejectWahaMutation.isPending}
++          revoking={revokeWahaMutation.isPending}
++        />
++      </div>
++
++      <Section
++        id="admin-waha-replacements"
++        title={lang === "ar" ? `طلبات بديل بطاقة واحة (${pendingItems?.wahaReplacementRequests?.length ?? 0})` : `Waha Pass replacement requests (${pendingItems?.wahaReplacementRequests?.length ?? 0})`}
++        defaultOpen={(pendingItems?.wahaReplacementRequests?.length ?? 0) > 0}
++      >
+         <div className="mt-3 space-y-2">
+           {(pendingItems?.wahaReplacementRequests ?? []).length === 0 ? (
+             <p className="text-sm text-slate-400">{lang === "ar" ? "لا توجد طلبات بديل بانتظار المراجعة." : "No replacement requests are awaiting review."}</p>
+@@ -725,7 +864,11 @@ export default function AdminPage() {
+       </Section>
+ 
+       {/* Ownership Changes */}
+-      <Section title={`${t(lang, "adm_coo_section")} (${ownershipChanges.filter((e: any) => e.status === "pending").length})`} defaultOpen={ownershipChanges.filter((e: any) => e.status === "pending").length > 0}>
++      <Section
++        id="admin-ownership-changes"
++        title={`${t(lang, "adm_coo_section")} (${ownershipChanges.filter((e: any) => e.status === "pending").length})`}
++        defaultOpen={ownershipChanges.filter((e: any) => e.status === "pending").length > 0}
++      >
+         <div className="mt-3 space-y-3">
+           {ownershipChanges.filter((e: any) => e.status === "pending").length === 0 && (
+             <p className="text-slate-400 text-sm py-3">{t(lang, "adm_coo_no_pending")}</p>
+@@ -985,7 +1128,11 @@ export default function AdminPage() {
+       </Section>
+ 
+       {/* Communications Inbox */}
+-      <Section title={`${t(lang, "adm_communications")} (${communications.filter((c: any) => c.status === "pending").length})`} defaultOpen={true}>
++      <Section
++        id="admin-communications"
++        title={`${t(lang, "adm_communications")} (${communications.filter((c: any) => c.status === "pending").length})`}
++        defaultOpen={communications.filter((c: any) => c.status === "pending").length > 0}
++      >
+         <div className="mt-3 space-y-3">
+           {communications.length === 0 && <p className="text-slate-400 text-sm py-2">{t(lang, "adm_no_communications")}</p>}
+           {communications.map((c: any) => (
+@@ -1280,6 +1427,18 @@ export default function AdminPage() {
+         </DialogContent>
+       </Dialog>
+ 
++      <section aria-labelledby="admin-community-health-heading" className="space-y-3">
++        <div>
++          <h2 id="admin-community-health-heading" className="text-lg font-semibold text-slate-900">
++            {t(lang, "adm_community_health")}
++          </h2>
++          <p className="text-xs text-slate-500">{t(lang, "adm_community_health_desc")}</p>
++        </div>
++        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
++          {statCards.map((card) => <StatCard key={card.label} {...card} />)}
++        </div>
++      </section>
++
+     </div>
+   );
+ }
+@@ -1415,6 +1574,8 @@ function HoaSettingsForm({
+   const [developerEmail, setDeveloperEmail] = useState(current.developer_email ?? "");
+   const [hoaEmail, setHoaEmail] = useState(current.hoa_email ?? "");
+   const [guestDayPassPrice, setGuestDayPassPrice] = useState(current.guest_day_pass_price_sar ?? "30");
++  const [attentionThresholdDays, setAttentionThresholdDays] = useState(current.admin_attention_threshold_days ?? "2");
++  const [overdueThresholdDays, setOverdueThresholdDays] = useState(current.admin_overdue_threshold_days ?? "7");
+ 
+   // SMTP fields — password is never returned by the server; smtp_pass_set signals a stored password
+   const [smtpHost, setSmtpHost] = useState(current.smtp_host ?? "");
+@@ -1441,6 +1602,11 @@ function HoaSettingsForm({
+   });
+ 
+   function handleSave() {
++    const safeAttentionThreshold = Math.max(1, Number.parseInt(attentionThresholdDays, 10) || 2);
++    const safeOverdueThreshold = Math.max(
++      safeAttentionThreshold,
++      Number.parseInt(overdueThresholdDays, 10) || 7,
++    );
+     const updates: Record<string, string> = {
+       contact_email: contactEmail,
+       notification_email: notificationEmail,
+@@ -1453,6 +1619,8 @@ function HoaSettingsForm({
+       developer_email: developerEmail,
+       hoa_email: hoaEmail,
+       guest_day_pass_price_sar: guestDayPassPrice,
++      admin_attention_threshold_days: String(safeAttentionThreshold),
++      admin_overdue_threshold_days: String(safeOverdueThreshold),
+       smtp_host: smtpHost,
+       smtp_port: smtpPort,
+       smtp_user: smtpUser,
+@@ -1570,6 +1738,35 @@ function HoaSettingsForm({
+         <p className="text-xs text-slate-400 mt-1">{t(lang, "adm_guest_day_pass_price_desc")}</p>
+       </div>
+ 
++      <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
++        <p className="text-sm font-semibold text-slate-800">{t(lang, "adm_attention_thresholds_title")}</p>
++        <p className="mt-1 text-xs text-slate-500">{t(lang, "adm_attention_thresholds_desc")}</p>
++        <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
++          <div>
++            <Label className="mb-1 block text-xs">{t(lang, "adm_attention_threshold_label")}</Label>
++            <Input
++              type="number"
++              min="1"
++              step="1"
++              value={attentionThresholdDays}
++              onChange={(event) => setAttentionThresholdDays(event.target.value)}
++              className="bg-white"
++            />
++          </div>
++          <div>
++            <Label className="mb-1 block text-xs">{t(lang, "adm_overdue_threshold_label")}</Label>
++            <Input
++              type="number"
++              min={Math.max(1, Number.parseInt(attentionThresholdDays, 10) || 1)}
++              step="1"
++              value={overdueThresholdDays}
++              onChange={(event) => setOverdueThresholdDays(event.target.value)}
++              className="bg-white"
++            />
++          </div>
++        </div>
++      </div>
++
+       {/* ── SMTP Section ──────────────────────────────────────────────────────── */}
+       <div className="rounded-lg border border-slate-200 bg-slate-50 p-4 space-y-3">
+         <div className="flex items-center gap-2">
