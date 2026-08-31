@@ -1,0 +1,31 @@
+Task 734 / AD6 validation transcript — 2026-08-31 — r1
+
+PASS  API server TypeScript check
+      pnpm --filter @workspace/api-server run typecheck
+
+PASS  HOA portal TypeScript check
+      pnpm --filter @workspace/hoa-portal run typecheck
+
+PASS  Complete HOA portal unit/component suite
+      72 test files passed
+      1,403 tests passed
+
+PASS  Focused AD6 and Arabic layout suite
+      3 test files passed
+      169 tests passed
+      Includes exact 2-day/7-day threshold boundaries, work-first/oldest-first queue sorting, Arabic age text, and translation completeness.
+
+PASS  Focused admin API regression suite
+      1 test file passed
+      24 tests passed
+      Includes eight health response fields and the residents-with-portal-access versus total-user distinction.
+
+PASS  Focused Playwright admin browser suite
+      9 tests passed
+      Includes action-first hierarchy, all eight health labels, 390px no-overflow, existing admin sections, and non-admin redirect.
+
+PASS  git diff --check
+PASS  API and portal workflows restarted and healthy
+PASS  No application errors observed in independent browser verification
+
+Known non-blocking runtime warning: Moyasar is intentionally fail-closed in development because no Moyasar secret is configured. AD6 does not change payments.
