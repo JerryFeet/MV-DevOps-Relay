@@ -1,7 +1,9 @@
 # UR1 Final Evidence Manifest
 
-Date: 2026-08-31  
-Evidence repository: `JerryFeet/MV-DevOps-Relay`  
+Date: 2026-08-31
+
+Evidence repository: `JerryFeet/MV-DevOps-Relay`
+
 Branch: `main`
 Evidence-content commit: `78e28efd8685e6348acf3ce05249f07946d42713`
 
