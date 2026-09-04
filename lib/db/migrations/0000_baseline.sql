@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict 7UwK5bvtHHO4fgV2bFN6koLwdp5PNKFmldgJE1J4tlNbFWOrW7c5EV5N5gTENE6
+\restrict R6NPg8dzC8jB1jjKOgucUkvTtbdnOlzTs8zmn4NePsP9PRPiQRLD7DYeuoDFaGx
 
 -- Dumped from database version 16.10
 -- Dumped by pg_dump version 16.10
@@ -466,6 +466,34 @@ $$;
 
 
 --
+-- Name: enforce_one_active_unit_facility_booking(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.enforce_one_active_unit_facility_booking() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE active_booking_exists boolean;
+BEGIN
+  IF EXISTS (SELECT 1 FROM units WHERE id = NEW.unit_id AND is_system) THEN RETURN NEW; END IF;
+  -- Must remain compatible with the route: facility lock first, then unit/facility lock.
+  PERFORM pg_advisory_xact_lock(4201, NEW.facility_id);
+  PERFORM pg_advisory_xact_lock(4205, NEW.unit_id);
+  IF (NEW.status IN ('pending','confirmed') AND NEW.end_time > CURRENT_TIMESTAMP)
+     OR (NEW.status = 'pending_payment' AND NEW.payment_hold_expires_at > CURRENT_TIMESTAMP) THEN
+    SELECT EXISTS (
+      SELECT 1 FROM bookings b WHERE b.unit_id = NEW.unit_id AND b.facility_id = NEW.facility_id
+        AND b.id IS DISTINCT FROM NEW.id AND (
+          (b.status IN ('pending','confirmed') AND b.end_time > CURRENT_TIMESTAMP)
+          OR (b.status = 'pending_payment' AND b.payment_hold_expires_at > CURRENT_TIMESTAMP)
+        )
+    ) INTO active_booking_exists;
+    IF active_booking_exists THEN RAISE EXCEPTION 'ACTIVE_UNIT_FACILITY_BOOKING_EXISTS' USING ERRCODE = '23P01'; END IF;
+  END IF;
+  RETURN NEW;
+END $$;
+
+
+--
 -- Name: protect_hoa_common_system_unit(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -489,6 +517,15 @@ BEGIN
   RETURN COALESCE(NEW, OLD);
 END;
 $$;
+
+
+--
+-- Name: reject_immutable_unit_registry_evidence(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.reject_immutable_unit_registry_evidence() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$ BEGIN RAISE EXCEPTION 'IMMUTABLE_UNIT_REGISTRY_EVIDENCE'; END $$;
 
 
 SET default_tablespace = '';
@@ -1262,6 +1299,39 @@ ALTER SEQUENCE public.household_invitations_id_seq OWNED BY public.household_inv
 
 
 --
+-- Name: monthly_booking_allowances; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.monthly_booking_allowances (
+    id integer NOT NULL,
+    unit_id integer NOT NULL,
+    period_start date NOT NULL,
+    booking_id integer NOT NULL,
+    claimed_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: monthly_booking_allowances_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.monthly_booking_allowances_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: monthly_booking_allowances_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.monthly_booking_allowances_id_seq OWNED BY public.monthly_booking_allowances.id;
+
+
+--
 -- Name: move_forms; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1773,6 +1843,8 @@ CREATE TABLE public.residents (
     middle_name text,
     phone_normalized text,
     gender text,
+    nationality text,
+    id_number_is_guardian boolean DEFAULT false NOT NULL,
     CONSTRAINT residents_gender_check CHECK (((gender IS NULL) OR (gender = ANY (ARRAY['male'::text, 'female'::text]))))
 );
 
@@ -1896,6 +1968,42 @@ ALTER SEQUENCE public.tenancy_renewals_id_seq OWNED BY public.tenancy_renewals.i
 
 
 --
+-- Name: unit_master_data_audit; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.unit_master_data_audit (
+    id integer NOT NULL,
+    unit_id integer NOT NULL,
+    actor_user_id integer NOT NULL,
+    action text NOT NULL,
+    field text NOT NULL,
+    old_value jsonb,
+    new_value jsonb,
+    created_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: unit_master_data_audit_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.unit_master_data_audit_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: unit_master_data_audit_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.unit_master_data_audit_id_seq OWNED BY public.unit_master_data_audit.id;
+
+
+--
 -- Name: unit_verification_document_cleanup_retries; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2011,6 +2119,8 @@ CREATE TABLE public.unit_verifications (
     gender text,
     approval_bases text,
     approval_other_text text,
+    date_of_birth date,
+    nationality text,
     CONSTRAINT unit_verifications_gender_check CHECK (((gender IS NULL) OR (gender = ANY (ARRAY['male'::text, 'female'::text])))),
     CONSTRAINT unit_verifications_routed_to_check CHECK (((routed_to IS NULL) OR (routed_to = ANY (ARRAY['owner'::text, 'admin'::text]))))
 );
@@ -2518,6 +2628,13 @@ ALTER TABLE ONLY public.household_invitations ALTER COLUMN id SET DEFAULT nextva
 
 
 --
+-- Name: monthly_booking_allowances id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.monthly_booking_allowances ALTER COLUMN id SET DEFAULT nextval('public.monthly_booking_allowances_id_seq'::regclass);
+
+
+--
 -- Name: move_forms id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2613,6 +2730,13 @@ ALTER TABLE ONLY public.tenancy_lifecycles ALTER COLUMN id SET DEFAULT nextval('
 --
 
 ALTER TABLE ONLY public.tenancy_renewals ALTER COLUMN id SET DEFAULT nextval('public.tenancy_renewals_id_seq'::regclass);
+
+
+--
+-- Name: unit_master_data_audit id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.unit_master_data_audit ALTER COLUMN id SET DEFAULT nextval('public.unit_master_data_audit_id_seq'::regclass);
 
 
 --
@@ -2885,6 +3009,14 @@ ALTER TABLE ONLY public.household_invitations
 
 
 --
+-- Name: monthly_booking_allowances monthly_booking_allowances_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.monthly_booking_allowances
+    ADD CONSTRAINT monthly_booking_allowances_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: move_forms move_forms_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3010,6 +3142,14 @@ ALTER TABLE ONLY public.tenancy_lifecycles
 
 ALTER TABLE ONLY public.tenancy_renewals
     ADD CONSTRAINT tenancy_renewals_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: unit_master_data_audit unit_master_data_audit_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.unit_master_data_audit
+    ADD CONSTRAINT unit_master_data_audit_pkey PRIMARY KEY (id);
 
 
 --
@@ -3433,6 +3573,13 @@ CREATE INDEX idx_release_operations_unit_created ON public.release_operations US
 
 
 --
+-- Name: idx_residents_id_number; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_residents_id_number ON public.residents USING btree (id_number);
+
+
+--
 -- Name: idx_residents_registered_by_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3479,6 +3626,13 @@ CREATE INDEX idx_tenancy_renewals_lifecycle_status ON public.tenancy_renewals US
 --
 
 CREATE INDEX idx_tenancy_renewals_owner_queue ON public.tenancy_renewals USING btree (unit_id, status, submitted_at);
+
+
+--
+-- Name: idx_unit_master_data_audit_unit_created; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_unit_master_data_audit_unit_created ON public.unit_master_data_audit USING btree (unit_id, created_at);
 
 
 --
@@ -3734,6 +3888,13 @@ CREATE UNIQUE INDEX uq_household_invitations_unit_pending ON public.household_in
 
 
 --
+-- Name: uq_monthly_booking_allowance_unit_period; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX uq_monthly_booking_allowance_unit_period ON public.monthly_booking_allowances USING btree (unit_id, period_start);
+
+
+--
 -- Name: uq_parking_lots_unit_building_number; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3818,6 +3979,27 @@ CREATE TRIGGER protect_hoa_common_system_unit_trigger BEFORE DELETE OR UPDATE ON
 
 
 --
+-- Name: bookings trg_enforce_one_active_unit_facility_booking; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trg_enforce_one_active_unit_facility_booking BEFORE INSERT OR UPDATE OF unit_id, facility_id, status, end_time, payment_hold_expires_at ON public.bookings FOR EACH ROW EXECUTE FUNCTION public.enforce_one_active_unit_facility_booking();
+
+
+--
+-- Name: monthly_booking_allowances trg_monthly_booking_allowances_immutable; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trg_monthly_booking_allowances_immutable BEFORE DELETE OR UPDATE ON public.monthly_booking_allowances FOR EACH ROW EXECUTE FUNCTION public.reject_immutable_unit_registry_evidence();
+
+
+--
+-- Name: unit_master_data_audit trg_unit_master_data_audit_append_only; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trg_unit_master_data_audit_append_only BEFORE DELETE OR UPDATE ON public.unit_master_data_audit FOR EACH ROW EXECUTE FUNCTION public.reject_immutable_unit_registry_evidence();
+
+
+--
 -- Name: bookings bookings_facility_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3879,6 +4061,22 @@ ALTER TABLE ONLY public.facility_operating_hours_conflicts
 
 ALTER TABLE ONLY public.facility_operating_hours_conflicts
     ADD CONSTRAINT facility_operating_hours_conflicts_facility_id_fkey FOREIGN KEY (facility_id) REFERENCES public.facilities(id);
+
+
+--
+-- Name: monthly_booking_allowances monthly_booking_allowances_booking_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.monthly_booking_allowances
+    ADD CONSTRAINT monthly_booking_allowances_booking_id_fkey FOREIGN KEY (booking_id) REFERENCES public.bookings(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: monthly_booking_allowances monthly_booking_allowances_unit_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.monthly_booking_allowances
+    ADD CONSTRAINT monthly_booking_allowances_unit_id_fkey FOREIGN KEY (unit_id) REFERENCES public.units(id) ON DELETE RESTRICT;
 
 
 --
@@ -4058,6 +4256,22 @@ ALTER TABLE ONLY public.tenancy_renewals
 
 
 --
+-- Name: unit_master_data_audit unit_master_data_audit_actor_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.unit_master_data_audit
+    ADD CONSTRAINT unit_master_data_audit_actor_user_id_fkey FOREIGN KEY (actor_user_id) REFERENCES public.users(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: unit_master_data_audit unit_master_data_audit_unit_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.unit_master_data_audit
+    ADD CONSTRAINT unit_master_data_audit_unit_id_fkey FOREIGN KEY (unit_id) REFERENCES public.units(id) ON DELETE RESTRICT;
+
+
+--
 -- Name: unit_verification_owner_id_attempts unit_verification_owner_id_attempts_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4181,5 +4395,5 @@ ALTER TABLE ONLY public.waha_replacement_requests
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 7UwK5bvtHHO4fgV2bFN6koLwdp5PNKFmldgJE1J4tlNbFWOrW7c5EV5N5gTENE6
+\unrestrict R6NPg8dzC8jB1jjKOgucUkvTtbdnOlzTs8zmn4NePsP9PRPiQRLD7DYeuoDFaGx
 
