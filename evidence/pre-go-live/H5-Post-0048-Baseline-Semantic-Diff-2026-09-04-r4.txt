@@ -1,0 +1,28 @@
+H5 normalized PostgreSQL catalog diff — post-0048 — 2026-09-04
+
+RESULT: EMPTY
+
+Frozen Development and a fresh template0 database replayed only from the
+regenerated lib/db/migrations/0000_baseline.sql each produced:
+
+- 1,579 normalized semantic catalog entries
+- Catalog SHA-256: 5547643ec341a47ab09f87074ce8ebb0ff2540b1e640cc71c8128dfd38777afc
+- 47 public tables
+- 634 public columns
+- 138 public constraints
+- 155 public indexes
+- 6 non-internal triggers
+- 29 enum types
+- 5 public functions
+
+The comparison covered relations, columns and their type/default/nullability/
+identity/generated state, constraints, indexes, non-internal triggers, public
+functions, enum labels, and sequences.
+
+No normalized semantic diff hunks were produced. Physical dropped-column
+ordinal gaps, PostgreSQL bootstrap schema metadata, and non-semantic dump
+framing were excluded. No application schema object was excluded.
+
+The fresh replay passed scripts/assert-h4-schema-protections.sh and the updated
+scripts/verify-production-schema.sh. The disposable database was removed.
+Production was not accessed or changed.
