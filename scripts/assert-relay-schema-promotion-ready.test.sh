@@ -49,4 +49,14 @@ make_fixture
 sed -i 's/47::bigint/46::bigint/' "$tmp/relay/scripts/verify-production-schema.sh"
 expect_failure "relay canonical file is stale"
 
+make_fixture
+printf '\n[userenv.development]\nPAYMENT_TEST_PROVIDER = "deterministic"\n' >> "$tmp/workspace/.replit"
+cp "$tmp/workspace/.replit" "$tmp/relay/.replit"
+expect_failure "commits test payment key PAYMENT_TEST_PROVIDER"
+
+make_fixture
+printf '\n[userenv.development]\nPAYMENT_TEST_OUTCOME = "paid"\n' >> "$tmp/workspace/.replit"
+cp "$tmp/workspace/.replit" "$tmp/relay/.replit"
+expect_failure "commits test payment key PAYMENT_TEST_OUTCOME"
+
 echo "PASS: relay schema promotion gate fixtures"

@@ -74,6 +74,12 @@ done
 grep -Fq 'build = "bash scripts/assert-relay-schema-promotion-ready.sh"' "$relay_root/.replit" \
   || fail "relay Publish configuration does not invoke the mandatory schema promotion gate"
 
+for test_payment_key in PAYMENT_TEST_PROVIDER PAYMENT_TEST_OUTCOME; do
+  if grep -Eq "^[[:space:]]*${test_payment_key}[[:space:]]*=" "$relay_root/.replit"; then
+    fail "relay Publish configuration commits test payment key $test_payment_key; keep it in Development environment configuration only"
+  fi
+done
+
 for ((n=10#$MIGRATION_START; n<=10#$INCLUDED_THROUGH; n++)); do
   prefix="$(printf '%04d' "$n")"
   mapfile -t workspace_matches < <(find "$workspace_root/lib/db/migrations" -maxdepth 1 -type f -name "${prefix}_*.sql" -printf '%f\n')

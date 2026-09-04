@@ -12,6 +12,7 @@
 3. Run each applicable bilingual visual check in English and Arabic.
 4. Use the desktop/admin/gate section only after mobile-browser checks are complete.
 5. Mark an item `Not applicable` only with a written reason and management acknowledgement.
+6. Before Publish, confirm `PAYMENT_TEST_PROVIDER` and `PAYMENT_TEST_OUTCOME` are absent from committed `.replit` and exist only in Replit Development environment configuration; retain the production fail-closed guard as defense in depth.
 
 Suggested recording fields: **Result** = Pass / Fail / Blocked / N/A; **Evidence** = URL, screenshot ID, recording, or exported result.
 
