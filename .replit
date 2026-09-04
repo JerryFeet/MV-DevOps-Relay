@@ -1,0 +1,129 @@
+modules = ["nodejs-24", "python-3.11", "postgresql-16"]
+
+[deployment]
+router = "application"
+deploymentTarget = "autoscale"
+build = "bash scripts/assert-relay-schema-promotion-ready.sh"
+
+[deployment.postBuild]
+args = ["pnpm", "store", "prune"]
+env = { "CI" = "true" }
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "portal-translation-guard"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "types-react-pin"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "e2e"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "portal-type-check"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "h4-schema-integrity"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "relay-schema-promotion-gate"
+
+[[workflows.workflow]]
+name = "portal-translation-guard"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pnpm --filter @workspace/hoa-portal run test"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[workflows.workflow]]
+name = "types-react-pin"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "versions=$(grep -oP \"(?<=  '@types/react@)[0-9.]+\" pnpm-lock.yaml | sort -u); count=$(echo \"$versions\" | wc -l | tr -d ' '); if [ \"$count\" -gt 1 ]; then echo \"FAIL: multiple @types/react versions detected: $versions\" && exit 1; else echo \"OK: single @types/react version: $versions\"; fi"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[workflows.workflow]]
+name = "e2e"
+author = "agent"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=$(which chromium 2>/dev/null) pnpm --filter @workspace/hoa-portal run e2e"
+
+[[workflows.workflow]]
+name = "portal-type-check"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pnpm --filter @workspace/hoa-portal run typecheck"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[workflows.workflow]]
+name = "h4-schema-integrity"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "bash scripts/assert-h4-schema-protections.sh"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[[workflows.workflow]]
+name = "relay-schema-promotion-gate"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "bash scripts/assert-relay-schema-promotion-ready.sh"
+
+[workflows.workflow.metadata]
+isValidation = true
+
+[agent]
+stack = "PNPM_WORKSPACE"
+expertMode = true
+
+[postMerge]
+path = "scripts/post-merge.sh"
+timeoutMs = 90000
+
+[nix]
+channel = "stable-25_05"
+
+[userenv]
+
+[userenv.shared]
+PAYMENT_PROVIDER = "moyasar"
+PORTAL_BASE_URL = "https://community-hub-portal.replit.app/hoa-portal"
+
+[userenv.development]
+PORTAL_INITIAL_ADMIN_EMAILS = "marti.treasure@gmail.com,approver@madainvillagehoa.com"
+PORTAL_BASE_URL = "https://aae2333e-7915-4e83-9b85-6bc9c279721c-00-b2wwwkdhe04d.pike.replit.dev/hoa-portal"
