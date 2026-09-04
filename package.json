@@ -1,0 +1,24 @@
+{
+  "name": "workspace",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "preinstall": "sh -c 'rm -f package-lock.json yarn.lock; case \"$npm_config_user_agent\" in pnpm/*) ;; *) echo \"Use pnpm instead\" >&2; exit 1 ;; esac'",
+    "build": "pnpm run typecheck && pnpm -r --if-present run build",
+    "typecheck:libs": "tsc --build",
+    "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck",
+    "test": "pnpm --filter @workspace/api-server run test",
+    "schema:promotion-gate": "bash scripts/assert-relay-schema-promotion-ready.sh",
+    "schema:promotion-gate:test": "bash scripts/assert-relay-schema-promotion-ready.test.sh",
+    "stage5:regression": "node scripts/stage5-regression.mjs",
+    "stage5:regression:api": "node scripts/stage5-regression.mjs --suites=api-typecheck,api-vitest",
+    "stage5:regression:portal": "node scripts/stage5-regression.mjs --suites=portal-typecheck,portal-vitest",
+    "stage5:regression:mobile": "node scripts/stage5-regression.mjs --suites=mobile-typecheck,mobile-vitest",
+    "stage5:regression:e2e": "node scripts/stage5-regression.mjs --suites=portal-playwright"
+  },
+  "private": true,
+  "devDependencies": {
+    "prettier": "^3.8.4",
+    "typescript": "~5.9.3"
+  }
+}
