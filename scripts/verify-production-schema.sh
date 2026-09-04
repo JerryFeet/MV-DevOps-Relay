@@ -24,11 +24,11 @@ query_output="$(
     2>&1 <<'SQL'
 WITH expected_counts(check_name, expected_count) AS (
   VALUES
-    ('public tables'::text, 45::bigint),
-    ('public columns'::text, 617::bigint),
-    ('public constraints'::text, 132::bigint),
-    ('public indexes'::text, 150::bigint),
-    ('public non-internal triggers'::text, 3::bigint)
+    ('public tables'::text, 47::bigint),
+    ('public columns'::text, 634::bigint),
+    ('public constraints'::text, 138::bigint),
+    ('public indexes'::text, 155::bigint),
+    ('public non-internal triggers'::text, 6::bigint)
 ),
 actual_counts(check_name, actual_count) AS (
   SELECT 'public tables', count(*)::bigint
@@ -89,6 +89,52 @@ protection_checks(check_name, expected_count, actual_count) AS (
   WHERE trig.tgname = 'protect_hoa_common_system_unit_trigger'
     AND trig.tgrelid = 'public.units'::regclass
     AND NOT trig.tgisinternal
+  UNION ALL
+  SELECT 'monthly_booking_allowances table', 1::bigint, count(*)::bigint
+  FROM pg_class AS c
+  WHERE c.oid = 'public.monthly_booking_allowances'::regclass
+    AND c.relkind IN ('r', 'p')
+  UNION ALL
+  SELECT 'unit_master_data_audit table', 1::bigint, count(*)::bigint
+  FROM pg_class AS c
+  WHERE c.oid = 'public.unit_master_data_audit'::regclass
+    AND c.relkind IN ('r', 'p')
+  UNION ALL
+  SELECT 'monthly allowance unit/month unique index', 1::bigint, count(*)::bigint
+  FROM pg_indexes
+  WHERE schemaname = 'public'
+    AND tablename = 'monthly_booking_allowances'
+    AND indexname = 'uq_monthly_booking_allowance_unit_period'
+    AND indexdef LIKE '%UNIQUE INDEX uq_monthly_booking_allowance_unit_period%'
+    AND indexdef LIKE '%(unit_id, period_start)%'
+  UNION ALL
+  SELECT 'reject_immutable_unit_registry_evidence function', 1::bigint, count(*)::bigint
+  FROM pg_proc
+  WHERE proname = 'reject_immutable_unit_registry_evidence'
+    AND pg_function_is_visible(oid)
+  UNION ALL
+  SELECT 'enforce_one_active_unit_facility_booking function', 1::bigint, count(*)::bigint
+  FROM pg_proc
+  WHERE proname = 'enforce_one_active_unit_facility_booking'
+    AND pg_function_is_visible(oid)
+  UNION ALL
+  SELECT 'monthly allowance immutable trigger', 1::bigint, count(*)::bigint
+  FROM pg_trigger AS trig
+  WHERE trig.tgname = 'trg_monthly_booking_allowances_immutable'
+    AND trig.tgrelid = 'public.monthly_booking_allowances'::regclass
+    AND NOT trig.tgisinternal
+  UNION ALL
+  SELECT 'unit correction audit append-only trigger', 1::bigint, count(*)::bigint
+  FROM pg_trigger AS trig
+  WHERE trig.tgname = 'trg_unit_master_data_audit_append_only'
+    AND trig.tgrelid = 'public.unit_master_data_audit'::regclass
+    AND NOT trig.tgisinternal
+  UNION ALL
+  SELECT 'one active unit/facility booking trigger', 1::bigint, count(*)::bigint
+  FROM pg_trigger AS trig
+  WHERE trig.tgname = 'trg_enforce_one_active_unit_facility_booking'
+    AND trig.tgrelid = 'public.bookings'::regclass
+    AND NOT trig.tgisinternal
 ),
 all_checks AS (
   SELECT expected.check_name, expected.expected_count, actual.actual_count
@@ -144,4 +190,4 @@ if [[ "${#failures[@]}" -gt 0 ]]; then
 fi
 
 echo
-echo "PASS: production schema matches the accepted 45/617/132/150/3 catalog and all five raw protections."
+echo "PASS: production schema matches the accepted 47/634/138/155/6 catalog and all thirteen raw protections."
