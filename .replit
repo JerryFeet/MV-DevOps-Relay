@@ -127,3 +127,5 @@ PORTAL_BASE_URL = "https://community-hub-portal.replit.app/hoa-portal"
 [userenv.development]
 PORTAL_INITIAL_ADMIN_EMAILS = "marti.treasure@gmail.com,approver@madainvillagehoa.com"
 PORTAL_BASE_URL = "https://aae2333e-7915-4e83-9b85-6bc9c279721c-00-b2wwwkdhe04d.pike.replit.dev/hoa-portal"
+PAYMENT_TEST_OUTCOME = "paid"
+PAYMENT_TEST_PROVIDER = "deterministic"
