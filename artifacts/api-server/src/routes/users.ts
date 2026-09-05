@@ -21,6 +21,7 @@ import {
   projectRenovationPermit,
 } from "../lib/gatePermitProjection";
 import { consumeInvitationLinkage } from "../lib/occupancy";
+import { canonicalUnitReferenceMap } from "../lib/unitReference";
 
 const router = Router();
 
@@ -524,10 +525,6 @@ router.get("/gate/residents", requireApiAuth, async (req, res) => {
       building: unitsTable.building,
       unitNumber: unitsTable.unitNumber,
     }).from(unitsTable).where(eq(unitsTable.normalisedUnitNumber, unitKey));
-  const canonicalUnitNumber = resolvedUnit
-    ? `${resolvedUnit.building}${resolvedUnit.unitNumber}`
-    : null;
-
   // Unit-reference lookup is intentionally a separate authoritative path:
   // resolve units.normalisedUnitNumber, then retrieve only records linked by
   // unitId. users.unitNumber is a legacy display field and cannot distinguish
@@ -536,7 +533,6 @@ router.get("/gate/residents", requireApiAuth, async (req, res) => {
     unitId: usersTable.unitId,
     firstName: usersTable.firstName,
     lastName: usersTable.lastName,
-    unitNumber: usersTable.unitNumber,
     nationalId: usersTable.nationalId,
     role: usersTable.role,
   }).from(usersTable).where(unitNumber === undefined
@@ -548,7 +544,6 @@ router.get("/gate/residents", requireApiAuth, async (req, res) => {
     unitId: residentsTable.unitId,
     firstName: residentsTable.firstName,
     lastName: residentsTable.lastName,
-    unitNumber: residentsTable.unitNumber,
     nationalId: residentsTable.idNumber,
     role: residentsTable.type,
     relationship: residentsTable.relationship,
@@ -558,11 +553,15 @@ router.get("/gate/residents", requireApiAuth, async (req, res) => {
     : resolvedUnit
       ? and(eq(residentsTable.status, "active"), eq(residentsTable.unitId, resolvedUnit.id))
       : sql`false`);
+  const unitReferences = await canonicalUnitReferenceMap([
+    ...allRows.map((row) => row.unitId),
+    ...householdRows.map((row) => row.unitId),
+  ]);
   const result = searchGateResidents([
     ...allRows
       .filter(row => ["owner", "tenant"].includes(row.role ?? ""))
-      .map(row => ({ ...row, unitNumber: canonicalUnitNumber ?? row.unitNumber, eligible: true })),
-    ...householdRows.map(row => ({ ...row, unitNumber: canonicalUnitNumber ?? row.unitNumber, eligible: true })),
+      .map(row => ({ ...row, unitNumber: unitReferences.get(row.unitId ?? -1) ?? "—", eligible: true })),
+    ...householdRows.map(row => ({ ...row, unitNumber: unitReferences.get(row.unitId ?? -1) ?? "—", eligible: true })),
   ], { name, nationalId, unitNumber, unitId: resolvedUnit?.id ?? null });
 
   if (nationalId !== undefined && result.failedIdentifierLookup) {
@@ -612,7 +611,7 @@ router.get("/gate/plate-lookup", requireApiAuth, async (req, res) => {
     plateNumber: vehiclesTable.plateNumber,
     firstName: usersTable.firstName,
     lastName: usersTable.lastName,
-    unitNumber: usersTable.unitNumber,
+    unitId: usersTable.unitId,
     make: vehiclesTable.make,
     model: vehiclesTable.model,
     color: vehiclesTable.color,
@@ -621,7 +620,11 @@ router.get("/gate/plate-lookup", requireApiAuth, async (req, res) => {
     .innerJoin(usersTable, eq(vehiclesTable.userId, usersTable.id))
     .where(eq(vehiclesTable.status, "active"));
 
-  const result = lookupGatePlate(activeVehicles, normalizedPlate);
+  const unitReferences = await canonicalUnitReferenceMap(activeVehicles.map((vehicle) => vehicle.unitId));
+  const result = lookupGatePlate(activeVehicles.map((vehicle) => ({
+    ...vehicle,
+    unitNumber: unitReferences.get(vehicle.unitId ?? -1) ?? "—",
+  })), normalizedPlate);
   if (result.status === "not_registered") {
     req.log?.warn?.({
       event: "gate_plate_lookup_not_registered",
