@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict 8eIaXOPKz8YgI4DJyZ5KrtSTfDl81R4YAAflTjSQWXRbo1vc0J3mPzSXhJ2kYIA
+\restrict LLldOhuRJvBndlGzWH2WfosgsWTmrSxlxRKMthu33aNHozRU3oqvboW9Oy63peI
 
 -- Dumped from database version 16.10
 -- Dumped by pg_dump version 16.10
@@ -503,6 +503,88 @@ BEGIN
   END IF;
   RETURN NEW;
 END $$;
+
+
+--
+-- Name: enforce_occupancy_track_consistency(integer); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.enforce_occupancy_track_consistency(p_unit_id integer) RETURNS void
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+  v_occupant_type occupant_type;
+  v_is_system boolean;
+  v_has_owner boolean;
+  v_has_tenant boolean;
+BEGIN
+  SELECT occupant_type, is_system
+    INTO v_occupant_type, v_is_system
+    FROM units
+   WHERE id = p_unit_id;
+
+  -- Deleted residents/units and the HOA common/system unit are not occupancy
+  -- subjects. The system row is intentionally exempt from this invariant.
+  IF NOT FOUND OR v_is_system THEN RETURN; END IF;
+
+  SELECT
+    coalesce(bool_or(status = 'active' AND type = 'owner'), false),
+    coalesce(bool_or(status = 'active' AND type = 'tenant'), false)
+    INTO v_has_owner, v_has_tenant
+    FROM residents
+   WHERE unit_id = p_unit_id;
+
+  IF v_has_owner AND v_has_tenant THEN
+    RAISE EXCEPTION USING
+      ERRCODE = '23514',
+      CONSTRAINT = 'occupancy_track_consistency',
+      MESSAGE = 'occupancy_track_consistency: owner and tenant residents cannot both be active';
+  END IF;
+
+  IF (v_has_owner AND v_occupant_type <> 'owner_occupied')
+     OR (v_has_tenant AND v_occupant_type <> 'tenant_occupied')
+     OR (v_occupant_type = 'owner_occupied' AND NOT v_has_owner)
+     OR (v_occupant_type = 'tenant_occupied' AND NOT v_has_tenant) THEN
+    RAISE EXCEPTION USING
+      ERRCODE = '23514',
+      CONSTRAINT = 'occupancy_track_consistency',
+      MESSAGE = 'occupancy_track_consistency: active resident track must match unit occupant type';
+  END IF;
+END;
+$$;
+
+
+--
+-- Name: enforce_occupancy_track_from_resident(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.enforce_occupancy_track_from_resident() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  PERFORM enforce_occupancy_track_consistency(
+    CASE WHEN TG_OP = 'DELETE' THEN OLD.unit_id ELSE NEW.unit_id END
+  );
+  IF TG_OP = 'UPDATE' AND OLD.unit_id IS DISTINCT FROM NEW.unit_id THEN
+    PERFORM enforce_occupancy_track_consistency(OLD.unit_id);
+  END IF;
+  RETURN NULL;
+END;
+$$;
+
+
+--
+-- Name: enforce_occupancy_track_from_unit(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.enforce_occupancy_track_from_unit() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  PERFORM enforce_occupancy_track_consistency(NEW.id);
+  RETURN NULL;
+END;
+$$;
 
 
 --
@@ -4421,10 +4503,24 @@ CREATE TRIGGER trg_resident_removal_operations_immutable BEFORE DELETE OR UPDATE
 
 
 --
+-- Name: residents trg_residents_occupancy_track_consistency; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trg_residents_occupancy_track_consistency AFTER INSERT OR DELETE OR UPDATE ON public.residents DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION public.enforce_occupancy_track_from_resident();
+
+
+--
 -- Name: unit_master_data_audit trg_unit_master_data_audit_append_only; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER trg_unit_master_data_audit_append_only BEFORE DELETE OR UPDATE ON public.unit_master_data_audit FOR EACH ROW EXECUTE FUNCTION public.reject_immutable_unit_registry_evidence();
+
+
+--
+-- Name: units trg_units_occupancy_track_consistency; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trg_units_occupancy_track_consistency AFTER INSERT OR UPDATE ON public.units DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION public.enforce_occupancy_track_from_unit();
 
 
 --
@@ -4935,5 +5031,5 @@ ALTER TABLE ONLY public.waha_replacement_requests
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 8eIaXOPKz8YgI4DJyZ5KrtSTfDl81R4YAAflTjSQWXRbo1vc0J3mPzSXhJ2kYIA
+\unrestrict LLldOhuRJvBndlGzWH2WfosgsWTmrSxlxRKMthu33aNHozRU3oqvboW9Oy63peI
 

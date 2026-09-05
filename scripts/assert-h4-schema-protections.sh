@@ -126,6 +126,42 @@ BEGIN
   ) THEN
     RAISE EXCEPTION 'occupancy correction supplement append-only trigger assertion failed';
   END IF;
+
+  IF (
+    SELECT count(*)
+    FROM pg_proc
+    WHERE proname IN (
+      'enforce_occupancy_track_consistency',
+      'enforce_occupancy_track_from_resident',
+      'enforce_occupancy_track_from_unit'
+    )
+      AND pg_function_is_visible(oid)
+  ) <> 3 THEN
+    RAISE EXCEPTION 'occupancy track constraint trigger-function assertion failed';
+  END IF;
+
+  IF (
+    SELECT count(*)
+    FROM pg_trigger
+    WHERE tgname IN (
+      'trg_residents_occupancy_track_consistency',
+      'trg_units_occupancy_track_consistency'
+    )
+      AND NOT tgisinternal
+  ) <> 2 THEN
+    RAISE EXCEPTION 'occupancy track constraint trigger assertion failed';
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_trigger
+    WHERE tgname = 'trg_units_occupancy_track_consistency'
+      AND tgrelid = 'public.units'::regclass
+      AND pg_get_triggerdef(oid) LIKE '%AFTER INSERT OR UPDATE%'
+      AND pg_get_triggerdef(oid) LIKE '%DEFERRABLE INITIALLY DEFERRED%'
+      AND NOT tgisinternal
+  ) THEN
+    RAISE EXCEPTION 'occupancy unit INSERT constraint trigger assertion failed';
+  END IF;
 END $$;
 
 SELECT 'H4 schema protection catalog assertions passed' AS result;

@@ -26,9 +26,9 @@ WITH expected_counts(check_name, expected_count) AS (
   VALUES
     ('public tables'::text, 52::bigint),
     ('public columns'::text, 685::bigint),
-    ('public constraints'::text, 165::bigint),
+    ('public constraints'::text, 167::bigint),
     ('public indexes'::text, 170::bigint),
-    ('public non-internal triggers'::text, 11::bigint)
+    ('public non-internal triggers'::text, 13::bigint)
 ),
 actual_counts(check_name, actual_count) AS (
   SELECT 'public tables', count(*)::bigint
@@ -220,6 +220,31 @@ protection_checks(check_name, expected_count, actual_count) AS (
   WHERE trig.tgname = 'trg_occupancy_correction_operation_supplements_immutable'
     AND trig.tgrelid = 'public.occupancy_correction_operation_supplements'::regclass
     AND NOT trig.tgisinternal
+  UNION ALL
+  SELECT 'occupancy track consistency functions', 3::bigint, count(*)::bigint
+  FROM pg_proc
+  WHERE proname IN (
+    'enforce_occupancy_track_consistency',
+    'enforce_occupancy_track_from_resident',
+    'enforce_occupancy_track_from_unit'
+  )
+    AND pg_function_is_visible(oid)
+  UNION ALL
+  SELECT 'occupancy track consistency constraint triggers', 2::bigint, count(*)::bigint
+  FROM pg_trigger AS trig
+  WHERE trig.tgname IN (
+    'trg_residents_occupancy_track_consistency',
+    'trg_units_occupancy_track_consistency'
+  )
+    AND NOT trig.tgisinternal
+  UNION ALL
+  SELECT 'occupancy unit insert constraint trigger', 1::bigint, count(*)::bigint
+  FROM pg_trigger AS trig
+  WHERE trig.tgname = 'trg_units_occupancy_track_consistency'
+    AND trig.tgrelid = 'public.units'::regclass
+    AND pg_get_triggerdef(trig.oid) LIKE '%AFTER INSERT OR UPDATE%'
+    AND pg_get_triggerdef(trig.oid) LIKE '%DEFERRABLE INITIALLY DEFERRED%'
+    AND NOT trig.tgisinternal
 ),
 all_checks AS (
   SELECT expected.check_name, expected.expected_count, actual.actual_count
@@ -275,4 +300,4 @@ if [[ "${#failures[@]}" -gt 0 ]]; then
 fi
 
 echo
-echo "PASS: production schema matches the accepted 52/685/165/170/11 catalog and all twenty-four raw protections."
+echo "PASS: production schema matches the accepted 52/685/167/170/13 catalog and all raw protections."

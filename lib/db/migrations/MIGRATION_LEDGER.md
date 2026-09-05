@@ -57,6 +57,18 @@ must remain untouched. Applied in Development and included through baseline
 0052; the baseline-only template0 replay and semantic catalog comparison passed
 on 2026-09-05.
 
+`0053_occupancy_track_constraint_triggers.sql` — deferrable database backstop
+requiring active owner/tenant resident tracks to agree with canonical unit
+occupancy. Applied in Development and included through baseline 0053; the
+baseline-only template0 replay and semantic catalog comparison passed on
+2026-09-05.
+
+`0054_occupancy_unit_insert_constraint_trigger.sql` — forward-only extension
+of the 0053 unit constraint trigger to occupied unit INSERTs as well as UPDATEs;
+it preserves the stable trigger and enforcement-function identities. Applied
+in Development and included through baseline 0054; the baseline-only template0
+replay and semantic catalog comparison passed on 2026-09-05.
+
 The canonical baseline includes the PH1 Portal Help schema, tenant
 identity fields, guardian-identifier marker/index, monthly booking allowance
 ledger, append-only unit correction evidence, and active unit/facility booking
@@ -72,5 +84,5 @@ empty database → 0000_baseline.sql → migrations numbered greater than INCLUD
 Do not generate a replacement baseline from an already-migrated database
 without repeating the full H5 empty-database and semantic-diff proof.
 After a baseline regeneration, migrations included through its updated
-`INCLUDED_THROUGH` value (including 0051 and 0052 when applicable) are not
+`INCLUDED_THROUGH` value (including 0051 through 0054 when applicable) are not
 replayed as active migrations.

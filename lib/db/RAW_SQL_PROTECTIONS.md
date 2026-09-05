@@ -16,6 +16,7 @@ by the current Drizzle schema generator.
 | `reject_occupancy_append_only_mutation()` | `0049_occupancy_core.sql` | Shared PL/pgSQL rejection function for immutable occupancy-evidence rows. | `scripts/assert-h4-schema-protections.sh` |
 | `trg_occupancy_correction_operations_immutable` | `0051_w14_occupancy_correction_operations.sql` | `BEFORE UPDATE OR DELETE` append-only trigger for controlled occupancy-correction evidence. | `scripts/assert-h4-schema-protections.sh` |
 | `trg_occupancy_correction_operation_supplements_immutable` | `0052_occupancy_correction_operation_supplements.sql` | `BEFORE UPDATE OR DELETE` append-only trigger for immutable final-state supplements. | `scripts/assert-h4-schema-protections.sh` |
+| `enforce_occupancy_track_consistency()` and `trg_*_occupancy_track_consistency` | `0053_occupancy_track_constraint_triggers.sql`, unit trigger extended by `0054_occupancy_unit_insert_constraint_trigger.sql` | Deferrable cross-table constraint triggers: active owner and tenant tracks cannot coexist and must agree with `units.occupant_type`; occupied unit INSERTs are covered; system/HOA COMMON is exempt. | `scripts/assert-h4-schema-protections.sh` |
 
 The assertion script fails if any listed database object is absent or altered.
 These objects must be kept in the forward-only migration ledger and verified
