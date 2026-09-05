@@ -1,0 +1,33 @@
+ DEPRECATED  `test.poolOptions` was removed in Vitest 4. All previous `poolOptions` are now top-level options. Please, refer to the migration guide: https://vitest.dev/guide/migration#pool-rework
+
+ RUN  v4.1.9 /home/runner/workspace/artifacts/hoa-portal
+
+ ✓ src/__tests__/residentRegistrationFormContract.test.ts > resident registration form contract > uses the mandated bilingual false-registration wording verbatim 5ms
+ ✓ src/__tests__/residentRegistrationFormContract.test.ts > resident registration form contract > does not collect nationality 0ms
+ ✓ src/__tests__/residentRegistrationFormContract.test.ts > resident registration form contract > prevents future dates of birth in both the control and client state 0ms
+ ✓ src/__tests__/residentRegistrationFormContract.test.ts > resident registration form contract > shows the bilingual false-registration disclaimer before both submissions 0ms
+ ✓ src/__tests__/residentRegistrationFormContract.test.ts > resident registration form contract > uses the Dialog close control rather than a second dead close button 0ms
+ ✓ src/__tests__/portalRegistryBlockers.test.ts > admin owner-claim review blockers > does not offer the obsolete deed-review basis for new approvals 1ms
+ ✓ src/__tests__/portalRegistryBlockers.test.ts > admin owner-claim review blockers > limits the Mullak verification message to a numeric current claim and labels legacy documents 0ms
+ ✓ src/__tests__/portalRegistryBlockers.test.ts > admin owner-claim review blockers > has clear en labels for current and historical claim evidence 0ms
+ ✓ src/__tests__/portalRegistryBlockers.test.ts > admin owner-claim review blockers > has clear ar labels for current and historical claim evidence 0ms
+ ✓ src/__tests__/portalRegistryBlockers.test.ts > unit registry access and parking labels > renders resident access badges and the backend vehicle parking fields 0ms
+ ✓ src/__tests__/portalRegistryBlockers.test.ts > unit registry access and parking labels > has complete en resident and parking labels 0ms
+ ✓ src/__tests__/portalRegistryBlockers.test.ts > unit registry access and parking labels > has complete ar resident and parking labels 0ms
+ ✓ src/__tests__/commRowNoteGuard.test.tsx > CommRow — Reject uses an optional custom note > Reject button is enabled when note is empty 225ms
+ ✓ src/__tests__/commRowNoteGuard.test.tsx > CommRow — Reject uses an optional custom note > forwards a short optional note without imposing a hidden minimum 38ms
+ ✓ src/__tests__/commRowNoteGuard.test.tsx > CommRow — Defer uses an optional custom note > Defer button is enabled when note is empty 32ms
+ ✓ src/__tests__/commRowNoteGuard.test.tsx > CommRow — Defer uses an optional custom note > forwards a supplied custom note 37ms
+ ✓ src/__tests__/commRowNoteGuard.test.tsx > CommRow — Resolve button is never gated by note length > Resolve button is enabled even when note is empty 15ms
+ ✓ src/__tests__/commRowNoteGuard.test.tsx > CommRow — Resolve button is never gated by note length > Resolve button is enabled when note has only 1 character 14ms
+ ✓ src/__tests__/commRowNoteGuard.test.tsx > CommRow — Resolve button is never gated by note length > clicking Resolve with an empty note still calls onUpdate 22ms
+ ✓ src/__tests__/commRowNoteGuard.test.tsx > CommRow — action buttons absent after expanding a closed communication > no action buttons rendered inside the expanded panel for status=resolved 13ms
+ ✓ src/__tests__/commRowNoteGuard.test.tsx > CommRow — action buttons absent after expanding a closed communication > no action buttons rendered inside the expanded panel for status=rejected 12ms
+ ✓ src/__tests__/commRowNoteGuard.test.tsx > CommRow — action buttons absent after expanding a closed communication > no action buttons rendered inside the expanded panel for status=deferred_to_maintenance 13ms
+ ✓ src/__tests__/commRowNoteGuard.test.tsx > CommRow — action buttons absent after expanding a closed communication > shows the stored standardized response in a closed row 16ms
+
+ Test Files  3 passed (3)
+      Tests  23 passed (23)
+   Start at  20:31:42
+   Duration  3.13s (transform 993ms, setup 336ms, import 1.47s, tests 451ms, environment 3.95s)
+
