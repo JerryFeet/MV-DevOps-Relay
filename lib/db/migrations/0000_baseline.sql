@@ -2450,8 +2450,10 @@ CREATE TABLE public.unit_verifications (
     approval_other_text text,
     date_of_birth date,
     nationality text,
+    title_deed_number text,
     CONSTRAINT unit_verifications_gender_check CHECK (((gender IS NULL) OR (gender = ANY (ARRAY['male'::text, 'female'::text])))),
-    CONSTRAINT unit_verifications_routed_to_check CHECK (((routed_to IS NULL) OR (routed_to = ANY (ARRAY['owner'::text, 'admin'::text]))))
+    CONSTRAINT unit_verifications_routed_to_check CHECK (((routed_to IS NULL) OR (routed_to = ANY (ARRAY['owner'::text, 'admin'::text])))),
+    CONSTRAINT unit_verifications_title_deed_number_format_check CHECK (((title_deed_number IS NULL) OR (title_deed_number ~ '^[0-9]{16}$'::text)))
 );
 
 
