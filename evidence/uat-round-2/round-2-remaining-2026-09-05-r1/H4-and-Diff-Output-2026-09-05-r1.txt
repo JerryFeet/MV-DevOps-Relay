@@ -1,0 +1,9 @@
+CREATE TABLE
+INSERT 0 23
+DO
+DO
+                     result                     
+------------------------------------------------
+ H4 schema protection catalog assertions passed
+(1 row)
+
