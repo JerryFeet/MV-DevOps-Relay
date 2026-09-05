@@ -25,6 +25,18 @@ implementation/test sources include `src/lib/occupancy.ts`,
 `src/lib/releaseSubject.ts`, `src/lib/moveOutScheduler.ts`, and
 `src/__tests__/releaseSubject.test.ts`.
 
+## Managed Playwright regression
+
+The final managed Playwright general E2E suite passed after the final code
+batch. Its pre-flight confirmed that both portal and API were reachable.
+
+| Scenarios | Passed | Skipped | Failed | Duration |
+| ---: | ---: | ---: | ---: | ---: |
+| 93 | 86 | 7 | 0 | 5.5m |
+
+This general regression result does not add browser evidence for seeded
+dependency cleanup or for W14 correction.
+
 ## Browser UAT observations
 
 The authenticated Development browser walkthrough verified:

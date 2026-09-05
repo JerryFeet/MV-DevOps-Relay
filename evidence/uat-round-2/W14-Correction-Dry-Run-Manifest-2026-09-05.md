@@ -1,93 +1,83 @@
-# W14 correction — dry-run manifest
+# W14 correction — dedicated dry-run manifest
 
 **Date:** 2026-09-05  
-**Mode:** read-only data assessment; no mutation.  
-**Status:** **APPROVAL REQUIRED / NOT APPLIED**
-**Architect review:** **PASS** for the completed foundation; this separate
-data correction remains approval-gated.  
+**Mode:** public-safe, read-only remediation plan; no mutation.  
+**Status:** **APPROVAL REQUIRED / NOT APPLIED**  
 **Production:** not accessed or changed.
-**Citation basis:** read-only Development assessment, current migration/source,
-and `git diff` reviewed 2026-09-05.
 
-This manifest supplements, rather than duplicates, the protected baseline
-evidence in
+This document supplements
 [Baseline-0049-0050-Continuity-Evidence-2026-09-05.md](Baseline-0049-0050-Continuity-Evidence-2026-09-05.md).
+It deliberately contains opaque record IDs and state transitions only: no
+names, email addresses, or full national IDs.
 
-## Exact current state observed
+## Execution contract
 
-W14 is the sole flagged inconsistent unit in the read-only review:
+This is a **dedicated tenant-preserving controlled remediation**, not an owner
+release and not a use of the existing owner-release path. Under the canonical
+occupancy advisory lock and locked unit row, the remediation service must
+re-read this exact prestate before changing anything. If it differs, it must
+refuse without effects.
 
-| Item | Current count/state |
-| --- | --- |
-| Unit | row **10** / `W14`; `occupant_type = tenant_occupied` |
-| Verified ownership link | user row **2108** |
-| Verified tenancy link | user row **2131** |
-| Resident rows | 4 total |
-| Active owner residents | 1: resident row **3** |
-| Active family residents registered with the owner household | 2: resident rows **6**, **12** |
-| Active tenant residents | 0 |
-| Inactive tenant resident linked to verified tenant | 1: resident row **5** |
-| Conflicting units found | 1 (W14) |
+## Exact locked prestate and proposed transitions
 
-Source: `Round-2-Foundation-Lifecycle-Current-Behaviour-Report-2026-09-05.md`,
-sections 3.1–3.2. Migration 0049 classifies W14 but expressly excludes it from
-primary backfill and makes no occupancy/resident correction
-(`0049_occupancy_core.sql:65-132`).
-
-## Proposed tenant-preserving correction (before → after)
-
-| Object/effect | Before | Proposed after |
+| Record | Locked prestate | Proposed poststate |
 | --- | --- | --- |
-| Unit row 10 ownership link | `verified_owner_id=2108` | unchanged |
-| Unit row 10 tenancy link | `verified_tenant_id=2131` | unchanged |
-| Unit row 10 occupancy | `tenant_occupied`, contradicted by active owner household | `tenant_occupied`, represented by tenant household |
-| Tenant resident row 5 | `status=inactive`, `is_primary=false`, `linked_user_id=2131` | `status=active`, `is_primary=true`, `linked_user_id=2131` |
-| Owner resident row 3 | `status=active`, `is_primary=false`, `linked_user_id=2108` | `status=moved_out`, `is_primary=false`, `linked_user_id=null` |
-| Family resident row 6 | `status=active`, `is_primary=false`, `linked_user_id=null` | `status=moved_out`, `is_primary=false`, `linked_user_id=null` |
-| Family resident row 12 | `status=active`, `is_primary=false`, `linked_user_id=null` | `status=moved_out`, `is_primary=false`, `linked_user_id=null` |
-| Active household composition | owner household only | tenant household only |
-| Primary count | no valid active tenant primary | exactly one active tenant primary |
+| Unit **10** | `verifiedOwnerId=2108`; `verifiedTenantId=2131`; `occupantType=tenant_occupied` | All three fields unchanged |
+| User **2108** | owner; `verified_owner` | user retained; `status=suspended`; `unitId=null`; `unitNumber=null`; no deletion and no Clerk deletion job |
+| User **2131** | active verified tenant; `unitId=10` | unchanged |
+| Resident **3** | active owner | `moved_out`; `hasPortalAccess=false`; `linkedUserId=null` |
+| Resident **6** | active family | `moved_out`; `hasPortalAccess=false`; `linkedUserId=null` |
+| Resident **12** | active family | `moved_out`; `hasPortalAccess=false`; `linkedUserId=null` |
+| Resident **4** | text-only W14 record; `unitId=null`; pending invitation **1** | `moved_out`; `hasPortalAccess=false`; `linkedUserId=null` |
+| Invitation **1** | pending; associated with resident 4 | revoked |
+| Resident **5** | inactive tenant; `isPrimary=false`; `linkedUserId=2131` | active tenant; `isPrimary=true`; `linkedUserId=2131` |
+| Verification **3** | approved | unchanged |
+| Verification **4** | approved | unchanged |
+| Tenancy lifecycle **1** | active | unchanged |
+| Waha application **8** | active | revoked |
+| Waha credentials **70**, **71** | active | revoked with execution timestamp and correction reason; append revocation event for each credential |
+| Vehicle **6** | active | inactive; `parkingLotId=null`; `userId=null`; retained for history |
+| Bookings **25**, **26**, **53** | cancelled | unchanged: user, unit, and status retained |
+| `release_operations` | no remediation operation | no row created |
+| `resident_removal_operations` | no remediation operation | no row created |
 
-Planned row effects are therefore **1 tenant resident activation/primary
-designation**, **3 owner-household resident archival effects**, and **1 unit
-state reconciliation**. The verified owner and verified tenant links are
-preserved: this is occupancy correction, not ownership transfer or tenancy
-termination.
+The plan has four resident archival effects (3, 4, 6, 12), one tenant
+reactivation/primary designation (5), one invitation revocation, one Waha
+application revocation, two credential revocations with two events, and one
+retained-vehicle deactivation. It does not alter either unit claim, either
+approved verification, the active tenancy lifecycle, or the listed cancelled
+bookings.
 
-This public manifest deliberately identifies only opaque row IDs and field
-transitions. It contains no resident names, email addresses, or full national
-IDs.
+## Required schema/service addition
 
-## Dependency/read-only limits and risks
+Approval includes a forward migration and a dedicated service that create
+append-only `occupancy_correction_operations`. The operation must have a
+unique idempotency/correction key and record the actor, reason, full
+before/after state, affected IDs, and postconditions. In the same locked
+transaction, it must insert this audit row and resolve the corresponding
+`data_migration_corrections` row.
 
-The read-only snapshot establishes the resident and unit counts above. It does
-not seed or execute dependency fixtures, so it does not claim an executed count
-for invitations, portal identities, Waha credentials, vehicles, bookings,
-permits, guests, passes, identity-deletion jobs, or notification rows. Before
-execution, a locked production-like dry-run must enumerate their exact IDs and
-effects. A revoked Waha credential must not be resurrected; tenant eligibility
-must follow normal issuance/validation.
+The generated operation ID, actor, timestamps, and idempotency key are supplied
+only at execution; exact values cannot truthfully be known in this read-only
+manifest.
 
-Principal risks are stale reads, choosing the wrong household, accidentally
-clearing the owner claim or tenant link, partial dependency cleanup, and a
-concurrent occupancy transition. Required controls are the canonical unit
-advisory/row lock, deterministic dependency plan, postconditions, append-only
-correction audit, and before/after protected snapshot.
+## Required postconditions
 
-## Alternative owner-preserving path
+After a successful one-time transaction:
 
-If the product owner instead elects owner occupancy, the alternative is to
-retain the verified owner claim, archive/end the tenant resident and tenant
-occupancy relationship through the approved tenancy-release path, make the
-owner resident the one active primary, retain/archive owner-family rows as the
-selected household policy requires, and set `occupant_type = owner_occupied`.
-That is a materially different tenancy-ending decision; it is **not** implied
-by the current data and is not proposed by this manifest.
+- unit 10 still has `verifiedOwnerId=2108`,
+  `verifiedTenantId=2131`, and `occupantType=tenant_occupied`;
+- no active owner household remains;
+- resident 5 is the exactly one active tenant primary;
+- no active owner Waha application/credential, vehicle, or invitation remains;
+- all listed archival, revocation, and retention effects match the table above;
+- the immutable correction operation and resolved migration-correction record
+  are present.
 
 ## APPROVAL REQUIRED / NOT APPLIED
 
-No W14 row, dependency, identity, credential, unit link, migration, or audit
-record was changed for this manifest. Execution requires product-owner approval
-of this exact tenant-preserving plan, a fresh locked dry-run with exact
-dependent-object counts/IDs, confirmation that W14 remains the sole conflict,
-and postcondition verification after one transaction.
+Separate approval is required **only** for implementing the forward migration
+and dedicated service and then performing this one-time Development correction.
+No W14 row, credential, invitation, account, vehicle, booking, audit row,
+schema, or migration has been changed by this manifest. Production is not part
+of this approval or this work.
