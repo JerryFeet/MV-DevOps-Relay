@@ -4,7 +4,6 @@ import { db } from "@workspace/db";
 import {
   usersTable,
   residentsTable,
-  unitsTable,
   guestsTable,
   wahaPassApplicationsTable,
   wahaPassCredentialsTable,
@@ -24,6 +23,7 @@ import { enqueueBothNotificationChannels } from "../lib/notificationProducer";
 import { EVT, wahaPassDecisionKey, wahaCredentialRevokedKey } from "../lib/notificationWiring";
 import { enforceDurableRateLimit, rateLimitUserSubject } from "../lib/durableRateLimit";
 import { assertActiveOccupantEligibility, OccupancyError } from "../lib/occupancy";
+import { canonicalUnitReference } from "../lib/unitReference";
 
 const router = Router();
 
@@ -111,7 +111,7 @@ async function enrichApplication(app: typeof wahaPassApplicationsTable.$inferSel
       firstName: usersTable.firstName,
       lastName: usersTable.lastName,
       email: usersTable.email,
-      unitNumber: usersTable.unitNumber,
+      unitId: usersTable.unitId,
     }).from(usersTable).where(eq(usersTable.id, app.applicantUserId));
 
   let secondResident = null;
@@ -130,7 +130,8 @@ async function enrichApplication(app: typeof wahaPassApplicationsTable.$inferSel
     .from(wahaPassEventsTable)
     .where(eq(wahaPassEventsTable.applicationId, app.id));
 
-  return { ...app, applicant, secondResident, credentials, events };
+  const unitReference = await canonicalUnitReference(app.unitId);
+  return { ...app, applicant: applicant && { ...applicant, unitReference }, secondResident, credentials, events, unitReference };
 }
 
 // ── GET /waha-pass/eligibility ─────────────────────────────────────────────────
@@ -307,11 +308,12 @@ router.post("/waha-pass/apply", requireApiAuth, async (req, res) => {
   }
 
   const callerName = `${caller.firstName ?? ""} ${caller.lastName ?? ""}`.trim() || caller.email;
+  const unitReference = await canonicalUnitReference(caller.unitId);
   sendAdminAlert(
-    `[Action Required] New Waha Pass Application — Unit ${caller.unitNumber ?? caller.unitId}`,
+    `[Action Required] New Waha Pass Application — Unit ${unitReference}`,
     `<h2>New Waha Pass Application Submitted</h2>
      <p><strong>Applicant:</strong> ${callerName}</p>
-     <p><strong>Unit:</strong> ${caller.unitNumber ?? caller.unitId}</p>
+     <p><strong>Unit:</strong> ${unitReference}</p>
      <p><strong>Track:</strong> ${track}</p>
      <p>Please review and approve or reject in the admin portal.</p>`,
   ).catch(() => {});
