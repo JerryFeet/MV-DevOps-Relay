@@ -69,6 +69,12 @@ it preserves the stable trigger and enforcement-function identities. Applied
 in Development and included through baseline 0054; the baseline-only template0
 replay and semantic catalog comparison passed on 2026-09-05.
 
+`0055_title_deed_number.sql` — replaces new owner deed-file submissions with a
+Mullak-verifiable 16-digit title deed number while retaining legacy deed-file
+columns for historical read and cleanup compatibility. Applied in Development
+and included through baseline 0055; the baseline-only template0 replay and
+semantic catalog comparison passed on 2026-09-05.
+
 The canonical baseline includes the PH1 Portal Help schema, tenant
 identity fields, guardian-identifier marker/index, monthly booking allowance
 ledger, append-only unit correction evidence, and active unit/facility booking
@@ -84,5 +90,5 @@ empty database → 0000_baseline.sql → migrations numbered greater than INCLUD
 Do not generate a replacement baseline from an already-migrated database
 without repeating the full H5 empty-database and semantic-diff proof.
 After a baseline regeneration, migrations included through its updated
-`INCLUDED_THROUGH` value (including 0051 through 0054 when applicable) are not
+`INCLUDED_THROUGH` value (including 0051 through 0055 when applicable) are not
 replayed as active migrations.
