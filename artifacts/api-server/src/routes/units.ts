@@ -111,7 +111,7 @@ function isValidGender(value: unknown): value is "male" | "female" {
 
 const OWNER_MANUAL_APPROVAL_BASES = [
   "mullak_verified",
-  "title_deed_reviewed",
+  "deed_number_verified_against_mullak",
   "known_to_board",
   "other",
 ] as const;
@@ -499,11 +499,12 @@ router.get("/units/:unitId/history", requireApiAuth, async (req, res) => {
     .where(eq(unitMasterDataAuditTable.unitId, unitId)).orderBy(desc(unitMasterDataAuditTable.createdAt)));
 });
 
-// ── Private tenancy-document uploads — server-side, 10 MB, PDF/JPG/PNG ────────
-function tenancyDocumentUploadRoute(kind: "title_deed" | "ejar") {
-  const endpoint = kind === "title_deed" ? "/unit-verify/title-deed-upload" : "/unit-verify/ejar-upload";
+// ── Private tenancy-document upload — server-side, 10 MB, PDF/JPG/PNG ─────────
+// Title-deed uploads are retired. Historical title-deed keys remain viewable by
+// authorized admins and are still cleaned up when their verification resolves.
+function tenancyDocumentUploadRoute() {
   router.post(
-    endpoint,
+    "/unit-verify/ejar-upload",
   requireApiAuth,
   (req, res, next) => {
     titleDeedUpload.single("file")(req, res, (err) => {
@@ -521,9 +522,7 @@ function tenancyDocumentUploadRoute(kind: "title_deed" | "ejar") {
 
     if (!req.file) return res.status(400).json({ error: "No file provided." });
 
-     const objectPath = kind === "title_deed"
-       ? await objectStorageService.storeTitleDeed(req.file.buffer, req.file.mimetype)
-       : await objectStorageService.storeEjarDocument(req.file.buffer, req.file.mimetype);
+      const objectPath = await objectStorageService.storeEjarDocument(req.file.buffer, req.file.mimetype);
      res.json({
        objectPath,
        originalFilename: req.file.originalname,
@@ -533,8 +532,7 @@ function tenancyDocumentUploadRoute(kind: "title_deed" | "ejar") {
   );
 }
 
-tenancyDocumentUploadRoute("title_deed");
-tenancyDocumentUploadRoute("ejar");
+tenancyDocumentUploadRoute();
 
 // ── POST /unit-verify/check-owner — T7 non-disclosing owner-ID match ─────────
 router.post("/unit-verify/check-owner", requireApiAuth, async (req, res) => {
@@ -581,8 +579,8 @@ router.post("/unit-verify/owner", requireApiAuth, async (req, res) => {
   }
   const {
     building, unitNumber, nationalId,
-    firstName, middleName, lastName, mobile, gender,
-    parkingLots, titleDeedKey, titleDeedOriginalFilename, titleDeedContentHash,
+    mobile, gender,
+    parkingLots, titleDeedNumber,
   } = req.body;
   const unitParts = normaliseUnitInput(building, unitNumber);
   if (!unitParts.building || !unitParts.unitNumber || !nationalId) {
@@ -594,9 +592,10 @@ router.post("/unit-verify/owner", requireApiAuth, async (req, res) => {
   if (isReservedSystemUnit(unitParts)) {
     return res.status(403).json({ error: "SYSTEM_UNIT_RESERVED" });
   }
-  // B2: title deed is mandatory for owner verification
-  if (!isValidPrivateDocumentKey(titleDeedKey, "title-deeds")) {
-    return res.status(400).json({ error: "titleDeedKey is required and must reference a valid uploaded title deed." });
+  // C2: only an exact ASCII 16-digit Mullak title-deed number is accepted for
+  // new claims. Uploaded-deed fields remain readable/cleanable for old rows.
+  if (typeof titleDeedNumber !== "string" || !/^[0-9]{16}$/.test(titleDeedNumber)) {
+    return res.status(400).json({ error: "titleDeedNumber is required and must be exactly 16 ASCII digits." });
   }
   // B3: mobile is mandatory for owner verification
   if (typeof mobile !== "string" || !mobile.trim()) {
@@ -668,17 +667,16 @@ router.post("/unit-verify/owner", requireApiAuth, async (req, res) => {
         nationalId,
         status: "pending",
         expiresAt,
-        firstName: firstName ?? null,
-        middleName: middleName ?? null,
-        lastName: lastName ?? null,
+        // Identity names are authoritative only on the authenticated account.
+        // Deliberately do not accept claimant-supplied name fields here: they
+        // could otherwise disagree with the account the claim is bound to.
+        firstName: caller.firstName,
+        middleName: caller.middleName,
+        lastName: caller.lastName,
         mobile: canonicalOwnerMobile ?? null,
         gender,
         parkingLots: parkingLotsJson ?? null,
-        titleDeedKey: titleDeedKey ?? null,
-        titleDeedOriginalFilename: typeof titleDeedOriginalFilename === "string"
-          ? titleDeedOriginalFilename.slice(0, 255) : null,
-        titleDeedContentHash: typeof titleDeedContentHash === "string"
-          ? titleDeedContentHash.slice(0, 128) : null,
+        titleDeedNumber,
       }).returning();
 
       await tx.update(usersTable).set({
@@ -725,7 +723,7 @@ router.post("/unit-verify/owner", requireApiAuth, async (req, res) => {
      <p><strong>Resident:</strong> ${callerName}</p>
       <p><strong>Unit:</strong> ${unitParts.building} ${unitParts.unitNumber}</p>
      <p><strong>National ID:</strong> ${nationalId}</p>
-     ${titleDeedKey ? `<p><strong>Title Deed:</strong> Uploaded (${titleDeedKey})</p>` : ""}
+     <p><strong>Title Deed Number:</strong> ${titleDeedNumber} (verify against Mullak)</p>
      <p>This ownership claim requires manual review. Please approve or reject it in the admin portal.</p>`,
   ).catch(() => {});
 
@@ -744,7 +742,7 @@ router.post("/unit-verify/tenant", requireApiAuth, async (req, res) => {
   const {
     building, unitNumber, nationalId, ownerNationalId, ejarReference, ejarDocumentKey,
     ejarOriginalFilename, ejarContentHash, leaseStartDate, leaseEndDate,
-    firstName, middleName, lastName, mobile, dateOfBirth, nationality, parkingLots, gender,
+    firstName, middleName, lastName, mobile, dateOfBirth, parkingLots, gender,
   } = req.body;
   const unitParts = normaliseUnitInput(building, unitNumber);
   if (!unitParts.building || !unitParts.unitNumber) return res.status(400).json({ error: "building and unitNumber are required" });
@@ -758,14 +756,13 @@ router.post("/unit-verify/tenant", requireApiAuth, async (req, res) => {
     || typeof ownerNationalId !== "string" || !ownerNationalId.trim()
     || typeof mobile !== "string" || !mobile.trim()
     || !isValidPastDate(dateOfBirth)
-    || typeof nationality !== "string" || !nationality.trim()
     || typeof ejarReference !== "string" || !ejarReference.trim()
     || !isValidPrivateDocumentKey(ejarDocumentKey, "ejar")
     || typeof leaseStartDate !== "string" || typeof leaseEndDate !== "string"
     || !isValidGender(gender)
   ) {
     return res.status(400).json({
-      error: "Tenant name, National ID, gender, mobile, date of birth, nationality, owner National ID, Ejar reference/document, and lease dates are required.",
+      error: "Tenant name, National ID, gender, mobile, date of birth, owner National ID, Ejar reference/document, and lease dates are required.",
     });
   }
   if (leaseEndDate < leaseStartDate) {
@@ -805,47 +802,6 @@ router.post("/unit-verify/tenant", requireApiAuth, async (req, res) => {
     return res.status(409).json({ error: "This unit already has an active verified tenant." });
   }
 
-  // Validate parking lots structure: must be absent, or array of {building, lotNumber, isInside}
-  const tenantParkingError = validateParkingLotsInput(parkingLots);
-  if (tenantParkingError) {
-    return res.status(400).json({ error: tenantParkingError });
-  }
-
-  // Validate submitted parking lots against the unit's registered lots.
-  // Prefer normalized parking_lots rows; fall back to legacy units.parkingLots JSON
-  // only while no normalized rows exist for this unit.
-  if (Array.isArray(parkingLots) && parkingLots.length > 0) {
-    const makeKey = (b: string, n: string) =>
-      `${b.trim().toLowerCase()}|${n.trim().toLowerCase()}`;
-
-    const normalizedRows = await db.select().from(parkingLotsTable)
-      .where(and(eq(parkingLotsTable.unitId, unit.id), eq(parkingLotsTable.active, true)));
-
-    let registeredKeys: Set<string>;
-    if (normalizedRows.length > 0) {
-      registeredKeys = new Set(normalizedRows.map(r => makeKey(r.building, r.lotNumber)));
-    } else {
-      let legacyLots: { building: string; lotNumber: string }[] = [];
-      if (unit.parkingLots) {
-        try { legacyLots = JSON.parse(unit.parkingLots); } catch {}
-      }
-      registeredKeys = new Set(legacyLots.map(l => makeKey(l.building ?? "", l.lotNumber ?? "")));
-    }
-
-    const invalid = (parkingLots as { building: string; lotNumber: string }[]).find(
-      l => !registeredKeys.has(makeKey(l.building ?? "", l.lotNumber ?? ""))
-    );
-    if (invalid) {
-      return res.status(400).json({
-        error: `Parking lot ${invalid.lotNumber ?? "?"} is not registered to this unit.`,
-      });
-    }
-  }
-
-  const parkingLotsJson = Array.isArray(parkingLots) && parkingLots.length > 0
-    ? JSON.stringify(parkingLots)
-    : undefined;
-
   const expiresAt = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000); // 5 days
   let verification;
   try {
@@ -862,7 +818,6 @@ router.post("/unit-verify/tenant", requireApiAuth, async (req, res) => {
       lastName: lastName ?? null,
       mobile: canonicalTenantMobile ?? null,
       dateOfBirth,
-      nationality: nationality.trim(),
       gender,
       ownerNationalId: ownerNationalId.trim(),
       ejarDocumentKey,
@@ -870,7 +825,6 @@ router.post("/unit-verify/tenant", requireApiAuth, async (req, res) => {
       ejarContentHash: typeof ejarContentHash === "string" ? ejarContentHash.slice(0, 128) : null,
       leaseStartDate,
       leaseEndDate,
-      parkingLots: parkingLotsJson ?? null,
     }).returning();
   } catch (error) {
     if (error && typeof error === "object" && "code" in error && (error as { code: string }).code === "23505") {
@@ -1131,7 +1085,7 @@ router.post("/unit-verify/:id/approve", requireApiAuth, async (req, res) => {
       if (isTenant) {
         const existing = occupancy.residents.find((row: any) => row.linkedUserId === targetUser.id && row.type === "tenant");
         const residentData = { isPrimary: true, hasPortalAccess: true, phone: mobile!, phoneNormalized: mobile!,
-          dateOfBirth: verification.dateOfBirth, nationality: verification.nationality, status: "active" } satisfies Partial<typeof residentsTable.$inferInsert>;
+          dateOfBirth: verification.dateOfBirth, status: "active" } satisfies Partial<typeof residentsTable.$inferInsert>;
         if (existing) await updateResidentOccupancy(tx, existing.id, residentData);
         else await createHouseholdResident(tx, { type: "tenant", firstName: targetUser.firstName ?? "", lastName: targetUser.lastName ?? "",
           email: targetUser.email ?? null, unitNumber: unitLabel, unitId: updatedUnit.id, relationship: "Primary Tenant",
@@ -1348,12 +1302,27 @@ router.get("/unit-verify/pending", requireApiAuth, async (req, res) => {
   ]);
   const verUserMap = Object.fromEntries(verUsers.map(u => [u.id, u]));
   const verUnitMap = Object.fromEntries(verUnits.map(u => [u.id, u]));
-  const enriched = verifications.map(({ ownerNationalId: _ownerNationalId, ...verification }) => ({
-    ...verification,
-    requester: verification.userId === null ? null : verUserMap[verification.userId] ?? null,
-    // Admin has oversight of the request, not the owner's National ID.
-    unit: verUnitMap[verification.unitId] ? stripOwnerNationalId(verUnitMap[verification.unitId]!) : null,
-  }));
+  const enriched = verifications.map(({ ownerNationalId: _ownerNationalId, ...verification }) => {
+    const requester = verification.userId === null ? null : verUserMap[verification.userId] ?? null;
+    return {
+      ...verification,
+      // Tenant applications need their submitted name for the owner to review.
+      // An owner_manual application instead always presents the account name;
+      // this also protects the admin projection of historical tampered rows.
+      firstName: verification.type === "tenant_request"
+        ? verification.firstName
+        : requester?.firstName ?? null,
+      middleName: verification.type === "tenant_request"
+        ? verification.middleName
+        : requester?.middleName ?? null,
+      lastName: verification.type === "tenant_request"
+        ? verification.lastName
+        : requester?.lastName ?? null,
+      requester,
+      // Admin has oversight of the request, not the owner's National ID.
+      unit: verUnitMap[verification.unitId] ? stripOwnerNationalId(verUnitMap[verification.unitId]!) : null,
+    };
+  });
   res.json(enriched);
 });
 
