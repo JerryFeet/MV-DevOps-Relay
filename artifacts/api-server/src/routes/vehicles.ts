@@ -32,6 +32,35 @@ const objectStorage = new ObjectStorageService();
 const router = Router();
 router.use("/vehicles", requireApiAuth, denyGuardModuleAccess);
 
+function parkingLotResponse(lot: typeof parkingLotsTable.$inferSelect | null | undefined) {
+  return lot ? {
+    id: lot.id,
+    lotNumber: lot.lotNumber,
+    building: lot.building,
+    parkingType: lot.parkingType,
+    active: lot.active,
+    underground: lot.parkingType === "underground",
+  } : null;
+}
+
+// The vehicle form must be driven by the caller's canonical unit, not by a
+// tenant re-declaring an allocation during tenancy verification.
+router.get("/vehicles/parking-lots", requireApiAuth, async (req, res) => {
+  const [caller] = await db.select().from(usersTable).where(eq(usersTable.clerkId, req.auth().userId!));
+  if (!caller) return res.status(403).json({ error: "Forbidden" });
+  if (caller.unitId == null) return res.json([]);
+  const lots = await db.select({
+    id: parkingLotsTable.id,
+    lotNumber: parkingLotsTable.lotNumber,
+    building: parkingLotsTable.building,
+    parkingType: parkingLotsTable.parkingType,
+  }).from(parkingLotsTable).where(and(
+    eq(parkingLotsTable.unitId, caller.unitId),
+    eq(parkingLotsTable.active, true),
+  ));
+  res.json(lots.map((lot) => ({ ...lot, underground: lot.parkingType === "underground" })));
+});
+
 // ── GET /vehicles ─────────────────────────────────────────────────────────────
 // Staff see all; residents see only their own.
 // E2: returned records include verifiedResidentName from the caller's active
@@ -75,6 +104,13 @@ router.get("/vehicles", requireApiAuth, async (req, res) => {
     ])
     : [[], []];
   const usersById = new Map(vehicleUsers.map((user) => [user.id, user]));
+  const parkingLotIds = [...new Set(
+    vehicles.map((vehicle) => vehicle.parkingLotId).filter((id): id is number => id !== null),
+  )];
+  const assignedParkingLots = parkingLotIds.length
+    ? await db.select().from(parkingLotsTable).where(inArray(parkingLotsTable.id, parkingLotIds))
+    : [];
+  const parkingLotsById = new Map(assignedParkingLots.map((lot) => [lot.id, lot]));
   const residentsByUserId = new Map(
     vehicleResidents
       .filter((resident) => resident.linkedUserId != null)
@@ -89,6 +125,11 @@ router.get("/vehicles", requireApiAuth, async (req, res) => {
     return {
       ...vehicle,
       resident: { fullName, nationalId: resident?.idNumber ?? null },
+      // Assignment display intentionally includes inactive lots. The active
+      // filter belongs only to the lot-selection endpoint and write validation.
+      parkingLot: parkingLotResponse(
+        vehicle.parkingLotId === null ? null : parkingLotsById.get(vehicle.parkingLotId),
+      ),
     };
   });
   res.json(paginatedResponse(enrichedVehicles, Number(total), page, limit));
@@ -100,7 +141,7 @@ router.post("/vehicles", requireApiAuth, async (req, res) => {
   const [caller] = await db.select().from(usersTable).where(eq(usersTable.clerkId, clerkId));
   if (!caller) return res.status(403).json({ error: "Forbidden" });
 
-  const { make, model, year, color, plateNumber, istimaraNumber, isBasementParking, registrationDocKey } = req.body;
+  const { make, model, year, color, plateNumber, istimaraNumber, parkingLotId, registrationDocKey } = req.body;
 
   // Occupant eligibility is rechecked under the canonical occupancy lock in
   // the insert transaction below. Staff accounts remain an explicit exception.
@@ -120,46 +161,21 @@ router.post("/vehicles", requireApiAuth, async (req, res) => {
     }
   }
 
-  // Resolve the unit's underground entitlement once for both confirmation and capacity checks.
-  let hasUndergroundEntitlement = false;
-  if (caller.unitId) {
-    const allNormalizedLots = await db
-      .select()
-      .from(parkingLotsTable)
-      .where(eq(parkingLotsTable.unitId, caller.unitId));
-
-    if (allNormalizedLots.length > 0) {
-      hasUndergroundEntitlement = allNormalizedLots.some(
-        lot => lot.active === true && lot.parkingType === "underground",
-      );
-    } else {
-      const [unit] = await db.select().from(unitsTable).where(eq(unitsTable.id, caller.unitId));
-      let legacyLots: { lotNumber: string; building: string; isInside: boolean }[] = [];
-      if (unit?.parkingLots) {
-        try {
-          const parsed = JSON.parse(unit.parkingLots);
-          if (Array.isArray(parsed)) legacyLots = parsed;
-        } catch {
-          // Malformed stored JSON → treat as no eligible lot
-        }
-      }
-      hasUndergroundEntitlement = legacyLots.some(lot => lot.isInside === true);
-    }
+  const unitId = caller.unitId ?? undefined;
+  if (unitId && (!Number.isInteger(parkingLotId) || parkingLotId <= 0)) {
+    return res.status(400).json({ error: "PARKING_LOT_REQUIRED", message: "Select one of your unit's registered parking lots." });
   }
-
-  if (caller.role === "tenant" && hasUndergroundEntitlement && isBasementParking !== true) {
-    return res.status(400).json({
-      error: "UNDERGROUND_PARKING_CONFIRMATION_REQUIRED",
-      message: "Confirm that this vehicle will use the unit's underground parking before submitting.",
-    });
+  const [selectedLot] = unitId
+    ? await db.select().from(parkingLotsTable).where(and(
+      eq(parkingLotsTable.id, parkingLotId),
+      eq(parkingLotsTable.unitId, unitId),
+      eq(parkingLotsTable.active, true),
+    ))
+    : [undefined];
+  if (unitId && !selectedLot) {
+    return res.status(400).json({ error: "PARKING_LOT_NOT_IN_UNIT", message: "The selected parking lot does not belong to your unit." });
   }
-
-  if (isBasementParking && !caller.unitId) {
-    return res.status(400).json({ error: "BASEMENT_NO_UNIT", message: "No unit linked to your account — cannot verify underground parking eligibility." });
-  }
-  if (isBasementParking && !hasUndergroundEntitlement) {
-    return res.status(400).json({ error: "BASEMENT_PARKING_NOT_REGISTERED", message: "Your unit has no registered underground parking space." });
-  }
+  const isBasementParking = selectedLot?.parkingType === "underground";
 
   // Count existing active vehicles for this user
   const existing = await db.select().from(vehiclesTable)
@@ -197,8 +213,6 @@ router.post("/vehicles", requireApiAuth, async (req, res) => {
   //
   // Staff callers without a unitId (e.g. an admin registering their own
   // admin account) skip the entitlement check — they have no unit.
-  const unitId = caller.unitId ?? undefined;
-
   // Helper: count active vehicles of the requested type for this unit
   async function checkParkingEntitlement(tx: Pick<typeof db, "select">): Promise<string | null> {
     if (!unitId) return null; // no unit → no entitlement limit applies
@@ -284,6 +298,7 @@ router.post("/vehicles", requireApiAuth, async (req, res) => {
         make, model, year, color, plateNumber, istimaraNumber,
         isAdditional,
         isBasementParking: !!isBasementParking,
+        parkingLotId: selectedLot?.id ?? null,
         registrationDocKey: registrationDocKey ?? null,
         status,
       }).returning();
@@ -309,11 +324,17 @@ router.post("/vehicles", requireApiAuth, async (req, res) => {
   if (isAdditional) {
     const callerName = verifiedResidentName
       ?? (`${caller.firstName ?? ""} ${caller.lastName ?? ""}`.trim() || caller.email);
+    const [callerUnit] = unitId
+      ? await db.select({
+        building: unitsTable.building,
+        unitNumber: unitsTable.unitNumber,
+      }).from(unitsTable).where(eq(unitsTable.id, unitId))
+      : [undefined];
     sendAdminAlert(
       `[Action Required] Additional Vehicle Request — ${make} ${model} (${plateNumber})`,
       `<h2>Additional Vehicle Pending Approval</h2>
        <p><strong>Resident:</strong> ${callerName}</p>
-       <p><strong>Unit:</strong> ${caller.unitNumber ?? "—"}</p>
+        <p><strong>Unit:</strong> ${callerUnit ? `${callerUnit.building}${callerUnit.unitNumber}` : "—"}</p>
        <p><strong>Vehicle:</strong> ${make} ${model} ${year ?? ""}</p>
        <p><strong>Plate Number:</strong> ${plateNumber}</p>
        <p><strong>Color:</strong> ${color ?? "—"}</p>
@@ -323,7 +344,11 @@ router.post("/vehicles", requireApiAuth, async (req, res) => {
   }
 
   // E1: include the verified resident name in the response (null for staff without a stub)
-  res.status(201).json({ ...vehicle, verifiedResidentName });
+  res.status(201).json({
+    ...vehicle,
+    verifiedResidentName,
+    parkingLot: parkingLotResponse(selectedLot),
+  });
 });
 
 // ── GET /vehicles/:id ─────────────────────────────────────────────────────────
@@ -334,7 +359,12 @@ router.get("/vehicles/:id", requireApiAuth, async (req, res) => {
   const [vehicle] = await db.select().from(vehiclesTable).where(eq(vehiclesTable.id, Number(req.params.id)));
   if (!vehicle) return res.status(404).json({ error: "Not found" });
   if (!APPROVER_ROLES.includes(caller.role) && vehicle.userId !== caller.id) return res.status(403).json({ error: "Forbidden" });
-  res.json(vehicle);
+  const [parkingLot] = vehicle.parkingLotId === null
+    ? [null]
+    : await db.select().from(parkingLotsTable).where(eq(parkingLotsTable.id, vehicle.parkingLotId));
+  // Do not filter active here: an existing vehicle remains assigned to an
+  // inactive lot and its detail must render the historical assignment.
+  res.json({ ...vehicle, parkingLot: parkingLotResponse(parkingLot) });
 });
 
 // ── GET /vehicles/:id/registration-doc ───────────────────────────────────────
@@ -426,7 +456,21 @@ router.patch("/vehicles/:id", requireApiAuth, async (req, res) => {
   const isApproverCaller = APPROVER_ROLES.includes(caller.role);
   if (!isApproverCaller && existing.userId !== caller.id) return res.status(403).json({ error: "Forbidden" });
 
-  const { make, model, year, color, plateNumber, istimaraNumber, status, approvalNote, rejectionReason } = req.body;
+  const { make, model, year, color, plateNumber, istimaraNumber, status, approvalNote, rejectionReason, parkingLotId } = req.body;
+  let selectedLot: typeof parkingLotsTable.$inferSelect | undefined;
+  if (parkingLotId !== undefined) {
+    if (!Number.isInteger(parkingLotId) || parkingLotId <= 0 || existing.unitId == null) {
+      return res.status(400).json({ error: "PARKING_LOT_NOT_IN_UNIT", message: "The selected parking lot does not belong to this vehicle's unit." });
+    }
+    [selectedLot] = await db.select().from(parkingLotsTable).where(and(
+      eq(parkingLotsTable.id, parkingLotId),
+      eq(parkingLotsTable.unitId, existing.unitId),
+      eq(parkingLotsTable.active, true),
+    ));
+    if (!selectedLot) {
+      return res.status(400).json({ error: "PARKING_LOT_NOT_IN_UNIT", message: "The selected parking lot does not belong to this vehicle's unit." });
+    }
+  }
 
   // Only admin can approve additional vehicles
   if (status === "active" && existing.isAdditional && caller.role !== "admin") {
@@ -467,6 +511,7 @@ router.patch("/vehicles/:id", requireApiAuth, async (req, res) => {
       ...(color !== undefined && { color }),
       ...(plateNumber !== undefined && { plateNumber }),
       ...(istimaraNumber !== undefined && { istimaraNumber }),
+       ...(selectedLot && { parkingLotId: selectedLot.id, isBasementParking: selectedLot.parkingType === "underground" }),
       ...(status !== undefined && { status }),
       ...(approvalNote !== undefined && { approvalNote }),
       ...(status === "active" && existing.isAdditional && { approvedById: caller.id, reviewedById: caller.id }),
@@ -515,7 +560,14 @@ router.patch("/vehicles/:id", requireApiAuth, async (req, res) => {
     }
   }
 
-  res.json(vehicle);
+  res.json({
+    ...vehicle,
+    parkingLot: parkingLotResponse(selectedLot ?? (
+      vehicle?.parkingLotId == null
+        ? null
+        : (await db.select().from(parkingLotsTable).where(eq(parkingLotsTable.id, vehicle.parkingLotId)))[0]
+    )),
+  });
 });
 
 // ── DELETE /vehicles/:id ──────────────────────────────────────────────────────
