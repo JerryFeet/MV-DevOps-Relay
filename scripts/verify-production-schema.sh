@@ -24,11 +24,11 @@ query_output="$(
     2>&1 <<'SQL'
 WITH expected_counts(check_name, expected_count) AS (
   VALUES
-    ('public tables'::text, 50::bigint),
-    ('public columns'::text, 665::bigint),
-    ('public constraints'::text, 155::bigint),
-    ('public indexes'::text, 164::bigint),
-    ('public non-internal triggers'::text, 9::bigint)
+    ('public tables'::text, 52::bigint),
+    ('public columns'::text, 685::bigint),
+    ('public constraints'::text, 165::bigint),
+    ('public indexes'::text, 170::bigint),
+    ('public non-internal triggers'::text, 11::bigint)
 ),
 actual_counts(check_name, actual_count) AS (
   SELECT 'public tables', count(*)::bigint
@@ -135,6 +135,91 @@ protection_checks(check_name, expected_count, actual_count) AS (
   WHERE trig.tgname = 'trg_enforce_one_active_unit_facility_booking'
     AND trig.tgrelid = 'public.bookings'::regclass
     AND NOT trig.tgisinternal
+  UNION ALL
+  SELECT 'occupancy correction operations table', 1::bigint, count(*)::bigint
+  FROM pg_class AS c
+  WHERE c.oid = 'public.occupancy_correction_operations'::regclass
+    AND c.relkind IN ('r', 'p')
+  UNION ALL
+  SELECT 'occupancy correction operations columns', 11::bigint, count(*)::bigint
+  FROM information_schema.columns
+  WHERE table_schema = 'public'
+    AND table_name = 'occupancy_correction_operations'
+    AND column_name IN (
+      'id', 'idempotency_key', 'correction_key', 'unit_id', 'actor_user_id',
+      'reason', 'before_snapshot', 'after_snapshot', 'affected_ids',
+      'postcondition_summary', 'created_at'
+    )
+  UNION ALL
+  SELECT 'occupancy correction operations constraints', 4::bigint, count(*)::bigint
+  FROM pg_constraint AS con
+  WHERE con.conrelid = 'public.occupancy_correction_operations'::regclass
+    AND con.conname IN (
+      'occupancy_correction_operations_pkey',
+      'occupancy_correction_operations_reason_check',
+      'occupancy_correction_operations_actor_user_id_fkey',
+      'occupancy_correction_operations_unit_id_fkey'
+    )
+  UNION ALL
+  SELECT 'occupancy correction operations indexes', 3::bigint, count(*)::bigint
+  FROM pg_indexes
+  WHERE schemaname = 'public'
+    AND tablename = 'occupancy_correction_operations'
+    AND indexname IN (
+      'uq_occupancy_correction_operations_idempotency',
+      'uq_occupancy_correction_operations_correction',
+      'idx_occupancy_correction_operations_unit_created'
+    )
+  UNION ALL
+  SELECT 'occupancy append-only mutation function', 1::bigint, count(*)::bigint
+  FROM pg_proc
+  WHERE proname = 'reject_occupancy_append_only_mutation'
+    AND pg_function_is_visible(oid)
+  UNION ALL
+  SELECT 'occupancy correction operations append-only trigger', 1::bigint, count(*)::bigint
+  FROM pg_trigger AS trig
+  WHERE trig.tgname = 'trg_occupancy_correction_operations_immutable'
+    AND trig.tgrelid = 'public.occupancy_correction_operations'::regclass
+    AND NOT trig.tgisinternal
+  UNION ALL
+  SELECT 'occupancy correction operation supplements table', 1::bigint, count(*)::bigint
+  FROM pg_class AS c
+  WHERE c.oid = 'public.occupancy_correction_operation_supplements'::regclass
+    AND c.relkind IN ('r', 'p')
+  UNION ALL
+  SELECT 'occupancy correction operation supplements columns', 9::bigint, count(*)::bigint
+  FROM information_schema.columns
+  WHERE table_schema = 'public'
+    AND table_name = 'occupancy_correction_operation_supplements'
+    AND column_name IN (
+      'id', 'operation_id', 'actor_user_id', 'reason', 'final_snapshot',
+      'final_snapshot_sha256', 'original_after_snapshot_sha256',
+      'postcondition_summary', 'created_at'
+    )
+  UNION ALL
+  SELECT 'occupancy correction operation supplements constraints', 6::bigint, count(*)::bigint
+  FROM pg_constraint AS con
+  WHERE con.conrelid = 'public.occupancy_correction_operation_supplements'::regclass
+    AND con.conname IN (
+      'occupancy_correction_operation_supplements_pkey',
+      'occupancy_correction_operation_supplements_reason_check',
+      'occupancy_correction_operation_supp_final_snapshot_sha256_check',
+      'occupancy_correction_operati_original_after_snapshot_sha2_check',
+      'occupancy_correction_operation_supplements_actor_user_id_fkey',
+      'occupancy_correction_operation_supplements_operation_id_fkey'
+    )
+  UNION ALL
+  SELECT 'occupancy correction operation supplements index', 1::bigint, count(*)::bigint
+  FROM pg_indexes
+  WHERE schemaname = 'public'
+    AND tablename = 'occupancy_correction_operation_supplements'
+    AND indexname = 'uq_occupancy_correction_operation_supplements_operation'
+  UNION ALL
+  SELECT 'occupancy correction operation supplements append-only trigger', 1::bigint, count(*)::bigint
+  FROM pg_trigger AS trig
+  WHERE trig.tgname = 'trg_occupancy_correction_operation_supplements_immutable'
+    AND trig.tgrelid = 'public.occupancy_correction_operation_supplements'::regclass
+    AND NOT trig.tgisinternal
 ),
 all_checks AS (
   SELECT expected.check_name, expected.expected_count, actual.actual_count
@@ -190,4 +275,4 @@ if [[ "${#failures[@]}" -gt 0 ]]; then
 fi
 
 echo
-echo "PASS: production schema matches the accepted 50/665/155/164/9 catalog and all thirteen raw protections."
+echo "PASS: production schema matches the accepted 52/685/165/170/11 catalog and all twenty-four raw protections."

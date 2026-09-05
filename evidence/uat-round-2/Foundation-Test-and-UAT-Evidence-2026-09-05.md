@@ -4,18 +4,21 @@
 **Environment:** Development/UAT only. **Production:** not accessed or changed.  
 **Architect review:** **PASS**.
 **Continuity:** Baseline replay/catalog evidence is in
-[Baseline-0049-0050-Continuity-Evidence-2026-09-05.md](Baseline-0049-0050-Continuity-Evidence-2026-09-05.md).
+[Baseline-0049-0050-Continuity-Evidence-2026-09-05.md](Baseline-0049-0050-Continuity-Evidence-2026-09-05.md)
+and the final W14 result is in
+[W14-Correction-Applied-Evidence-2026-09-05.md](W14-Correction-Applied-Evidence-2026-09-05.md).
 
 ## Exact suite results
 
 | Suite | Result |
 | --- | --- |
-| Full API | **103 files / 1468 passed / 21 skipped** |
+| Full API | **104 files / 1473 passed / 21 skipped** |
 | Focused atomic/occupancy API | **8 files / 224 passed** |
+| Focused W14 correction | **5 / 5 passed** |
 | Portal | **77 files / 1419 passed** |
 
-Exact recorded forms: **103 files/1468 passed/21 skipped**, **8 files/224
-passed**, and **77 files/1419 passed**.
+Exact recorded forms: **104 files/1473 passed/21 skipped**, **8 files/224
+passed**, **5/5 focused W14**, and **77 files/1419 passed**.
 
 Focused API coverage includes the unit lock/invariant, primary establishment,
 four-direct/fifth-review branch, final approve/refuse semantics, secondary
@@ -24,6 +27,11 @@ scheduling, whole-household release, and owner-claim preservation. Relevant
 implementation/test sources include `src/lib/occupancy.ts`,
 `src/lib/releaseSubject.ts`, `src/lib/moveOutScheduler.ts`, and
 `src/__tests__/releaseSubject.test.ts`.
+
+Focused W14 coverage proves disposable-clone wrong-actor abort with zero
+mutation, correction execution, and idempotent replay. The Development schema
+verifier and H4 protection check passed at **52/685/165/170/11**
+(tables/columns/constraints/indexes/non-internal triggers).
 
 ## Managed Playwright regression
 

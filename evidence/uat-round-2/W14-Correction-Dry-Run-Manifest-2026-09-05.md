@@ -1,8 +1,8 @@
-# W14 correction — dedicated dry-run manifest
+# W14 correction — approved and applied manifest
 
 **Date:** 2026-09-05  
-**Mode:** public-safe, read-only remediation plan; no mutation.  
-**Status:** **APPROVAL REQUIRED / NOT APPLIED**  
+**Mode:** public-safe approved-remediation record.
+**Status:** **ACCEPTED AND APPLIED IN DEVELOPMENT**
 **Production:** not accessed or changed.
 
 This document supplements
@@ -12,15 +12,14 @@ names, email addresses, or full national IDs.
 
 ## Execution contract
 
-This is a **dedicated tenant-preserving controlled remediation**, not an owner
-release and not a use of the existing owner-release path. Under the canonical
-occupancy advisory lock and locked unit row, the remediation service must
-re-read this exact prestate before changing anything. If it differs, it must
-refuse without effects.
+This was a **dedicated tenant-preserving controlled remediation**, not an owner
+release and not a use of the existing owner-release path. It acquired the
+canonical occupancy advisory lock and locked unit row, then re-read the exact
+prestate before applying the approved effects.
 
-## Exact locked prestate and proposed transitions
+## Exact locked prestate and applied transitions
 
-| Record | Locked prestate | Proposed poststate |
+| Record | Locked prestate | Applied poststate |
 | --- | --- | --- |
 | Unit **10** | `verifiedOwnerId=2108`; `verifiedTenantId=2131`; `occupantType=tenant_occupied` | All three fields unchanged |
 | User **2108** | owner; `verified_owner` | user retained; `status=suspended`; `unitId=null`; `unitNumber=null`; no deletion and no Clerk deletion job |
@@ -35,35 +34,36 @@ refuse without effects.
 | Verification **4** | approved | unchanged |
 | Tenancy lifecycle **1** | active | unchanged |
 | Waha application **8** | active | revoked |
-| Waha credentials **70**, **71** | active | revoked with execution timestamp and correction reason; append revocation event for each credential |
+| Waha credentials **70**, **71** | active | revoked with execution timestamp and correction reason; one revocation event appended for each credential |
 | Vehicle **6** | active | inactive; `parkingLotId=null`; `userId=null`; retained for history |
 | Bookings **25**, **26**, **53** | cancelled | unchanged: user, unit, and status retained |
 | `release_operations` | no remediation operation | no row created |
 | `resident_removal_operations` | no remediation operation | no row created |
 
-The plan has four resident archival effects (3, 4, 6, 12), one tenant
-reactivation/primary designation (5), one invitation revocation, one Waha
-application revocation, two credential revocations with two events, and one
-retained-vehicle deactivation. It does not alter either unit claim, either
-approved verification, the active tenancy lifecycle, or the listed cancelled
-bookings.
+Execution created correction operation **1**, resolved migration-correction
+queue row **6**, and recorded supplement **1**. It has four resident archival
+effects (3, 4, 6, 12), one tenant reactivation/primary designation (5), one
+invitation revocation, one Waha application revocation, two credential
+revocations with two events, and one retained-vehicle deactivation. It did not
+alter either unit claim, either approved verification, the active tenancy
+lifecycle, or the listed cancelled bookings.
 
-## Required schema/service addition
+## Applied schema/service addition
 
-Approval includes a forward migration and a dedicated service that create
+The approved forward migration and dedicated service create
 append-only `occupancy_correction_operations`. The operation must have a
 unique idempotency/correction key and record the actor, reason, full
 before/after state, affected IDs, and postconditions. In the same locked
 transaction, it must insert this audit row and resolve the corresponding
 `data_migration_corrections` row.
 
-The generated operation ID, actor, timestamps, and idempotency key are supplied
-only at execution; exact values cannot truthfully be known in this read-only
-manifest.
+Operation 1 supplied the generated execution values. This public record omits
+the actor's personal identifiers, timestamp values, idempotency value, and
+full audit snapshot.
 
-## Required postconditions
+## Verified postconditions
 
-After a successful one-time transaction:
+After the one-time Development transaction:
 
 - unit 10 still has `verifiedOwnerId=2108`,
   `verifiedTenantId=2131`, and `occupantType=tenant_occupied`;
@@ -74,10 +74,15 @@ After a successful one-time transaction:
 - the immutable correction operation and resolved migration-correction record
   are present.
 
-## APPROVAL REQUIRED / NOT APPLIED
+## Execution identity boundary
 
-Separate approval is required **only** for implementing the forward migration
-and dedicated service and then performing this one-time Development correction.
-No W14 row, credential, invitation, account, vehicle, booking, audit row,
-schema, or migration has been changed by this manifest. Production is not part
-of this approval or this work.
+The administrator identity was matched by normalized email to user **2105**.
+It was absent from all correction-subject and entitlement references and
+remained unitless and otherwise unchanged. The normalized address itself is
+not published.
+
+## Applied-in-Development boundary
+
+This approval covered the forward migration, dedicated service, and this
+one-time Development correction only. It did not authorize or perform
+Production access or change.

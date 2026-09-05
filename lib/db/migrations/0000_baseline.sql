@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict cIU7pQfUMXtSURl2Bk3OyACql8VoGzXqhbQ2bGg94RvYtEkmLF612mlhv8hTzsN
+\restrict 8eIaXOPKz8YgI4DJyZ5KrtSTfDl81R4YAAflTjSQWXRbo1vc0J3mPzSXhJ2kYIA
 
 -- Dumped from database version 16.10
 -- Dumped by pg_dump version 16.10
@@ -1581,6 +1581,86 @@ ALTER SEQUENCE public.notification_preferences_id_seq OWNED BY public.notificati
 
 
 --
+-- Name: occupancy_correction_operation_supplements; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.occupancy_correction_operation_supplements (
+    id integer NOT NULL,
+    operation_id integer NOT NULL,
+    actor_user_id integer NOT NULL,
+    reason text NOT NULL,
+    final_snapshot jsonb NOT NULL,
+    final_snapshot_sha256 text NOT NULL,
+    original_after_snapshot_sha256 text NOT NULL,
+    postcondition_summary jsonb NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT occupancy_correction_operati_original_after_snapshot_sha2_check CHECK ((original_after_snapshot_sha256 ~ '^[0-9a-f]{64}$'::text)),
+    CONSTRAINT occupancy_correction_operation_supp_final_snapshot_sha256_check CHECK ((final_snapshot_sha256 ~ '^[0-9a-f]{64}$'::text)),
+    CONSTRAINT occupancy_correction_operation_supplements_reason_check CHECK ((btrim(reason) <> ''::text))
+);
+
+
+--
+-- Name: occupancy_correction_operation_supplements_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.occupancy_correction_operation_supplements_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: occupancy_correction_operation_supplements_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.occupancy_correction_operation_supplements_id_seq OWNED BY public.occupancy_correction_operation_supplements.id;
+
+
+--
+-- Name: occupancy_correction_operations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.occupancy_correction_operations (
+    id integer NOT NULL,
+    idempotency_key text NOT NULL,
+    correction_key text NOT NULL,
+    unit_id integer NOT NULL,
+    actor_user_id integer NOT NULL,
+    reason text NOT NULL,
+    before_snapshot jsonb NOT NULL,
+    after_snapshot jsonb NOT NULL,
+    affected_ids jsonb NOT NULL,
+    postcondition_summary jsonb NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT occupancy_correction_operations_reason_check CHECK ((btrim(reason) <> ''::text))
+);
+
+
+--
+-- Name: occupancy_correction_operations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.occupancy_correction_operations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: occupancy_correction_operations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.occupancy_correction_operations_id_seq OWNED BY public.occupancy_correction_operations.id;
+
+
+--
 -- Name: ownership_change_events; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2837,6 +2917,20 @@ ALTER TABLE ONLY public.notification_preferences ALTER COLUMN id SET DEFAULT nex
 
 
 --
+-- Name: occupancy_correction_operation_supplements id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.occupancy_correction_operation_supplements ALTER COLUMN id SET DEFAULT nextval('public.occupancy_correction_operation_supplements_id_seq'::regclass);
+
+
+--
+-- Name: occupancy_correction_operations id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.occupancy_correction_operations ALTER COLUMN id SET DEFAULT nextval('public.occupancy_correction_operations_id_seq'::regclass);
+
+
+--
 -- Name: ownership_change_events id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3250,6 +3344,22 @@ ALTER TABLE ONLY public.notification_preferences
 
 ALTER TABLE ONLY public.notification_preferences
     ADD CONSTRAINT notification_preferences_user_id_unique UNIQUE (user_id);
+
+
+--
+-- Name: occupancy_correction_operation_supplements occupancy_correction_operation_supplements_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.occupancy_correction_operation_supplements
+    ADD CONSTRAINT occupancy_correction_operation_supplements_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: occupancy_correction_operations occupancy_correction_operations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.occupancy_correction_operations
+    ADD CONSTRAINT occupancy_correction_operations_pkey PRIMARY KEY (id);
 
 
 --
@@ -3709,6 +3819,13 @@ CREATE INDEX idx_notification_events_due ON public.notification_events USING btr
 
 
 --
+-- Name: idx_occupancy_correction_operations_unit_created; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_occupancy_correction_operations_unit_created ON public.occupancy_correction_operations USING btree (unit_id, created_at);
+
+
+--
 -- Name: idx_ownership_change_events_outgoing_owner_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4143,6 +4260,27 @@ CREATE UNIQUE INDEX uq_monthly_booking_allowance_unit_period ON public.monthly_b
 
 
 --
+-- Name: uq_occupancy_correction_operation_supplements_operation; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX uq_occupancy_correction_operation_supplements_operation ON public.occupancy_correction_operation_supplements USING btree (operation_id);
+
+
+--
+-- Name: uq_occupancy_correction_operations_correction; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX uq_occupancy_correction_operations_correction ON public.occupancy_correction_operations USING btree (correction_key);
+
+
+--
+-- Name: uq_occupancy_correction_operations_idempotency; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX uq_occupancy_correction_operations_idempotency ON public.occupancy_correction_operations USING btree (idempotency_key);
+
+
+--
 -- Name: uq_parking_lots_unit_building_number; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4259,6 +4397,20 @@ CREATE TRIGGER trg_extra_resident_request_finality BEFORE UPDATE ON public.extra
 --
 
 CREATE TRIGGER trg_monthly_booking_allowances_immutable BEFORE DELETE OR UPDATE ON public.monthly_booking_allowances FOR EACH ROW EXECUTE FUNCTION public.reject_immutable_unit_registry_evidence();
+
+
+--
+-- Name: occupancy_correction_operation_supplements trg_occupancy_correction_operation_supplements_immutable; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trg_occupancy_correction_operation_supplements_immutable BEFORE DELETE OR UPDATE ON public.occupancy_correction_operation_supplements FOR EACH ROW EXECUTE FUNCTION public.reject_occupancy_append_only_mutation();
+
+
+--
+-- Name: occupancy_correction_operations trg_occupancy_correction_operations_immutable; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trg_occupancy_correction_operations_immutable BEFORE DELETE OR UPDATE ON public.occupancy_correction_operations FOR EACH ROW EXECUTE FUNCTION public.reject_occupancy_append_only_mutation();
 
 
 --
@@ -4417,6 +4569,38 @@ ALTER TABLE ONLY public.move_forms
 
 ALTER TABLE ONLY public.notification_preferences
     ADD CONSTRAINT notification_preferences_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: occupancy_correction_operation_supplements occupancy_correction_operation_supplements_actor_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.occupancy_correction_operation_supplements
+    ADD CONSTRAINT occupancy_correction_operation_supplements_actor_user_id_fkey FOREIGN KEY (actor_user_id) REFERENCES public.users(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: occupancy_correction_operation_supplements occupancy_correction_operation_supplements_operation_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.occupancy_correction_operation_supplements
+    ADD CONSTRAINT occupancy_correction_operation_supplements_operation_id_fkey FOREIGN KEY (operation_id) REFERENCES public.occupancy_correction_operations(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: occupancy_correction_operations occupancy_correction_operations_actor_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.occupancy_correction_operations
+    ADD CONSTRAINT occupancy_correction_operations_actor_user_id_fkey FOREIGN KEY (actor_user_id) REFERENCES public.users(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: occupancy_correction_operations occupancy_correction_operations_unit_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.occupancy_correction_operations
+    ADD CONSTRAINT occupancy_correction_operations_unit_id_fkey FOREIGN KEY (unit_id) REFERENCES public.units(id) ON DELETE RESTRICT;
 
 
 --
@@ -4751,5 +4935,5 @@ ALTER TABLE ONLY public.waha_replacement_requests
 -- PostgreSQL database dump complete
 --
 
-\unrestrict cIU7pQfUMXtSURl2Bk3OyACql8VoGzXqhbQ2bGg94RvYtEkmLF612mlhv8hTzsN
+\unrestrict 8eIaXOPKz8YgI4DJyZ5KrtSTfDl81R4YAAflTjSQWXRbo1vc0J3mPzSXhJ2kYIA
 
