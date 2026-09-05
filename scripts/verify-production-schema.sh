@@ -24,11 +24,11 @@ query_output="$(
     2>&1 <<'SQL'
 WITH expected_counts(check_name, expected_count) AS (
   VALUES
-    ('public tables'::text, 47::bigint),
-    ('public columns'::text, 634::bigint),
-    ('public constraints'::text, 138::bigint),
-    ('public indexes'::text, 155::bigint),
-    ('public non-internal triggers'::text, 6::bigint)
+    ('public tables'::text, 50::bigint),
+    ('public columns'::text, 665::bigint),
+    ('public constraints'::text, 155::bigint),
+    ('public indexes'::text, 164::bigint),
+    ('public non-internal triggers'::text, 9::bigint)
 ),
 actual_counts(check_name, actual_count) AS (
   SELECT 'public tables', count(*)::bigint
@@ -190,4 +190,4 @@ if [[ "${#failures[@]}" -gt 0 ]]; then
 fi
 
 echo
-echo "PASS: production schema matches the accepted 47/634/138/155/6 catalog and all thirteen raw protections."
+echo "PASS: production schema matches the accepted 50/665/155/164/9 catalog and all thirteen raw protections."

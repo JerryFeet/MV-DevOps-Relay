@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict R6NPg8dzC8jB1jjKOgucUkvTtbdnOlzTs8zmn4NePsP9PRPiQRLD7DYeuoDFaGx
+\restrict cIU7pQfUMXtSURl2Bk3OyACql8VoGzXqhbQ2bGg94RvYtEkmLF612mlhv8hTzsN
 
 -- Dumped from database version 16.10
 -- Dumped by pg_dump version 16.10
@@ -17,11 +17,6 @@ SET check_function_bodies = false;
 SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
-
---
--- Name: public; Type: SCHEMA; Schema: -; Owner: -
---
-
 
 
 --
@@ -60,6 +55,30 @@ CREATE TYPE public.data_correction_status AS ENUM (
     'open',
     'resolved',
     'ignored'
+);
+
+
+--
+-- Name: extra_resident_request_event_type; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.extra_resident_request_event_type AS ENUM (
+    'submitted',
+    'approved',
+    'refused',
+    'cancelled'
+);
+
+
+--
+-- Name: extra_resident_request_status; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.extra_resident_request_status AS ENUM (
+    'pending',
+    'approved',
+    'refused',
+    'cancelled'
 );
 
 
@@ -466,6 +485,27 @@ $$;
 
 
 --
+-- Name: enforce_extra_resident_request_finality(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.enforce_extra_resident_request_finality() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  IF OLD.status IN ('approved', 'refused', 'cancelled')
+     AND (NEW.status IS DISTINCT FROM OLD.status
+       OR NEW.reviewed_by_id IS DISTINCT FROM OLD.reviewed_by_id
+       OR NEW.decision_reason IS DISTINCT FROM OLD.decision_reason
+       OR NEW.resulting_resident_id IS DISTINCT FROM OLD.resulting_resident_id
+       OR NEW.decided_at IS DISTINCT FROM OLD.decided_at
+       OR NEW.cancelled_at IS DISTINCT FROM OLD.cancelled_at) THEN
+    RAISE EXCEPTION 'EXTRA_RESIDENT_REQUEST_FINAL';
+  END IF;
+  RETURN NEW;
+END $$;
+
+
+--
 -- Name: enforce_one_active_unit_facility_booking(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -526,6 +566,15 @@ $$;
 CREATE FUNCTION public.reject_immutable_unit_registry_evidence() RETURNS trigger
     LANGUAGE plpgsql
     AS $$ BEGIN RAISE EXCEPTION 'IMMUTABLE_UNIT_REGISTRY_EVIDENCE'; END $$;
+
+
+--
+-- Name: reject_occupancy_append_only_mutation(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.reject_occupancy_append_only_mutation() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$ BEGIN RAISE EXCEPTION 'OCCUPANCY_AUDIT_APPEND_ONLY'; END $$;
 
 
 SET default_tablespace = '';
@@ -951,6 +1000,85 @@ ALTER SEQUENCE public.external_identity_deletion_jobs_id_seq OWNED BY public.ext
 
 
 --
+-- Name: extra_resident_request_events; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.extra_resident_request_events (
+    id integer NOT NULL,
+    request_id integer NOT NULL,
+    event_type public.extra_resident_request_event_type NOT NULL,
+    actor_user_id integer,
+    reason text,
+    snapshot jsonb,
+    created_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: extra_resident_request_events_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.extra_resident_request_events_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: extra_resident_request_events_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.extra_resident_request_events_id_seq OWNED BY public.extra_resident_request_events.id;
+
+
+--
+-- Name: extra_resident_requests; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.extra_resident_requests (
+    id integer NOT NULL,
+    unit_id integer NOT NULL,
+    requester_resident_id integer NOT NULL,
+    proposed_identity_key text NOT NULL,
+    proposed_resident jsonb NOT NULL,
+    reason text NOT NULL,
+    proof_warning_acknowledged boolean NOT NULL,
+    status public.extra_resident_request_status DEFAULT 'pending'::public.extra_resident_request_status NOT NULL,
+    reviewed_by_id integer,
+    decision_reason text,
+    resulting_resident_id integer,
+    submitted_at timestamp with time zone DEFAULT now() NOT NULL,
+    decided_at timestamp with time zone,
+    cancelled_at timestamp with time zone,
+    CONSTRAINT extra_resident_requests_check CHECK ((((status = 'pending'::public.extra_resident_request_status) AND (reviewed_by_id IS NULL) AND (decided_at IS NULL) AND (decision_reason IS NULL)) OR ((status = 'approved'::public.extra_resident_request_status) AND (reviewed_by_id IS NOT NULL) AND (decided_at IS NOT NULL) AND (resulting_resident_id IS NOT NULL)) OR ((status = 'refused'::public.extra_resident_request_status) AND (reviewed_by_id IS NOT NULL) AND (decided_at IS NOT NULL) AND (btrim(COALESCE(decision_reason, ''::text)) <> ''::text)) OR ((status = 'cancelled'::public.extra_resident_request_status) AND (cancelled_at IS NOT NULL)))),
+    CONSTRAINT extra_resident_requests_reason_check CHECK ((btrim(reason) <> ''::text))
+);
+
+
+--
+-- Name: extra_resident_requests_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.extra_resident_requests_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: extra_resident_requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.extra_resident_requests_id_seq OWNED BY public.extra_resident_requests.id;
+
+
+--
 -- Name: facilities; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1347,7 +1475,8 @@ CREATE TABLE public.move_forms (
     review_note text,
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     updated_at timestamp with time zone DEFAULT now() NOT NULL,
-    revocation_processed_at timestamp with time zone
+    revocation_processed_at timestamp with time zone,
+    unit_id integer
 );
 
 
@@ -1794,7 +1923,7 @@ CREATE TABLE public.release_operations (
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     CONSTRAINT release_operations_kind_check CHECK ((kind = ANY (ARRAY['tenant'::text, 'owner'::text]))),
     CONSTRAINT release_operations_outcome_check CHECK ((outcome = 'released'::text)),
-    CONSTRAINT release_operations_trigger_type_check CHECK ((trigger_type = ANY (ARRAY['move_out_form'::text, 'tenancy_expiry'::text, 'ownership_change'::text])))
+    CONSTRAINT release_operations_trigger_type_check CHECK ((trigger_type = ANY (ARRAY['move_out_form'::text, 'move_out_permit'::text, 'tenancy_expiry'::text, 'ownership_change'::text])))
 );
 
 
@@ -1816,6 +1945,43 @@ CREATE SEQUENCE public.release_operations_id_seq
 --
 
 ALTER SEQUENCE public.release_operations_id_seq OWNED BY public.release_operations.id;
+
+
+--
+-- Name: resident_removal_operations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.resident_removal_operations (
+    id integer NOT NULL,
+    idempotency_key text NOT NULL,
+    unit_id integer NOT NULL,
+    resident_id integer NOT NULL,
+    actor_user_id integer NOT NULL,
+    reason text NOT NULL,
+    effect_summary jsonb DEFAULT '{}'::jsonb NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT resident_removal_operations_reason_check CHECK ((btrim(reason) <> ''::text))
+);
+
+
+--
+-- Name: resident_removal_operations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.resident_removal_operations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: resident_removal_operations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.resident_removal_operations_id_seq OWNED BY public.resident_removal_operations.id;
 
 
 --
@@ -1845,6 +2011,7 @@ CREATE TABLE public.residents (
     gender text,
     nationality text,
     id_number_is_guardian boolean DEFAULT false NOT NULL,
+    is_primary boolean DEFAULT false NOT NULL,
     CONSTRAINT residents_gender_check CHECK (((gender IS NULL) OR (gender = ANY (ARRAY['male'::text, 'female'::text]))))
 );
 
@@ -2565,6 +2732,20 @@ ALTER TABLE ONLY public.external_identity_deletion_jobs ALTER COLUMN id SET DEFA
 
 
 --
+-- Name: extra_resident_request_events id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.extra_resident_request_events ALTER COLUMN id SET DEFAULT nextval('public.extra_resident_request_events_id_seq'::regclass);
+
+
+--
+-- Name: extra_resident_requests id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.extra_resident_requests ALTER COLUMN id SET DEFAULT nextval('public.extra_resident_requests_id_seq'::regclass);
+
+
+--
 -- Name: facilities id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2709,6 +2890,13 @@ ALTER TABLE ONLY public.push_tokens ALTER COLUMN id SET DEFAULT nextval('public.
 --
 
 ALTER TABLE ONLY public.release_operations ALTER COLUMN id SET DEFAULT nextval('public.release_operations_id_seq'::regclass);
+
+
+--
+-- Name: resident_removal_operations id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.resident_removal_operations ALTER COLUMN id SET DEFAULT nextval('public.resident_removal_operations_id_seq'::regclass);
 
 
 --
@@ -2894,6 +3082,22 @@ ALTER TABLE ONLY public.documents
 
 ALTER TABLE ONLY public.external_identity_deletion_jobs
     ADD CONSTRAINT external_identity_deletion_jobs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: extra_resident_request_events extra_resident_request_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.extra_resident_request_events
+    ADD CONSTRAINT extra_resident_request_events_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: extra_resident_requests extra_resident_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.extra_resident_requests
+    ADD CONSTRAINT extra_resident_requests_pkey PRIMARY KEY (id);
 
 
 --
@@ -3118,6 +3322,22 @@ ALTER TABLE ONLY public.push_tokens
 
 ALTER TABLE ONLY public.release_operations
     ADD CONSTRAINT release_operations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: resident_removal_operations resident_removal_operations_idempotency_key_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.resident_removal_operations
+    ADD CONSTRAINT resident_removal_operations_idempotency_key_key UNIQUE (idempotency_key);
+
+
+--
+-- Name: resident_removal_operations resident_removal_operations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.resident_removal_operations
+    ADD CONSTRAINT resident_removal_operations_pkey PRIMARY KEY (id);
 
 
 --
@@ -3398,6 +3618,20 @@ CREATE INDEX idx_external_identity_deletion_jobs_due ON public.external_identity
 
 
 --
+-- Name: idx_extra_resident_request_events_request; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_extra_resident_request_events_request ON public.extra_resident_request_events USING btree (request_id);
+
+
+--
+-- Name: idx_extra_resident_requests_unit_status; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_extra_resident_requests_unit_status ON public.extra_resident_requests USING btree (unit_id, status);
+
+
+--
 -- Name: idx_guest_entry_exit_logs_pass_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3451,6 +3685,13 @@ CREATE INDEX idx_household_invitations_unit_id ON public.household_invitations U
 --
 
 CREATE INDEX idx_move_forms_reviewed_by_id ON public.move_forms USING btree (reviewed_by_id);
+
+
+--
+-- Name: idx_move_forms_unit_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_move_forms_unit_id ON public.move_forms USING btree (unit_id);
 
 
 --
@@ -3881,6 +4122,13 @@ CREATE UNIQUE INDEX uq_data_migration_correction_source_issue ON public.data_mig
 
 
 --
+-- Name: uq_extra_resident_pending_identity; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX uq_extra_resident_pending_identity ON public.extra_resident_requests USING btree (unit_id, proposed_identity_key) WHERE (status = 'pending'::public.extra_resident_request_status);
+
+
+--
 -- Name: uq_household_invitations_unit_pending; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3906,6 +4154,13 @@ CREATE UNIQUE INDEX uq_parking_lots_unit_building_number ON public.parking_lots 
 --
 
 CREATE UNIQUE INDEX uq_portal_help_screenshot_deletion_ticket ON public.portal_help_screenshot_deletion_jobs USING btree (ticket_id);
+
+
+--
+-- Name: uq_residents_one_active_primary_per_unit; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX uq_residents_one_active_primary_per_unit ON public.residents USING btree (unit_id) WHERE ((is_primary = true) AND (status = 'active'::public.resident_status));
 
 
 --
@@ -3986,10 +4241,31 @@ CREATE TRIGGER trg_enforce_one_active_unit_facility_booking BEFORE INSERT OR UPD
 
 
 --
+-- Name: extra_resident_request_events trg_extra_resident_request_events_immutable; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trg_extra_resident_request_events_immutable BEFORE DELETE OR UPDATE ON public.extra_resident_request_events FOR EACH ROW EXECUTE FUNCTION public.reject_occupancy_append_only_mutation();
+
+
+--
+-- Name: extra_resident_requests trg_extra_resident_request_finality; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trg_extra_resident_request_finality BEFORE UPDATE ON public.extra_resident_requests FOR EACH ROW EXECUTE FUNCTION public.enforce_extra_resident_request_finality();
+
+
+--
 -- Name: monthly_booking_allowances trg_monthly_booking_allowances_immutable; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER trg_monthly_booking_allowances_immutable BEFORE DELETE OR UPDATE ON public.monthly_booking_allowances FOR EACH ROW EXECUTE FUNCTION public.reject_immutable_unit_registry_evidence();
+
+
+--
+-- Name: resident_removal_operations trg_resident_removal_operations_immutable; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trg_resident_removal_operations_immutable BEFORE DELETE OR UPDATE ON public.resident_removal_operations FOR EACH ROW EXECUTE FUNCTION public.reject_occupancy_append_only_mutation();
 
 
 --
@@ -4040,6 +4316,54 @@ ALTER TABLE ONLY public.external_identity_deletion_jobs
 
 
 --
+-- Name: extra_resident_request_events extra_resident_request_events_actor_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.extra_resident_request_events
+    ADD CONSTRAINT extra_resident_request_events_actor_user_id_fkey FOREIGN KEY (actor_user_id) REFERENCES public.users(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: extra_resident_request_events extra_resident_request_events_request_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.extra_resident_request_events
+    ADD CONSTRAINT extra_resident_request_events_request_id_fkey FOREIGN KEY (request_id) REFERENCES public.extra_resident_requests(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: extra_resident_requests extra_resident_requests_requester_resident_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.extra_resident_requests
+    ADD CONSTRAINT extra_resident_requests_requester_resident_id_fkey FOREIGN KEY (requester_resident_id) REFERENCES public.residents(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: extra_resident_requests extra_resident_requests_resulting_resident_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.extra_resident_requests
+    ADD CONSTRAINT extra_resident_requests_resulting_resident_id_fkey FOREIGN KEY (resulting_resident_id) REFERENCES public.residents(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: extra_resident_requests extra_resident_requests_reviewed_by_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.extra_resident_requests
+    ADD CONSTRAINT extra_resident_requests_reviewed_by_id_fkey FOREIGN KEY (reviewed_by_id) REFERENCES public.users(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: extra_resident_requests extra_resident_requests_unit_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.extra_resident_requests
+    ADD CONSTRAINT extra_resident_requests_unit_id_fkey FOREIGN KEY (unit_id) REFERENCES public.units(id) ON DELETE RESTRICT;
+
+
+--
 -- Name: facility_booking_config_normalization_audit facility_booking_config_normalization_audit_facility_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4077,6 +4401,14 @@ ALTER TABLE ONLY public.monthly_booking_allowances
 
 ALTER TABLE ONLY public.monthly_booking_allowances
     ADD CONSTRAINT monthly_booking_allowances_unit_id_fkey FOREIGN KEY (unit_id) REFERENCES public.units(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: move_forms move_forms_unit_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.move_forms
+    ADD CONSTRAINT move_forms_unit_id_fkey FOREIGN KEY (unit_id) REFERENCES public.units(id) ON DELETE RESTRICT;
 
 
 --
@@ -4141,6 +4473,30 @@ ALTER TABLE ONLY public.portal_help_tickets
 
 ALTER TABLE ONLY public.push_tokens
     ADD CONSTRAINT push_tokens_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: resident_removal_operations resident_removal_operations_actor_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.resident_removal_operations
+    ADD CONSTRAINT resident_removal_operations_actor_user_id_fkey FOREIGN KEY (actor_user_id) REFERENCES public.users(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: resident_removal_operations resident_removal_operations_resident_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.resident_removal_operations
+    ADD CONSTRAINT resident_removal_operations_resident_id_fkey FOREIGN KEY (resident_id) REFERENCES public.residents(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: resident_removal_operations resident_removal_operations_unit_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.resident_removal_operations
+    ADD CONSTRAINT resident_removal_operations_unit_id_fkey FOREIGN KEY (unit_id) REFERENCES public.units(id) ON DELETE RESTRICT;
 
 
 --
@@ -4395,5 +4751,5 @@ ALTER TABLE ONLY public.waha_replacement_requests
 -- PostgreSQL database dump complete
 --
 
-\unrestrict R6NPg8dzC8jB1jjKOgucUkvTtbdnOlzTs8zmn4NePsP9PRPiQRLD7DYeuoDFaGx
+\unrestrict cIU7pQfUMXtSURl2Bk3OyACql8VoGzXqhbQ2bGg94RvYtEkmLF612mlhv8hTzsN
 

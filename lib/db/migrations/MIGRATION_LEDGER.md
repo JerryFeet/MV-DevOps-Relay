@@ -40,7 +40,13 @@ post-merge hooks.
 
 ## Active forward migrations
 
-None. The canonical baseline includes the PH1 Portal Help schema, tenant
+`0049_occupancy_core.sql` — explicit primary residents, fifth-resident HOA
+requests, and append-only secondary-removal operations.
+
+`0050_move_out_canonical_unit.sql` — canonical unit identity for move-out forms
+and release-operation support for the shared household move-out path.
+
+The canonical baseline includes the PH1 Portal Help schema, tenant
 identity fields, guardian-identifier marker/index, monthly booking allowance
 ledger, append-only unit correction evidence, and active unit/facility booking
 protections.
