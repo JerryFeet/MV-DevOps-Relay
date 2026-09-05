@@ -1,0 +1,12 @@
+
+> @workspace/api-server@0.0.0 typecheck /home/runner/workspace/artifacts/api-server
+> tsc -p tsconfig.json --noEmit
+
+
+> @workspace/hoa-portal@0.0.0 typecheck /home/runner/workspace/artifacts/hoa-portal
+> tsc -p tsconfig.json --noEmit
+
+
+> @workspace/hoa-mobile@0.0.0 typecheck /home/runner/workspace/artifacts/hoa-mobile
+> tsc -p tsconfig.json --noEmit
+
