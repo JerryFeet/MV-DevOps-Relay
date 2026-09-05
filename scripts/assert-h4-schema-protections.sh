@@ -61,7 +61,8 @@ BEGIN
   SELECT count(*) INTO missing_count
   FROM (VALUES
     ('users'::text, 'users_staff_unitless_check'::text),
-    ('units'::text, 'units_system_unit_identity_check'::text)
+    ('units'::text, 'units_system_unit_identity_check'::text),
+    ('unit_verifications'::text, 'unit_verifications_title_deed_number_format_check'::text)
   ) AS expected(table_name, constraint_name)
   LEFT JOIN pg_constraint actual
     ON actual.conname = expected.constraint_name
@@ -71,6 +72,16 @@ BEGIN
 
   IF missing_count <> 0 THEN
     RAISE EXCEPTION 'H4 raw CHECK catalog assertion failed (% missing)', missing_count;
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1
+    FROM pg_constraint
+    WHERE conname = 'unit_verifications_title_deed_number_format_check'
+      AND conrelid = 'public.unit_verifications'::regclass
+      AND pg_get_constraintdef(oid) LIKE '%[0-9]{16}%'
+  ) THEN
+    RAISE EXCEPTION 'title deed number format CHECK assertion failed';
   END IF;
 
   IF NOT EXISTS (
