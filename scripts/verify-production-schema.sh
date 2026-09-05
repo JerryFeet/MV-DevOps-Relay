@@ -25,8 +25,8 @@ query_output="$(
 WITH expected_counts(check_name, expected_count) AS (
   VALUES
     ('public tables'::text, 52::bigint),
-    ('public columns'::text, 685::bigint),
-    ('public constraints'::text, 167::bigint),
+    ('public columns'::text, 686::bigint),
+    ('public constraints'::text, 168::bigint),
     ('public indexes'::text, 170::bigint),
     ('public non-internal triggers'::text, 13::bigint)
 ),
@@ -70,6 +70,13 @@ protection_checks(check_name, expected_count, actual_count) AS (
   WHERE con.conname = 'units_system_unit_identity_check'
     AND con.conrelid = 'public.units'::regclass
     AND con.contype = 'c'
+  UNION ALL
+  SELECT 'unit_verifications.title_deed_number format check', 1::bigint, count(*)::bigint
+  FROM pg_constraint AS con
+  WHERE con.conname = 'unit_verifications_title_deed_number_format_check'
+    AND con.conrelid = 'public.unit_verifications'::regclass
+    AND con.contype = 'c'
+    AND pg_get_constraintdef(con.oid) LIKE '%[0-9]{16}%'
   UNION ALL
   SELECT 'units_one_system_unit partial unique index', 1::bigint, count(*)::bigint
   FROM pg_indexes
@@ -300,4 +307,4 @@ if [[ "${#failures[@]}" -gt 0 ]]; then
 fi
 
 echo
-echo "PASS: production schema matches the accepted 52/685/167/170/13 catalog and all raw protections."
+echo "PASS: production schema matches the accepted 52/686/168/170/13 catalog and all raw protections."
