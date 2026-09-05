@@ -15,6 +15,7 @@ import {
   portalPathForBase,
 } from "@workspace/portal-paths";
 import { OccupancyError, assertActivationAllowed, createHouseholdResident, loadLockedOccupancy, removeSecondaryResident, revokeHouseholdInvitationLinkage, updateResidentOccupancy } from "../lib/occupancy";
+import { canonicalUnitReference, formatUnitReference } from "../lib/unitReference";
 
 const router = Router();
 router.use("/residents", requireApiAuth, denyGuardModuleAccess);
@@ -145,10 +146,24 @@ async function createSlotInvitation(
 }
 
 /** Portal access may only be granted to adults (18+). */
-function isAdultDob(dateOfBirth: string | null | undefined): boolean {
+function isValidDateOfBirth(dateOfBirth: string | null | undefined): dateOfBirth is string {
   if (!dateOfBirth) return false;
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateOfBirth);
+  if (!match) return false;
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  const parsed = new Date(Date.UTC(year, month - 1, day));
+  const todayInRiyadh = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Riyadh" });
+  return parsed.getUTCFullYear() === year
+    && parsed.getUTCMonth() === month - 1
+    && parsed.getUTCDate() === day
+    && dateOfBirth <= todayInRiyadh;
+}
+
+function isAdultDob(dateOfBirth: string | null | undefined): boolean {
+  if (!isValidDateOfBirth(dateOfBirth)) return false;
   const dob = new Date(dateOfBirth);
-  if (Number.isNaN(dob.getTime())) return false;
   const now = new Date();
   let age = now.getFullYear() - dob.getFullYear();
   const m = now.getMonth() - dob.getMonth();
@@ -191,11 +206,19 @@ async function resolveInviteUnit(
   caller: { role: string; unitId: number | null; unitNumber: string | null },
   residentUnitNumber: string | null | undefined,
 ): Promise<{ unitId: number; unitNumber: string } | null> {
-  if (caller.unitId) return { unitId: caller.unitId, unitNumber: caller.unitNumber ?? residentUnitNumber ?? "" };
+  if (caller.unitId) {
+    const [unit] = await db.select({
+      building: unitsTable.building,
+      unitNumber: unitsTable.unitNumber,
+    }).from(unitsTable).where(eq(unitsTable.id, caller.unitId));
+    return unit
+      ? { unitId: caller.unitId, unitNumber: formatUnitReference(unit) }
+      : null;
+  }
   if (caller.role === "admin" && residentUnitNumber) {
     const [unit] = await db.select().from(unitsTable)
       .where(eq(unitsTable.unitNumber, residentUnitNumber));
-    if (unit) return { unitId: unit.id as number, unitNumber: residentUnitNumber };
+    if (unit) return { unitId: unit.id as number, unitNumber: formatUnitReference(unit) };
   }
   return null;
 }
@@ -269,19 +292,17 @@ router.post("/residents", requireApiAuth, async (req, res) => {
   const [caller] = await db.select().from(usersTable).where(eq(usersTable.clerkId, clerkId));
   if (!caller) return res.status(403).json({ error: "Forbidden" });
 
-  const { type, firstName, lastName, email, phone, unitNumber, relationship, idNumber, idNumberIsGuardian, dateOfBirth, nationality, hasPortalAccess, gender } = req.body;
+  const { type, firstName, lastName, email, phone, unitNumber, relationship, idNumber, idNumberIsGuardian, dateOfBirth, hasPortalAccess, gender } = req.body;
   if (
     !["owner", "tenant", "family"].includes(type)
     || typeof firstName !== "string" || !firstName.trim()
     || typeof lastName !== "string" || !lastName.trim()
     || typeof relationship !== "string" || !relationship.trim()
     || typeof idNumber !== "string" || !idNumber.trim()
-    || typeof dateOfBirth !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(dateOfBirth)
-    || Number.isNaN(new Date(`${dateOfBirth}T00:00:00.000Z`).getTime())
-    || typeof nationality !== "string" || !nationality.trim()
+    || !isValidDateOfBirth(dateOfBirth)
   ) {
     return res.status(400).json({
-      error: "type, firstName, lastName, relationship, idNumber, dateOfBirth, and nationality are required.",
+      error: "type, firstName, lastName, relationship, idNumber, and a valid non-future dateOfBirth are required.",
     });
   }
   if (!isValidGender(gender)) {
@@ -302,7 +323,7 @@ router.post("/residents", requireApiAuth, async (req, res) => {
     return res.status(422).json({ error: phoneResult.error });
   }
 
-  const residentUnit = await resolveInviteUnit(caller, unitNumber ?? caller.unitNumber);
+  const residentUnit = await resolveInviteUnit(caller, unitNumber);
   if (!residentUnit) {
     return res.status(422).json({
       error: "NO_UNIT_LINKED",
@@ -361,7 +382,7 @@ router.post("/residents", requireApiAuth, async (req, res) => {
       }
       const values = { type, firstName, lastName, email, phone: phoneResult.e164, phoneNormalized: phoneResult.e164,
         unitNumber: residentUnit.unitNumber, unitId: residentUnit.unitId, relationship, idNumber: idNumber ?? null,
-        idNumberIsGuardian: idNumberIsGuardian === true, dateOfBirth: dateOfBirth ?? null, nationality: nationality.trim(),
+        idNumberIsGuardian: idNumberIsGuardian === true, dateOfBirth: dateOfBirth ?? null,
         gender, hasPortalAccess: hasPortalAccess ?? false, registeredById: caller.id };
       if (state.active.length < 4) {
         const { resident: created } = await createHouseholdResident(tx, values as typeof residentsTable.$inferInsert);
@@ -391,7 +412,7 @@ router.post("/residents", requireApiAuth, async (req, res) => {
   if (resident?.hasPortalAccess && resident.email && inviteUnit) {
     const result = await createSlotInvitation(req, {
       unitId: inviteUnit.unitId,
-      unitNumber: inviteUnit.unitNumber || resident.unitNumber,
+      unitNumber: inviteUnit.unitNumber,
       email: resident.email,
       createdByUserId: caller.id,
       residentId: resident.id,
@@ -421,11 +442,12 @@ router.get("/residents/extra-requests", requireApiAuth, async (req, res) => {
     return Promise.all(requests.map(async (request) => {
       const state = await loadLockedOccupancy(tx, request.unitId);
       const requester = state.residents.find((resident: typeof residentsTable.$inferSelect) => resident.id === request.requesterResidentId);
-      const unitNumber = state.unit.unitNumber;
-      const unitReference = [state.unit.building, unitNumber].filter(Boolean).join(" ");
+      const unitReference = formatUnitReference(state.unit);
       return {
         ...request,
-        unitNumber,
+        // Keep the legacy response field, but never expose the bare registry
+        // number as a displayed address.
+        unitNumber: unitReference,
         unitReference,
         currentCount: state.active.length,
         requesterResidentName: requester ? `${requester.firstName} ${requester.lastName}`.trim() : null,
@@ -617,7 +639,7 @@ router.patch("/residents/:id", requireApiAuth, async (req, res) => {
   if (grantingAccess && effectiveEmail && inviteUnit) {
     const result = await createSlotInvitation(req, {
       unitId: inviteUnit.unitId,
-      unitNumber: inviteUnit.unitNumber || resident.unitNumber,
+      unitNumber: inviteUnit.unitNumber,
       email: effectiveEmail,
       createdByUserId: caller.id,
       residentId: resident.id,
@@ -693,7 +715,7 @@ router.post("/residents/:id/invite", requireApiAuth, async (req, res) => {
 
   const result = await createSlotInvitation(req, {
     unitId: registrarUnitId,
-    unitNumber: existing.unitNumber,
+    unitNumber: await canonicalUnitReference(registrarUnitId),
     email: existing.email,
     createdByUserId: caller.id,
     residentId: existing.id,
@@ -827,6 +849,7 @@ router.post("/residents/self", requireApiAuth, async (req, res) => {
 
   const relationship = isVerifiedOwner ? "Owner" : "Primary Tenant";
 
+  const unitReference = await canonicalUnitReference(caller.unitId);
   let resident: typeof residentsTable.$inferSelect | undefined;
   try { resident = await db.transaction(async (tx) => {
     const unitId = caller.unitId;
@@ -840,7 +863,7 @@ router.post("/residents/self", requireApiAuth, async (req, res) => {
     email: caller.email ?? null,
     phone: phoneResult.e164,
     phoneNormalized: phoneResult.e164,
-    unitNumber: caller.unitNumber ?? "",
+    unitNumber: unitReference,
     unitId: caller.unitId ?? null,
     relationship,
     idNumber: caller.nationalId ?? null,
