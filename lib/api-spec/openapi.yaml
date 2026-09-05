@@ -1,0 +1,3994 @@
+openapi: 3.1.0
+info:
+  title: Api
+  version: 0.1.0
+  description: HOA Management Platform API
+servers:
+  - url: /api
+    description: Base API path
+security:
+  - bearerAuth: []
+tags:
+  - name: health
+    description: Health operations
+  - name: users
+    description: User profile operations
+  - name: announcements
+    description: HOA announcements
+  - name: facilities
+    description: Bookable facilities
+  - name: bookings
+    description: Facility bookings
+  - name: moveForms
+    description: Move in/out forms
+  - name: permits
+    description: Renovation permits
+  - name: documents
+    description: Document library
+  - name: residents
+    description: Resident registration
+  - name: guests
+    description: Guest registration
+  - name: vehicles
+    description: Vehicle/plate registration
+  - name: admin
+    description: Admin dashboard
+  - name: ai
+    description: AI assistant and knowledge base
+  - name: payments
+    description: Payment history and receipts
+  - name: wahaPasses
+  - name: wahaGuestDayPasses
+    description: Waha Pass — resident gate-access credential system
+  - name: verify
+    description: Gate QR code verification endpoints
+  - name: unitVerifications
+    description: Unit ownership and tenancy verification
+  - name: storage
+    description: Object storage upload and serving endpoints
+  - name: portalHelp
+    description: Resident portal help requests
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      security: []
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  # ── Users ──────────────────────────────────────────────────────────────────
+  /users/me:
+    get:
+      operationId: getMyProfile
+      tags: [users]
+      summary: Get current user profile
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: Not found
+    put:
+      operationId: updateMyProfile
+      tags: [users]
+      summary: Update current user profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserUpdate"
+      responses:
+        "200":
+          description: Updated user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+
+  /users/me/sync:
+    post:
+      operationId: syncUser
+      tags: [users]
+      summary: Sync/upsert user from Clerk after sign-in
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserSync"
+      responses:
+        "200":
+          description: Synced user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+
+  /users:
+    get:
+      operationId: listUsers
+      tags: [users]
+      summary: List all users (admin only)
+      parameters:
+        - name: role
+          in: query
+          schema:
+            type: string
+            enum: [owner, tenant, admin]
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [active, pending, suspended]
+      responses:
+        "200":
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+
+  /users/{id}:
+    get:
+      operationId: getUser
+      tags: [users]
+      summary: Get user by ID (admin only)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: User
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+    patch:
+      operationId: updateUser
+      tags: [users]
+      summary: Update user (admin only)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserAdminUpdate"
+      responses:
+        "200":
+          description: Updated user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+
+  # ── Announcements ──────────────────────────────────────────────────────────
+  /announcements:
+    get:
+      operationId: listAnnouncements
+      tags: [announcements]
+      summary: List announcements (public ones unauthenticated, all when auth'd)
+      parameters:
+        - name: isPublic
+          in: query
+          schema:
+            type: boolean
+        - name: pinned
+          in: query
+          schema:
+            type: boolean
+        - name: page
+          in: query
+          schema: { type: integer, default: 1, minimum: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 50, minimum: 1, maximum: 200 }
+      responses:
+        "200":
+          description: List of announcements
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedAnnouncements"
+    post:
+      operationId: createAnnouncement
+      tags: [announcements]
+      summary: Create announcement (admin only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AnnouncementInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Announcement"
+
+  /announcements/templates:
+    get:
+      operationId: listAnnouncementTemplates
+      tags: [announcements]
+      summary: List fixed announcement templates (admin only)
+      responses:
+        "200":
+          description: Template list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AnnouncementTemplate"
+
+  /announcements/ai-suggest:
+    post:
+      operationId: aiSuggestAnnouncement
+      tags: [announcements]
+      summary: AI optimize + translate announcement text (admin only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AiSuggestInput"
+      responses:
+        "200":
+          description: Optimized and translated suggestions
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AiSuggestResult"
+
+  /announcements/{id}:
+    get:
+      operationId: getAnnouncement
+      tags: [announcements]
+      summary: Get single announcement
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Announcement
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Announcement"
+    patch:
+      operationId: updateAnnouncement
+      tags: [announcements]
+      summary: Update announcement (admin only)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AnnouncementUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Announcement"
+    delete:
+      operationId: deleteAnnouncement
+      tags: [announcements]
+      summary: Soft-delete announcement (admin only)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  # ── Facilities ─────────────────────────────────────────────────────────────
+  /facilities:
+    get:
+      operationId: listFacilities
+      tags: [facilities]
+      summary: List all bookable facilities
+      responses:
+        "200":
+          description: Facilities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Facility"
+    post:
+      operationId: createFacility
+      tags: [facilities]
+      summary: Create facility (admin only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FacilityInput"
+      responses:
+        "201":
+          description: Created facility
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Facility"
+
+  /facilities/{id}:
+    get:
+      operationId: getFacility
+      tags: [facilities]
+      summary: Get facility by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Facility
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Facility"
+    patch:
+      operationId: updateFacility
+      tags: [facilities]
+      summary: Update facility (admin only)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FacilityUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Facility"
+    delete:
+      operationId: deleteFacility
+      tags: [facilities]
+      summary: Delete facility (admin only)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /facilities/{id}/availability:
+    get:
+      operationId: getFacilityAvailability
+      tags: [facilities]
+      summary: Get booked slots for a facility on a given date
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: date
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Booked time slots
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TimeSlot"
+
+  # ── Bookings ───────────────────────────────────────────────────────────────
+  /bookings:
+    get:
+      operationId: listBookings
+      tags: [bookings]
+      summary: List bookings (mine or all for admin)
+      parameters:
+        - name: facilityId
+          in: query
+          schema:
+            type: integer
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [pending, confirmed, cancelled, completed]
+        - name: upcoming
+          in: query
+          schema:
+            type: boolean
+        - name: page
+          in: query
+          schema: { type: integer, default: 1, minimum: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 50, minimum: 1, maximum: 200 }
+      responses:
+        "200":
+          description: Bookings list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedBookings"
+    post:
+      operationId: createBooking
+      tags: [bookings]
+      summary: Create a new booking
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookingInput"
+      responses:
+        "201":
+          description: Created booking with payment intent
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookingWithPayment"
+        "403":
+          description: Forbidden — active Waha Pass credential required (error code WAHA_PASS_REQUIRED) or insufficient permissions
+
+  /bookings/{id}:
+    get:
+      operationId: getBooking
+      tags: [bookings]
+      summary: Get booking by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Booking
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Booking"
+    patch:
+      operationId: updateBooking
+      tags: [bookings]
+      summary: Reschedule or update a booking
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookingUpdate"
+      responses:
+        "200":
+          description: Updated booking
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Booking"
+
+  /bookings/{id}/cancel:
+    post:
+      operationId: cancelBooking
+      tags: [bookings]
+      summary: Cancel a booking
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Cancelled booking
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Booking"
+
+  /bookings/{id}/confirm-payment:
+    post:
+      operationId: confirmBookingPayment
+      tags: [bookings]
+      summary: Confirm payment for a booking
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaymentConfirm"
+      responses:
+        "200":
+          description: Payment confirmed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Booking"
+
+  # ── Ownership Changes ───────────────────────────────────────────────────────
+  /ownership-changes/proof-upload:
+    post:
+      operationId: requestOwnershipProofUploadUrl
+      tags: [ownershipChanges]
+      summary: Get a presigned URL for uploading a title deed proof document
+      security: [{ BearerAuth: [] }]
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ext: { type: string, description: "File extension including leading dot, e.g. .pdf" }
+      responses:
+        "200":
+          description: Presigned upload URL
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [uploadURL, objectPath]
+                properties:
+                  uploadURL:   { type: string }
+                  objectPath:  { type: string }
+
+  /ownership-changes:
+    post:
+      operationId: createOwnershipChange
+      tags: [ownershipChanges]
+      summary: Path A — current verified owner initiates change of ownership
+      security: [{ BearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/OwnershipChangeCreate" }
+      responses:
+        "201":
+          description: Ownership change event created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OwnershipChangeEvent" }
+    get:
+      operationId: listOwnershipChanges
+      tags: [ownershipChanges]
+      summary: List ownership change events (admin only)
+      security: [{ BearerAuth: [] }]
+      responses:
+        "200":
+          description: List of ownership change events
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/OwnershipChangeEvent" }
+
+  /ownership-changes/claim:
+    post:
+      operationId: claimOwnership
+      tags: [ownershipChanges]
+      summary: Path B — new owner claims a unit occupied by an unresponsive owner
+      security: [{ BearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/OwnershipClaimCreate" }
+      responses:
+        "201":
+          description: Ownership claim created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OwnershipChangeEvent" }
+
+  /ownership-changes/{id}/finalize:
+    patch:
+      operationId: finalizeOwnershipChange
+      tags: [ownershipChanges]
+      summary: Admin finalizes a Path B transfer — promotes pre_approved claimant to verified_owner
+      security: [{ BearerAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Finalization result
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OwnershipChangeEvent" }
+
+  /ownership-changes/{id}/cancel-pre-approval:
+    patch:
+      operationId: cancelOwnershipChangePreApproval
+      tags: [ownershipChanges]
+      summary: Admin cancels pre-approved slot or rejects a registered pre-approved claimant
+      security: [{ BearerAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Event updated to rejected
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OwnershipChangeEvent" }
+
+  /ownership-changes/{id}/review:
+    patch:
+      operationId: reviewOwnershipChange
+      tags: [ownershipChanges]
+      summary: Admin approves or rejects an ownership change (triggers outgoing owner deletion on approve)
+      security: [{ BearerAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [action]
+              properties:
+                action:     { type: string, enum: [approved, rejected] }
+                note:       { type: string }
+      responses:
+        "200":
+          description: Review result
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OwnershipChangeEvent" }
+
+  # ── Move Forms (DEPRECATED — use /permits with type=move_in|move_out) ──────
+  /move-forms:
+    get:
+      operationId: listMoveForms
+      deprecated: true
+      tags: [moveForms]
+      summary: "[DEPRECATED] List legacy move forms — use GET /permits?type=move_in|move_out instead"
+      parameters:
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [move_in, move_out]
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [pending, approved, rejected]
+        - name: page
+          in: query
+          schema: { type: integer, default: 1, minimum: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 50, minimum: 1, maximum: 200 }
+      responses:
+        "200":
+          description: Move forms
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedMoveForms"
+    post:
+      operationId: createMoveForm
+      deprecated: true
+      tags: [moveForms]
+      summary: "[DEPRECATED — returns 410 Gone] Use POST /permits with permitType=move_in|move_out"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MoveFormInput"
+      responses:
+        "201":
+          description: Submitted form
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MoveForm"
+
+  /move-forms/{id}:
+    get:
+      operationId: getMoveForm
+      deprecated: true
+      tags: [moveForms]
+      summary: "[DEPRECATED] Get legacy move form by ID"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Move form
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MoveForm"
+    patch:
+      operationId: updateMoveFormStatus
+      tags: [moveForms]
+      summary: Update move form status (admin only)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StatusUpdate"
+      responses:
+        "200":
+          description: Updated form
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MoveForm"
+
+  # ── Renovation Permits ─────────────────────────────────────────────────────
+  /permits:
+    get:
+      operationId: listPermits
+      tags: [permits]
+      summary: List permits (mine or all for approvers)
+      parameters:
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [move_in, move_out, renovation, additional_vehicle]
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [draft, submitted, under_review, approved, approved_with_conditions, rejected, in_progress, completed, deposit_refunded, deposit_forfeited]
+        - name: page
+          in: query
+          schema: { type: integer, default: 1, minimum: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 50, minimum: 1, maximum: 200 }
+      responses:
+        "200":
+          description: Permits list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedPermits"
+    post:
+      operationId: createPermit
+      tags: [permits]
+      summary: Submit a permit request (verified residents only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PermitInput"
+      responses:
+        "201":
+          description: Created permit
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RenovationPermit"
+
+  /permits/{id}:
+    get:
+      operationId: getPermit
+      tags: [permits]
+      summary: Get permit by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Permit
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RenovationPermit"
+
+  /permits/{id}/status:
+    patch:
+      operationId: updatePermitStatus
+      tags: [permits]
+      summary: Advance permit status (admin only)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PermitStatusUpdate"
+      responses:
+        "200":
+          description: Updated permit
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RenovationPermit"
+
+  # ── Documents ──────────────────────────────────────────────────────────────
+  /document-folders:
+    get:
+      operationId: listDocumentFolders
+      tags: [documents]
+      summary: List document folders visible to the authenticated caller
+      responses:
+        "200":
+          description: Visible folders, including empty folders for admins
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DocumentFolder"
+    post:
+      operationId: createDocumentFolder
+      tags: [documents]
+      summary: Create a document folder (admin only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DocumentFolderInput"
+      responses:
+        "201":
+          description: Created folder
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DocumentFolder"
+
+  /document-folders/{id}:
+    patch:
+      operationId: updateDocumentFolder
+      tags: [documents]
+      summary: Rename, reorder, change defaults, or archive a folder (admin only)
+      parameters:
+        - $ref: "#/components/parameters/DocumentId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DocumentFolderUpdate"
+      responses:
+        "200":
+          description: Updated folder
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DocumentFolder"
+    delete:
+      operationId: deleteDocumentFolder
+      tags: [documents]
+      summary: Delete an empty folder (admin only)
+      parameters:
+        - $ref: "#/components/parameters/DocumentId"
+      responses:
+        "204":
+          description: Deleted
+        "409":
+          description: Folder contains documents and must be archived instead
+
+  /documents:
+    get:
+      operationId: listDocuments
+      tags: [documents]
+      summary: List current documents visible to the authenticated caller
+      responses:
+        "200":
+          description: Documents
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Document"
+    post:
+      operationId: createDocument
+      tags: [documents]
+      summary: Create document metadata from an admin-uploaded private object (admin only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DocumentInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Document"
+
+  /documents/{id}:
+    get:
+      operationId: getDocument
+      tags: [documents]
+      summary: Get document by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Document
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Document"
+    delete:
+      operationId: deleteDocument
+      tags: [documents]
+      summary: Archive document (admin only)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+        "403":
+          description: Forbidden
+        "404":
+          description: Not found
+    patch:
+      operationId: updateDocument
+      tags: [documents]
+      summary: Update document metadata, folder, visibility, or download mode (admin only)
+      parameters:
+        - $ref: "#/components/parameters/DocumentId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DocumentUpdate"
+      responses:
+        "200":
+          description: Updated document
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Document"
+
+  /documents/{id}/replace:
+    post:
+      operationId: replaceDocument
+      tags: [documents]
+      summary: Replace a document by creating a new current record and archiving the prior record (admin only)
+      parameters:
+        - $ref: "#/components/parameters/DocumentId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DocumentReplacement"
+      responses:
+        "201":
+          description: Replacement document
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Document"
+
+  /documents/{id}/download:
+    get:
+      operationId: downloadDocument
+      tags: [documents]
+      summary: Authenticated document view or download
+      description: |
+        The server streams a private object only after applying the document folder
+        visibility floor and caller eligibility. Object storage URLs are never returned.
+        View-only documents are served inline to non-admin callers; download-allowed
+        documents may be saved. Admin may download every document.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: File content streamed from object storage
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "403":
+          description: Forbidden – caller is not eligible for this document
+        "404":
+          description: Document not found or has no attached file
+
+  # ── Residents ──────────────────────────────────────────────────────────────
+  /residents:
+    get:
+      operationId: listResidents
+      tags: [residents]
+      summary: List residents (mine + family, or all for admin)
+      parameters:
+        - name: unitNumber
+          in: query
+          schema:
+            type: string
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [owner, tenant, family]
+        - name: page
+          in: query
+          schema: { type: integer, default: 1, minimum: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 50, minimum: 1, maximum: 200 }
+      responses:
+        "200":
+          description: Residents
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedResidents"
+    post:
+      operationId: createResident
+      tags: [residents]
+      summary: Register a resident (owner registers self/family/tenants)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResidentInput"
+      responses:
+        "201":
+          description: Created resident or a fifth-and-later resident review request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/Resident"
+                  - $ref: "#/components/schemas/ExtraResidentRequest"
+
+  /residents/{id}:
+    get:
+      operationId: getResident
+      tags: [residents]
+      summary: Get resident by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Resident
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Resident"
+    patch:
+      operationId: updateResident
+      tags: [residents]
+      summary: Update resident details
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResidentUpdate"
+      responses:
+        "200":
+          description: Updated resident
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Resident"
+    delete:
+      operationId: deleteResident
+      tags: [residents]
+      summary: Remove a resident
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: An optional audit reason. Administrators must provide a non-empty reason.
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ResidentRemovalInput" }
+      responses:
+        "200":
+          description: Secondary resident removal completed or was already completed
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ResidentRemovalResponse" }
+
+  /residents/extra-requests:
+    get:
+      operationId: listExtraResidentRequests
+      tags: [residents]
+      summary: List fifth-and-later resident requests (admin)
+      responses:
+        "200":
+          description: Requests
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/ExtraResidentRequest" }
+
+  /residents/extra-requests/{id}/decision:
+    post:
+      operationId: decideExtraResidentRequest
+      tags: [residents]
+      summary: Approve or refuse an extra resident request (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ExtraResidentDecision" }
+      responses:
+        "200":
+          description: Decided request
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ExtraResidentRequest" }
+
+  # ── Storage ─────────────────────────────────────────────────────────────────
+  /storage/uploads/request-url:
+    post:
+      operationId: requestUploadUrl
+      tags: [storage]
+      summary: Request a presigned URL for file upload
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RequestUploadUrlBody"
+      responses:
+        "200":
+          description: Presigned upload URL
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RequestUploadUrlResponse"
+        "400":
+          description: Missing or invalid fields
+        "500":
+          description: Failed to generate URL
+
+  /storage/public-objects/{filePath}:
+    get:
+      operationId: getPublicObject
+      tags: [storage]
+      security: []
+      summary: Serve a public asset
+      parameters:
+        - name: filePath
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Object content
+        "404":
+          description: Not found
+
+  # ── Guests ─────────────────────────────────────────────────────────────────
+  /guests:
+    get:
+      operationId: listGuests
+      tags: [guests]
+      summary: List guest registrations (mine or all for staff)
+      parameters:
+        - name: page
+          in: query
+          schema: { type: integer, default: 1, minimum: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 50, minimum: 1, maximum: 200 }
+      responses:
+        "200":
+          description: Guests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedGuests"
+    post:
+      operationId: createGuest
+      tags: [guests]
+      summary: Register a guest visit
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GuestInput"
+      responses:
+        "201":
+          description: Created guest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Guest"
+        "402":
+          description: Unit has reached the daily guest limit and requires a Day Pass
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GuestDayPassRequired"
+
+  /guests/{id}:
+    get:
+      operationId: getGuest
+      tags: [guests]
+      summary: Get guest by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Guest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Guest"
+    patch:
+      operationId: updateGuest
+      tags: [guests]
+      summary: Update guest registration
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GuestUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Guest"
+    delete:
+      operationId: deleteGuest
+      tags: [guests]
+      summary: Delete guest registration
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  # ── Vehicles ───────────────────────────────────────────────────────────────
+  /vehicles:
+    get:
+      operationId: listVehicles
+      tags: [vehicles]
+      summary: List registered vehicles (mine or all for admin)
+      parameters:
+        - name: userId
+          in: query
+          schema:
+            type: integer
+        - name: page
+          in: query
+          schema: { type: integer, default: 1, minimum: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 50, minimum: 1, maximum: 200 }
+      responses:
+        "200":
+          description: Vehicles
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedVehicles"
+    post:
+      operationId: createVehicle
+      tags: [vehicles]
+      summary: Register a vehicle
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VehicleInput"
+      responses:
+        "201":
+          description: Created vehicle
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Vehicle"
+
+  /vehicles/parking-lots:
+    get:
+      operationId: listMyVehicleParkingLots
+      tags: [vehicles]
+      summary: List active parking lots allocated to the caller's canonical unit
+      responses:
+        "200":
+          description: Parking lots available to select for a vehicle
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required: [id, lotNumber, building, underground]
+                  properties:
+                    id: { type: integer }
+                    lotNumber: { type: string }
+                    building: { type: string }
+                    underground: { type: boolean }
+
+  /vehicles/{id}:
+    get:
+      operationId: getVehicle
+      tags: [vehicles]
+      summary: Get vehicle by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Vehicle
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Vehicle"
+    patch:
+      operationId: updateVehicle
+      tags: [vehicles]
+      summary: Update vehicle details
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VehicleUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Vehicle"
+    delete:
+      operationId: deleteVehicle
+      tags: [vehicles]
+      summary: Delete vehicle registration
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  # ── AI Assistant ────────────────────────────────────────────────────────────
+  /ai/knowledge:
+    get:
+      operationId: listKnowledgeDocuments
+      tags: [ai]
+      summary: List uploaded knowledge-base documents (admin only)
+      responses:
+        "200":
+          description: List of knowledge documents
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AiKnowledgeDocument"
+    post:
+      operationId: uploadKnowledgeDocument
+      tags: [ai]
+      summary: Upload and index a document into the knowledge base (admin only)
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "201":
+          description: Document indexed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AiKnowledgeDocument"
+
+  /ai/knowledge/{id}:
+    delete:
+      operationId: deleteKnowledgeDocument
+      tags: [ai]
+      summary: Delete a knowledge-base document and its chunks (admin only)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /ai/chat:
+    post:
+      operationId: aiChat
+      tags: [ai]
+      summary: Stream an AI assistant response grounded in HOA documents and resident data
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AiChatRequest"
+      responses:
+        "200":
+          description: Server-sent event stream (text/event-stream)
+          content:
+            text/event-stream:
+              schema:
+                type: string
+
+  # ── Admin Dashboard ────────────────────────────────────────────────────────
+  /admin/units/full:
+    get:
+      operationId: listAdminUnitRegistry
+      tags: [admin]
+      summary: List the admin Unit Registry with canonical vehicle parking details
+      parameters:
+        - name: page
+          in: query
+          schema: { type: integer, minimum: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, minimum: 1 }
+        - name: building
+          in: query
+          schema: { type: string }
+        - name: name
+          in: query
+          schema: { type: string }
+      responses:
+        "200":
+          description: Paginated Unit Registry data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminUnitRegistryResponse"
+        "403":
+          description: Forbidden — admin only
+
+  /admin/summary:
+    get:
+      operationId: getAdminSummary
+      tags: [admin]
+      summary: Admin dashboard stats
+      responses:
+        "200":
+          description: Summary counts and recent activity
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminSummary"
+
+  /admin/pending-items:
+    get:
+      operationId: listPendingItems
+      tags: [admin]
+      summary: All pending approvals across modules
+      responses:
+        "200":
+          description: Pending items
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PendingItems"
+
+  /admin/historical-records:
+    get:
+      operationId: listHistoricalRecords
+      tags: [admin]
+      summary: Search archived records by type (admin only)
+      parameters:
+        - name: recordType
+          in: query
+          schema:
+            type: string
+            default: moved_out_residents
+            enum: [moved_out_residents]
+        - name: name
+          in: query
+          schema: { type: string }
+        - name: nationalId
+          in: query
+          schema: { type: string }
+        - name: unitNumber
+          in: query
+          schema: { type: string }
+        - name: relationship
+          in: query
+          schema: { type: string }
+        - name: movedOutAfter
+          in: query
+          schema: { type: string, format: date }
+        - name: movedOutBefore
+          in: query
+          schema: { type: string, format: date }
+        - name: page
+          in: query
+          schema: { type: integer, default: 1, minimum: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 20, minimum: 1, maximum: 100 }
+      responses:
+        "200":
+          description: Paginated historical records
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedHistoricalRecords"
+        "400":
+          description: Unknown recordType
+        "403":
+          description: Admin only
+
+  # ── Payments ────────────────────────────────────────────────────────────────
+  /payments/create:
+    post:
+      operationId: createPaymentCharge
+      tags: [payments]
+      summary: Initiate a payment charge for a booking or permit
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateChargeRequest"
+      responses:
+        "200":
+          description: Charge created — redirect resident to paymentUrl
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateChargeResponse"
+        "400":
+          description: No payment required or bad input
+        "403":
+          description: Not your record
+        "503":
+          description: Payment provider not configured
+
+  /payments/verify:
+    post:
+      operationId: verifyPaymentCharge
+      tags: [payments]
+      summary: Verify a completed charge and mark record as paid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VerifyChargeRequest"
+      responses:
+        "200":
+          description: Verification result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VerifyChargeResponse"
+        "400":
+          description: Charge ID mismatch or missing fields
+        "404":
+          description: Record not found
+
+  /payments/reconcile:
+    post:
+      operationId: reconcileMoyasarPayment
+      tags: [payments]
+      summary: Reconcile a pending Moyasar payment by provider charge ID (admin only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaymentReconciliationInput"
+      responses:
+        "200":
+          description: Reconciliation result after server-side provider verification
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaymentReconciliationResult"
+        "400":
+          description: Invalid charge ID
+        "403":
+          description: Admin only
+        "404":
+          description: Payment attempt not found
+        "409":
+          description: Attempt is not eligible for reconciliation
+        "503":
+          description: Payment provider is not configured
+        "502":
+          description: Payment provider verification could not be completed
+
+  /payments/history:
+    get:
+      operationId: getPaymentHistory
+      tags: [payments]
+      summary: List payment records for the current user (or all for admin)
+      parameters:
+        - name: userId
+          in: query
+          schema:
+            type: integer
+          description: Admin only — filter by resident user ID
+        - name: from
+          in: query
+          schema:
+            type: string
+            format: date
+          description: Filter records created on or after this date (YYYY-MM-DD)
+        - name: to
+          in: query
+          schema:
+            type: string
+            format: date
+          description: Filter records created on or before this date (YYYY-MM-DD)
+      responses:
+        "200":
+          description: Payment history records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PaymentRecord"
+
+  # ── Waha Pass ───────────────────────────────────────────────────────────────
+  /waha-pass/eligibility:
+    get:
+      operationId: getWahaPassEligibility
+      tags: [wahaPasses]
+      summary: Check if the current user is eligible to apply for a Waha Pass
+      responses:
+        "200":
+          description: Eligibility result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WahaPassEligibility"
+
+  /waha-pass/apply:
+    post:
+      operationId: applyForWahaPass
+      tags: [wahaPasses]
+      summary: Submit a Waha Pass application
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WahaPassApplyRequest"
+      responses:
+        "201":
+          description: Application created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WahaPassApplication"
+        "403":
+          description: Not eligible
+        "409":
+          description: Duplicate or conflicting application
+
+  /waha-pass/mine:
+    get:
+      operationId: getMyWahaPass
+      tags: [wahaPasses]
+      summary: Get the current user's Waha Pass application and credentials
+      responses:
+        "200":
+          description: Application with credentials, or null if none
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/WahaPassApplicationDetail"
+                  - type: "null"
+
+  /waha-pass/admin:
+    get:
+      operationId: adminListWahaPasses
+      tags: [wahaPasses]
+      summary: List all Waha Pass applications (admin/supervisor)
+      parameters:
+        - name: page
+          in: query
+          schema: { type: integer, default: 1, minimum: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 50, minimum: 1, maximum: 200 }
+      responses:
+        "200":
+          description: All applications with credentials and events
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedWahaPassApplications"
+
+  /waha-pass/{id}/approve:
+    post:
+      operationId: approveWahaPass
+      tags: [wahaPasses]
+      summary: Approve a Waha Pass application and generate credentials
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reviewNote: { type: string }
+      responses:
+        "200":
+          description: Application approved with credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WahaPassApproveResponse"
+
+  /waha-pass/{id}/reject:
+    post:
+      operationId: rejectWahaPass
+      tags: [wahaPasses]
+      summary: Reject a Waha Pass application
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reviewNote: { type: string }
+      responses:
+        "200":
+          description: Application rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WahaPassApplication"
+
+  /waha-pass/{id}/revoke:
+    post:
+      operationId: revokeWahaPass
+      tags: [wahaPasses]
+      summary: Revoke one or all credentials of an active application (admin/supervisor)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                credentialId: { type: integer, description: "Specific credential to revoke; omit to revoke all" }
+                reason:       { type: string }
+      responses:
+        "200":
+          description: Updated application detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WahaPassApplicationDetail"
+
+  /waha-pass/{id}/assign-second:
+    post:
+      operationId: assignWahaPassSecondResident
+      tags: [wahaPasses]
+      summary: Assign or update the second resident on a Waha Pass application
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [secondResidentId]
+              properties:
+                secondResidentId: { type: integer }
+      responses:
+        "200":
+          description: Assignment updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:            { type: boolean }
+                  secondResidentId:   { type: integer }
+                  secondResidentName: { type: string }
+
+  /waha-pass/{id}/report-lost:
+    post:
+      operationId: reportWahaPassLost
+      tags: [wahaPasses]
+      summary: Report a credential as lost, stolen, or damaged
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [credentialId]
+              properties:
+                credentialId: { type: integer }
+                reason:       { type: string, enum: [lost, stolen, damaged] }
+      responses:
+        "200":
+          description: Credential marked; replacement payment required
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  credentialId:        { type: integer }
+                  status:              { type: string }
+                  replacementRequired: { type: boolean }
+
+  /waha-pass/{id}/replacement-pay:
+    post:
+      operationId: initiateWahaPassReplacementPayment
+      tags: [wahaPasses]
+      summary: Initiate the SAR 100 replacement payment for a lost/stolen/damaged credential
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [credentialId]
+              properties:
+                credentialId: { type: integer }
+      responses:
+        "200":
+          description: Payment session initiated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateChargeResponse"
+
+  /waha-pass/replacements/{id}/review:
+    patch:
+      operationId: reviewWahaReplacement
+      tags: [wahaPasses]
+      summary: Approve or reject a durable Waha replacement request (admin only)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WahaReplacementReviewRequest"
+      responses:
+        "200":
+          description: Replacement request decision
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WahaReplacementRequest"
+        "403": { description: Forbidden }
+        "409": { description: Request was already decided }
+
+  /waha-pass/replacement-callback:
+    post:
+      operationId: verifyWahaPassReplacementPayment
+      tags: [wahaPasses]
+      summary: Verify a completed replacement payment and issue a new credential
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [credentialId, chargeId]
+              properties:
+                credentialId: { type: integer }
+                chargeId:     { type: string }
+      responses:
+        "200":
+          description: New credential issued
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:        { type: string }
+                  newCredential: { $ref: "#/components/schemas/WahaPassCredential" }
+
+  # ── Waha Guest Day Passes ──────────────────────────────────────────────────
+  /waha-guest-day-passes:
+    post:
+      operationId: initiateWahaGuestDayPass
+      tags: [wahaGuestDayPasses]
+      summary: Purchase a Waha Guest Day Pass (Waha Pass holder only)
+      description: >
+        Initiates payment for additional guest slots beyond the free daily 4.
+        Only the active Waha Pass holder for the caller's unit may call this.
+        Creates a pending record and returns a payment URL.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WahaGuestDayPassRequest"
+      responses:
+        "200":
+          description: Payment initiated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WahaGuestDayPassInitiateResponse"
+        "400":
+          description: Invalid extraCount or visitDate
+        "403":
+          description: Caller is not the Waha Pass holder or has no unit
+        "502":
+          description: Payment gateway error
+
+  /waha-guest-day-passes/verify:
+    post:
+      operationId: verifyWahaGuestDayPass
+      tags: [wahaGuestDayPasses]
+      summary: Verify payment and activate a Waha Guest Day Pass
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [dayPassId, chargeId]
+              properties:
+                dayPassId: { type: integer }
+                chargeId:  { type: string }
+      responses:
+        "200":
+          description: Day pass paid or already paid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:  { type: string, enum: [paid, already_paid] }
+                  dayPass: { $ref: "#/components/schemas/WahaGuestDayPass" }
+        "402":
+          description: Payment not yet completed
+        "404":
+          description: Day pass not found
+
+  # ── Gate QR Verification ───────────────────────────────────────────────────
+  /verify:
+    get:
+      operationId: verifyGuestPass
+      tags: [verify]
+      summary: Public QR scan — verify a guest pass at the gate
+      description: >
+        Used by security guards scanning QR codes at the gate. No authentication
+        required. Returns pass status, validity, and metadata.
+      security: []
+      parameters:
+        - in: query
+          name: token
+          required: true
+          schema: { type: string }
+          description: QR code verification token embedded in the guest pass QR code
+      responses:
+        "200":
+          description: Guest pass gate verification result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GuestPassVerifyResponse"
+        "400":
+          description: token query parameter is required
+        "403":
+          description: Pass is outside its valid date window — returns `pass_expired` error
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [error, status, message]
+                properties:
+                  error:   { type: string, enum: [pass_expired] }
+                  status:  { type: string, enum: [PASS_EXPIRED] }
+                  message: { type: string }
+        "429":
+          description: Rate limit exceeded (30 req/min per IP)
+
+  /verify/waha:
+    get:
+      operationId: verifyWahaPassGate
+      tags: [verify]
+      summary: Gate lookup for a Waha Pass by token or passNumber (GATE_ROLES only)
+      description: >
+        Requires an authenticated guard, supervisor, or admin session (GATE_ROLES).
+        Returns Waha Pass holder details, occupancy track, same-day guest count,
+        and revocation reason if applicable.
+      parameters:
+        - in: query
+          name: token
+          schema: { type: string }
+          description: QR code verification token
+        - in: query
+          name: passNumber
+          schema: { type: string }
+          description: Manual pass number lookup (WP-YYYY-NNNNNN)
+      responses:
+        "200":
+          description: Waha Pass gate verification result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WahaGateVerifyResponse"
+        "400":
+          description: token or passNumber is required
+        "403":
+          description: Forbidden — caller is not in GATE_ROLES
+
+  # ── Notification Preferences ───────────────────────────────────────────────
+  /notification-preferences:
+    get:
+      operationId: getNotificationPreferences
+      tags: [users]
+      summary: Get current user's notification preferences
+      responses:
+        "200":
+          description: Notification preferences
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotificationPreferences"
+        "403":
+          description: Forbidden
+    patch:
+      operationId: updateNotificationPreferences
+      tags: [users]
+      summary: Update current user's notification preferences
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NotificationPreferencesUpdate"
+      responses:
+        "200":
+          description: Updated preferences
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotificationPreferences"
+        "400":
+          description: No valid fields provided
+        "403":
+          description: Forbidden
+
+  # ── Unit Verification ───────────────────────────────────────────────────────
+  /unit-verify/owner:
+    post:
+      operationId: submitOwnerVerification
+      tags: [unitVerifications]
+      summary: >
+        Step 2A — Owner submits unit claim; auto-approved if registry matches,
+        otherwise queued for manual admin review
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UnitVerifyOwnerRequest"
+      responses:
+        "200":
+          description: Auto-approved or queued for manual review
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnitVerifyOwnerResponse"
+        "400":
+          description: Missing required fields
+        "403":
+          description: Forbidden
+
+  /unit-verify/tenant:
+    post:
+      operationId: submitTenantVerification
+      tags: [unitVerifications]
+      summary: >
+        Step 2B — Tenant requests linkage to an existing owner-verified unit;
+        awaits owner (and optionally admin) approval
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UnitVerifyTenantRequest"
+      responses:
+        "200":
+          description: Tenant linkage request submitted, pending owner approval
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnitVerifyTenantResponse"
+        "400":
+          description: Missing required fields or unit has no verified owner yet
+        "403":
+          description: Forbidden
+        "409":
+          description: Unit already has an active verified tenant
+
+  /unit-verify/pending-tenant-requests:
+    get:
+      operationId: listPendingTenantRequests
+      tags: [unitVerifications]
+      summary: >
+        Owner — list pending tenant linkage requests for their own unit
+      responses:
+        "200":
+          description: Array of pending tenant verification requests with requester info
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UnitVerificationEnriched"
+        "403":
+          description: Forbidden
+
+  /unit-verify/pending:
+    get:
+      operationId: listAllPendingVerifications
+      tags: [unitVerifications]
+      summary: Admin — list all pending unit verifications (owner-manual and tenant requests)
+      responses:
+        "200":
+          description: Array of all pending verifications with requester and unit info
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UnitVerificationAdmin"
+        "403":
+          description: Forbidden — admin only
+
+  /unit-verify/{id}/approve:
+    post:
+      operationId: approveUnitVerification
+      tags: [unitVerifications]
+      summary: >
+        Approve a verification request — owner may approve tenant requests for
+        their unit; admin may approve any
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                note: { type: string }
+      responses:
+        "200":
+          description: Verification approved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok: { type: boolean }
+        "403":
+          description: Forbidden
+        "404":
+          description: Verification not found
+
+  /unit-verify/{id}/reject:
+    post:
+      operationId: rejectUnitVerification
+      tags: [unitVerifications]
+      summary: >
+        Reject a verification request — owner may reject tenant requests for
+        their unit; admin may reject any
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                note: { type: string }
+      responses:
+        "200":
+          description: Verification rejected
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok: { type: boolean }
+        "403":
+          description: Forbidden
+        "404":
+          description: Verification not found
+
+  /gate/plate-lookup:
+    get:
+      operationId: getGatePlateLookup
+      tags: [gate]
+      summary: Guard/admin exact lookup of an active registered vehicle plate
+      parameters:
+        - name: plate
+          in: query
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 64
+      responses:
+        "200":
+          description: Minimal registered-vehicle result, or a neutral not-registered state
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GatePlateLookupResponse"
+        "403":
+          description: Gate role required
+        "429":
+          description: Lookup rate limited
+
+  # ── Portal Help ────────────────────────────────────────────────────────────
+  /portal-help:
+    post:
+      operationId: createPortalHelpTicket
+      tags: [portalHelp]
+      summary: Submit a portal help request (verified resident only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/PortalHelpTicketInput" }
+      responses:
+        "201":
+          description: Submitted portal help ticket
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PortalHelpTicket" }
+    get:
+      operationId: listMyPortalHelpTickets
+      tags: [portalHelp]
+      summary: List the signed-in resident's portal help requests
+      responses:
+        "200":
+          description: Tickets
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/PortalHelpTicket" }
+
+  /portal-help/upload-url:
+    post:
+      operationId: requestPortalHelpScreenshotUploadUrl
+      tags: [portalHelp]
+      summary: Request a presigned upload URL for one portal help screenshot
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/PortalHelpScreenshotUploadInput" }
+      responses:
+        "200":
+          description: Presigned upload URL
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PortalHelpScreenshotUpload" }
+
+  /admin/portal-help:
+    get:
+      operationId: listAdminPortalHelpTickets
+      tags: [portalHelp, admin]
+      summary: List portal help tickets (admin only)
+      parameters:
+        - name: status
+          in: query
+          schema: { type: string, enum: [pending, in_progress, closed] }
+      responses:
+        "200":
+          description: Tickets
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/AdminPortalHelpTicket" }
+
+  /admin/portal-help/{id}:
+    get:
+      operationId: getAdminPortalHelpTicket
+      tags: [portalHelp, admin]
+      summary: Get a portal help ticket (admin only)
+      parameters:
+        - $ref: "#/components/parameters/PortalHelpTicketId"
+      responses:
+        "200":
+          description: Ticket
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminPortalHelpTicket" }
+
+  /admin/portal-help/{id}/reply:
+    post:
+      operationId: replyToPortalHelpTicket
+      tags: [portalHelp, admin]
+      summary: Reply to or redirect a portal help ticket (admin only)
+      parameters:
+        - $ref: "#/components/parameters/PortalHelpTicketId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/PortalHelpReplyInput" }
+      responses:
+        "200":
+          description: Updated ticket
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminPortalHelpTicket" }
+
+  /admin/portal-help/{id}/close:
+    post:
+      operationId: closePortalHelpTicket
+      tags: [portalHelp, admin]
+      summary: Close a portal help ticket (admin only)
+      parameters:
+        - $ref: "#/components/parameters/PortalHelpTicketId"
+      responses:
+        "200":
+          description: Closed ticket
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminPortalHelpTicket" }
+
+  /admin/portal-help/{id}/screenshot-url:
+    get:
+      operationId: getPortalHelpScreenshotUrl
+      tags: [portalHelp, admin]
+      summary: Get a short-lived screenshot URL (admin only)
+      parameters:
+        - $ref: "#/components/parameters/PortalHelpTicketId"
+      responses:
+        "200":
+          description: Signed screenshot URL
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PortalHelpScreenshotUrl" }
+
+components:
+  parameters:
+    PortalHelpTicketId:
+      name: id
+      in: path
+      required: true
+      schema: { type: integer }
+    DocumentId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  schemas:
+    PortalHelpCategory:
+      type: string
+      enum: [account_access, unit_household_registration, booking_pass, payment, document_opening, vehicle_permit_registration, screen_problem]
+    PortalHelpTicketInput:
+      type: object
+      required: [category, details]
+      properties:
+        category: { $ref: "#/components/schemas/PortalHelpCategory" }
+        details: { type: string, minLength: 1 }
+        screenshotObjectPath: { type: string, pattern: "^/objects/portal-help/" }
+        screenshotContentType: { type: string, enum: [image/jpeg, image/png, image/webp] }
+    PortalHelpScreenshotUploadInput:
+      type: object
+      required: [name, size, contentType]
+      properties:
+        name: { type: string, minLength: 1 }
+        size: { type: integer, minimum: 1, maximum: 10485760 }
+        contentType: { type: string, enum: [image/jpeg, image/png, image/webp] }
+    PortalHelpScreenshotUpload:
+      type: object
+      required: [uploadURL, objectPath]
+      properties:
+        uploadURL: { type: string }
+        objectPath: { type: string, pattern: "^/objects/portal-help/" }
+    PortalHelpTicket:
+      type: object
+      required: [id, category, details, status, createdAt]
+      properties:
+        id: { type: integer }
+        category: { $ref: "#/components/schemas/PortalHelpCategory" }
+        details: { type: string }
+        status: { type: string, enum: [pending, in_progress, closed] }
+        adminReply: { type: [string, "null"] }
+        replyKind: { type: [string, "null"], enum: [reply, redirect, null] }
+        repliedAt: { type: [string, "null"], format: date-time }
+        closedAt: { type: [string, "null"], format: date-time }
+        createdAt: { type: string, format: date-time }
+    AdminPortalHelpTicket:
+      allOf:
+        - $ref: "#/components/schemas/PortalHelpTicket"
+        - type: object
+          properties:
+            submitterUserId: { type: integer }
+            submitterRole: { type: string }
+            submitterUnit: { type: string }
+            screenshotContentType: { type: [string, "null"] }
+    PortalHelpReplyInput:
+      type: object
+      required: [kind]
+      properties:
+        kind: { type: string, enum: [reply, redirect] }
+        reply: { type: string, minLength: 1 }
+    PortalHelpScreenshotUrl:
+      type: object
+      required: [url]
+      properties:
+        url: { type: string }
+    HealthStatus:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+
+    # ── Pagination ─────────────────────────────────────────────────────────────
+    PaginationMeta:
+      type: object
+      required: [total, page, limit]
+      properties:
+        total: { type: integer }
+        page:  { type: integer }
+        limit: { type: integer }
+
+    PaginatedAnnouncements:
+      allOf:
+        - $ref: "#/components/schemas/PaginationMeta"
+        - type: object
+          required: [data]
+          properties:
+            data:
+              type: array
+              items:
+                $ref: "#/components/schemas/Announcement"
+
+    PaginatedBookings:
+      allOf:
+        - $ref: "#/components/schemas/PaginationMeta"
+        - type: object
+          required: [data]
+          properties:
+            data:
+              type: array
+              items:
+                $ref: "#/components/schemas/Booking"
+
+    PaginatedMoveForms:
+      allOf:
+        - $ref: "#/components/schemas/PaginationMeta"
+        - type: object
+          required: [data]
+          properties:
+            data:
+              type: array
+              items:
+                $ref: "#/components/schemas/MoveForm"
+
+    PaginatedPermits:
+      allOf:
+        - $ref: "#/components/schemas/PaginationMeta"
+        - type: object
+          required: [data]
+          properties:
+            data:
+              type: array
+              items:
+                $ref: "#/components/schemas/RenovationPermit"
+
+    PaginatedResidents:
+      allOf:
+        - $ref: "#/components/schemas/PaginationMeta"
+        - type: object
+          required: [data]
+          properties:
+            data:
+              type: array
+              items:
+                $ref: "#/components/schemas/Resident"
+
+    PaginatedGuests:
+      allOf:
+        - $ref: "#/components/schemas/PaginationMeta"
+        - type: object
+          required: [data]
+          properties:
+            data:
+              type: array
+              items:
+                $ref: "#/components/schemas/Guest"
+
+    PaginatedVehicles:
+      allOf:
+        - $ref: "#/components/schemas/PaginationMeta"
+        - type: object
+          required: [data]
+          properties:
+            data:
+              type: array
+              items:
+                $ref: "#/components/schemas/Vehicle"
+
+    PaginatedWahaPassApplications:
+      allOf:
+        - $ref: "#/components/schemas/PaginationMeta"
+        - type: object
+          required: [data]
+          properties:
+            data:
+              type: array
+              items:
+                $ref: "#/components/schemas/WahaPassApplicationDetail"
+
+    # ── User ──────────────────────────────────────────────────────────────────
+    User:
+      type: object
+      required: [id, clerkId, email, role, status, createdAt]
+      properties:
+        id:           { type: integer }
+        clerkId:      { type: string }
+        email:        { type: string }
+        firstName:    { type: ["string", "null"] }
+        lastName:     { type: ["string", "null"] }
+        phone:        { type: ["string", "null"] }
+        unitNumber:   { type: ["string", "null"] }
+        role:         { type: string, enum: [owner, tenant, admin] }
+        status:       { type: string, enum: [active, pending, suspended] }
+        createdAt:    { type: string }
+
+    UserUpdate:
+      type: object
+      properties:
+        firstName:  { type: string }
+        lastName:   { type: string }
+        phone:      { type: string }
+        unitNumber: { type: string }
+
+    NotificationPreferences:
+      type: object
+      required: [announcements, bookings, guestPasses, receivesApprovalNotifications]
+      properties:
+        announcements: { type: boolean }
+        bookings:      { type: boolean }
+        guestPasses:   { type: boolean }
+        receivesApprovalNotifications: { type: boolean }
+
+    NotificationPreferencesUpdate:
+      type: object
+      properties:
+        announcements: { type: boolean }
+        bookings:      { type: boolean }
+        guestPasses:   { type: boolean }
+        receivesApprovalNotifications: { type: boolean }
+
+    UserSync:
+      type: object
+      required: [clerkId, email]
+      properties:
+        clerkId:    { type: string }
+        email:      { type: string }
+        firstName:  { type: ["string", "null"] }
+        lastName:   { type: ["string", "null"] }
+
+    UserAdminUpdate:
+      type: object
+      properties:
+        role:       { type: string, enum: [owner, tenant, admin] }
+        status:     { type: string, enum: [active, pending, suspended] }
+        unitNumber: { type: string }
+        receivesApprovalNotifications: { type: boolean }
+
+    # ── Announcement ──────────────────────────────────────────────────────────
+    Announcement:
+      type: object
+      required: [id, title, body, isPublic, pinned, status, createdAt]
+      properties:
+        id:          { type: integer }
+        title:       { type: string }
+        titleAr:     { type: string }
+        body:        { type: string }
+        bodyHtml:    { type: string }
+        bodyArabic:  { type: string }
+        isPublic:    { type: boolean }
+        pinned:      { type: boolean }
+        status:      { type: string, enum: [draft, published, deleted] }
+        isExpired:   { type: boolean }
+        authorId:    { type: ["integer", "null"] }
+        authorName:  { type: ["string", "null"] }
+        publishedAt: { type: ["string", "null"] }
+        expiresAt:   { type: ["string", "null"] }
+        deletedAt:   { type: ["string", "null"] }
+        createdAt:   { type: string }
+        updatedAt:   { type: string }
+
+    AnnouncementInput:
+      type: object
+      required: [title]
+      properties:
+        title:       { type: string, minLength: 1 }
+        titleAr:     { type: string }
+        body:        { type: string }
+        bodyHtml:    { type: string }
+        bodyArabic:  { type: string }
+        isPublic:    { type: boolean }
+        pinned:      { type: boolean }
+        status:      { type: string, enum: [draft, published] }
+        expiresAt:   { type: ["string", "null"] }
+
+    AnnouncementUpdate:
+      type: object
+      properties:
+        title:            { type: string }
+        titleAr:          { type: string }
+        body:             { type: string }
+        bodyHtml:         { type: string }
+        bodyArabic:       { type: string }
+        isPublic:         { type: boolean }
+        pinned:           { type: boolean }
+        status:           { type: string, enum: [draft, published] }
+        expiresAt:        { type: ["string", "null"] }
+        isMaterialChange: { type: boolean }
+        changeSummary:    { type: ["string", "null"] }
+
+    AnnouncementTemplate:
+      type: object
+      required: [id, name, bodyHtml, bodyArabic]
+      properties:
+        id:         { type: string }
+        name:       { type: string }
+        bodyHtml:   { type: string }
+        bodyArabic: { type: string }
+
+    AiSuggestInput:
+      type: object
+      required: [sourceText, sourceLang]
+      properties:
+        sourceText: { type: string }
+        sourceLang: { type: string, enum: [en, ar] }
+        title:      { type: string, description: "Optional English title to translate to Arabic" }
+
+    AiSuggestResult:
+      type: object
+      required: [optimized, translated]
+      properties:
+        optimized:  { type: string }
+        translated: { type: string }
+        titleAr:    { type: string, description: "Arabic translation of the English title (empty string when not requested)" }
+
+    # ── Facility ──────────────────────────────────────────────────────────────
+    Facility:
+      type: object
+      required: [id, name, pricePerHour, isActive]
+      properties:
+        id:                   { type: integer }
+        name:                 { type: string }
+        description:          { type: ["string", "null"] }
+        pricePerHour:         { type: number }
+        capacity:             { type: ["integer", "null"] }
+        rules:                { type: ["string", "null"] }
+        isActive:             { type: boolean }
+        imageUrl:             { type: ["string", "null"] }
+        requiresMovieTitle:   { type: boolean }
+
+    FacilityInput:
+      type: object
+      required: [name, pricePerHour]
+      properties:
+        name:                 { type: string }
+        description:          { type: string }
+        pricePerHour:         { type: number }
+        capacity:             { type: integer }
+        rules:                { type: string }
+        imageUrl:             { type: string }
+        requiresMovieTitle:   { type: boolean }
+
+    FacilityUpdate:
+      type: object
+      properties:
+        name:                 { type: string }
+        description:          { type: string }
+        pricePerHour:         { type: number }
+        capacity:             { type: integer }
+        rules:                { type: string }
+        isActive:             { type: boolean }
+        imageUrl:             { type: string }
+        requiresMovieTitle:   { type: boolean }
+
+    TimeSlot:
+      type: object
+      required: [startTime, endTime, bookingId]
+      properties:
+        startTime: { type: string }
+        endTime:   { type: string }
+        bookingId: { type: integer }
+
+    # ── Booking ───────────────────────────────────────────────────────────────
+    Booking:
+      type: object
+      required: [id, facilityId, userId, startTime, endTime, status, totalAmount, paymentStatus, createdAt]
+      properties:
+        id:                    { type: integer }
+        facilityId:            { type: integer }
+        facilityName:          { type: ["string", "null"] }
+        userId:                { type: integer }
+        userName:              { type: ["string", "null"] }
+        startTime:             { type: string }
+        endTime:               { type: string }
+        status:                { type: string, enum: [pending, confirmed, cancelled, completed] }
+        totalAmount:           { type: number }
+        paymentStatus:         { type: string, enum: [unpaid, paid, refunded] }
+        stripePaymentIntentId: { type: ["string", "null"] }
+        notes:                 { type: ["string", "null"] }
+        createdAt:             { type: string }
+
+    BookingWithPayment:
+      type: object
+      required: [booking, clientSecret]
+      properties:
+        booking:      { $ref: "#/components/schemas/Booking" }
+        clientSecret: { type: ["string", "null"] }
+
+    BookingInput:
+      type: object
+      required: [facilityId, startTime, endTime]
+      properties:
+        facilityId: { type: integer }
+        startTime:  { type: string }
+        endTime:    { type: string }
+        notes:      { type: string }
+
+    BookingUpdate:
+      type: object
+      properties:
+        startTime: { type: string }
+        endTime:   { type: string }
+        notes:     { type: string }
+
+    PaymentConfirm:
+      type: object
+      required: [paymentIntentId]
+      properties:
+        paymentIntentId: { type: string }
+
+    # ── MoveForm ──────────────────────────────────────────────────────────────
+    MoveForm:
+      type: object
+      required: [id, userId, type, unitNumber, scheduledDate, status, createdAt]
+      properties:
+        id:             { type: integer }
+        userId:         { type: integer }
+        unitId:         { type: ["integer", "null"] }
+        userName:       { type: ["string", "null"] }
+        type:           { type: string, enum: [move_in, move_out] }
+        unitNumber:     { type: string }
+        scheduledDate:  { type: string }
+        timeSlot:       { type: ["string", "null"] }
+        moversCompany:  { type: ["string", "null"] }
+        notes:          { type: ["string", "null"] }
+        status:         { type: string, enum: [pending, approved, rejected, completed] }
+        adminNotes:     { type: ["string", "null"] }
+        createdAt:      { type: string }
+
+    MoveFormInput:
+      type: object
+      required: [type, unitNumber, scheduledDate]
+      properties:
+        type:           { type: string, enum: [move_in, move_out] }
+        unitNumber:     { type: string }
+        scheduledDate:  { type: string }
+        timeSlot:       { type: string }
+        moversCompany:  { type: string }
+        notes:          { type: string }
+
+    # ── RenovationPermit ──────────────────────────────────────────────────────
+    RenovationPermit:
+      type: object
+      required: [id, userId, type, status, paymentStatus, createdAt]
+      properties:
+        id:                       { type: integer }
+        userId:                   { type: integer }
+        unitNumber:               { type: ["string", "null"] }
+        type:                     { type: string, enum: [move_in, move_out, renovation, additional_vehicle] }
+        description:              { type: ["string", "null"] }
+        requestedStartDate:       { type: ["string", "null"] }
+        requestedEndDate:         { type: ["string", "null"] }
+        status:
+          type: string
+          enum: [draft, submitted, under_review, approved, approved_with_conditions, rejected, in_progress, completed, deposit_refunded, deposit_forfeited]
+        paymentStatus:            { type: string, enum: [unpaid, paid, refund_pending, refunded, forfeited] }
+        adminFee:                 { type: ["string", "null"] }
+        depositAmount:            { type: ["string", "null"] }
+        conditions:               { type: ["string", "null"] }
+        reviewNote:               { type: ["string", "null"] }
+        paymentNote:              { type: ["string", "null"] }
+        moveType:                 { type: ["string", "null"] }
+        movingCompanyName:        { type: ["string", "null"] }
+        movingCompanyContact:     { type: ["string", "null"] }
+        elevatorSlot:             { type: ["string", "null"] }
+        renovationScope:          { type: ["string", "null"], enum: [cosmetic, structural, plumbing_electrical, exterior_affecting, null] }
+        contractorName:           { type: ["string", "null"] }
+        contractorLicense:        { type: ["string", "null"] }
+        contractorContact:        { type: ["string", "null"] }
+        workingHoursRequested:    { type: ["string", "null"] }
+        commonAreaImpact:         { type: ["boolean", "null"] }
+        commonAreaImpactDetails:  { type: ["string", "null"] }
+        vehicleMake:              { type: ["string", "null"] }
+        vehicleModel:             { type: ["string", "null"] }
+        vehiclePlate:             { type: ["string", "null"] }
+        vehicleColor:             { type: ["string", "null"] }
+        requester:
+          type: ["object", "null"]
+          properties:
+            id:         { type: integer }
+            firstName:  { type: ["string", "null"] }
+            lastName:   { type: ["string", "null"] }
+            email:      { type: string }
+            unitNumber: { type: ["string", "null"] }
+        createdAt:                { type: string }
+
+    PermitInput:
+      type: object
+      required: [permitType, requestedStartDate]
+      properties:
+        permitType:               { type: string, enum: [move_in, move_out, renovation, additional_vehicle] }
+        description:              { type: string }
+        requestedStartDate:       { type: string }
+        requestedEndDate:         { type: string }
+        moveType:                 { type: string }
+        movingCompanyName:        { type: string }
+        movingCompanyContact:     { type: string }
+        elevatorSlot:             { type: string }
+        renovationScope:          { type: string, enum: [cosmetic, structural, plumbing_electrical, exterior_affecting] }
+        contractorName:           { type: string }
+        contractorLicense:        { type: string }
+        contractorContact:        { type: string }
+        workingHoursRequested:    { type: string }
+        commonAreaImpact:         { type: boolean }
+        commonAreaImpactDetails:  { type: string }
+        vehicleMake:              { type: string }
+        vehicleModel:             { type: string }
+        vehiclePlate:             { type: string }
+        vehicleColor:             { type: string }
+
+    PermitStatusUpdate:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [under_review, approved, approved_with_conditions, rejected, in_progress, completed, deposit_refunded, deposit_forfeited]
+        reviewNote:               { type: string }
+        conditions:               { type: string }
+        adminFee:                 { type: string }
+        depositAmount:            { type: string }
+        paymentStatus:            { type: string, enum: [unpaid, paid, refund_pending, refunded, forfeited] }
+        paymentNote:              { type: string }
+
+    # ── Document ──────────────────────────────────────────────────────────────
+    DocumentFolder:
+      type: object
+      required: [id, name, nameAr, defaultVisibility, defaultDownloadMode, sortOrder, isActive, isTriage, documentCount]
+      properties:
+        id:                  { type: integer }
+        name:                { type: string }
+        nameAr:              { type: string }
+        defaultVisibility:   { type: string, enum: [all_portal_users, verified_owners, admin_only] }
+        defaultDownloadMode: { type: string, enum: [download_allowed, view_only] }
+        sortOrder:           { type: integer }
+        isActive:            { type: boolean }
+        isTriage:            { type: boolean }
+        documentCount:       { type: integer }
+
+    DocumentFolderInput:
+      type: object
+      required: [name, nameAr, defaultVisibility, defaultDownloadMode]
+      properties:
+        name:                { type: string, minLength: 1 }
+        nameAr:              { type: string, minLength: 1 }
+        defaultVisibility:   { type: string, enum: [all_portal_users, verified_owners, admin_only] }
+        defaultDownloadMode: { type: string, enum: [download_allowed, view_only] }
+        sortOrder:           { type: integer }
+
+    DocumentFolderUpdate:
+      type: object
+      properties:
+        name:                { type: string, minLength: 1 }
+        nameAr:              { type: string, minLength: 1 }
+        defaultVisibility:   { type: string, enum: [all_portal_users, verified_owners, admin_only] }
+        defaultDownloadMode: { type: string, enum: [download_allowed, view_only] }
+        sortOrder:           { type: integer }
+        isActive:            { type: boolean }
+
+    Document:
+      type: object
+      required: [id, title, visibility, downloadMode, canDownload, folder, createdAt]
+      properties:
+        id:           { type: integer }
+        title:        { type: string }
+        description:  { type: ["string", "null"] }
+        mimeType:     { type: ["string", "null"] }
+        fileSize:     { type: ["integer", "null"] }
+        visibility:   { type: string, enum: [all_portal_users, verified_owners, admin_only] }
+        downloadMode: { type: string, enum: [download_allowed, view_only] }
+        canDownload:  { type: boolean }
+        folder:       { $ref: "#/components/schemas/DocumentFolder" }
+        createdAt:    { type: string }
+        updatedAt:    { type: string }
+
+    DocumentInput:
+      type: object
+      required: [title, folderId, fileUrl]
+      properties:
+        title:       { type: string }
+        folderId:    { type: integer }
+        fileUrl:     { type: string }
+        description: { type: string }
+        mimeType:    { type: string }
+        fileSize:    { type: integer }
+        visibility:  { type: string, enum: [all_portal_users, verified_owners, admin_only] }
+        downloadMode: { type: string, enum: [download_allowed, view_only] }
+
+    DocumentUpdate:
+      type: object
+      properties:
+        title:        { type: string }
+        description:  { type: ["string", "null"] }
+        folderId:     { type: integer }
+        visibility:   { type: string, enum: [all_portal_users, verified_owners, admin_only] }
+        downloadMode: { type: string, enum: [download_allowed, view_only] }
+
+    DocumentReplacement:
+      type: object
+      required: [fileUrl]
+      properties:
+        title:             { type: string }
+        description:       { type: ["string", "null"] }
+        fileUrl:           { type: string }
+        mimeType:          { type: string }
+        fileSize:          { type: integer }
+        visibility:        { type: string, enum: [all_portal_users, verified_owners, admin_only] }
+        downloadMode:      { type: string, enum: [download_allowed, view_only] }
+        replacementReason: { type: string }
+
+    # ── Resident ──────────────────────────────────────────────────────────────
+    Resident:
+      type: object
+      required: [id, type, firstName, lastName, unitNumber, status, isPrimary, createdAt]
+      properties:
+        id:            { type: integer }
+        type:          { type: string, enum: [owner, tenant, family] }
+        firstName:     { type: string }
+        lastName:      { type: string }
+        email:         { type: ["string", "null"] }
+        phone:         { type: ["string", "null"] }
+        unitNumber:    { type: string }
+        relationship:  { type: ["string", "null"] }
+        registeredById: { type: ["integer", "null"] }
+        status:        { type: string, enum: [active, inactive, moved_out] }
+        isPrimary:     { type: boolean }
+        createdAt:     { type: string }
+
+    ResidentInput:
+      type: object
+      required: [type, firstName, lastName, unitNumber]
+      properties:
+        type:         { type: string, enum: [owner, tenant, family] }
+        firstName:    { type: string }
+        lastName:     { type: string }
+        email:        { type: string }
+        phone:        { type: string }
+        unitNumber:   { type: string }
+        relationship: { type: string }
+        reason: { type: string, minLength: 1, description: "Required when the direct household limit is reached." }
+        proofWarningAcknowledged: { type: boolean }
+
+    ResidentUpdate:
+      type: object
+      properties:
+        firstName:    { type: string }
+        lastName:     { type: string }
+        email:        { type: string }
+        phone:        { type: string }
+        relationship: { type: string }
+        status:       { type: string, enum: [active, inactive] }
+
+    ExtraResidentRequest:
+      type: object
+      required: [id, unitId, requesterResidentId, proposedIdentityKey, proposedResident, reason, proofWarningAcknowledged, status, submittedAt]
+      properties:
+        id: { type: integer }
+        unitId: { type: integer }
+        unitNumber: { type: string }
+        unitReference: { type: string, description: "Canonical building and unit reference." }
+        currentCount: { type: integer, minimum: 0, description: "Current active household count at queue read time." }
+        requesterResidentId: { type: integer }
+        requesterResidentName: { type: ["string", "null"] }
+        proposedIdentityKey: { type: string }
+        proposedResident: { type: object, additionalProperties: true }
+        reason: { type: string }
+        proofWarningAcknowledged: { type: boolean }
+        status: { type: string, enum: [pending, approved, refused, cancelled] }
+        decisionReason: { type: ["string", "null"] }
+        resultingResidentId: { type: ["integer", "null"] }
+        submittedAt: { type: string }
+        decidedAt: { type: ["string", "null"] }
+
+    ExtraResidentDecision:
+      type: object
+      required: [decision]
+      properties:
+        decision: { type: string, enum: [approved, refused] }
+        reason: { type: string }
+
+    ResidentRemovalInput:
+      type: object
+      properties:
+        reason: { type: string }
+
+    ResidentRemovalResponse:
+      type: object
+      required: [ok, alreadyRemoved, operationId]
+      properties:
+        ok: { type: boolean }
+        alreadyRemoved: { type: boolean }
+        operationId: { type: ["integer", "null"] }
+
+    RequestUploadUrlBody:
+      type: object
+      required: [name, size, contentType]
+      properties:
+        name:        { type: string, minLength: 1 }
+        size:        { type: integer, minimum: 1 }
+        contentType: { type: string, minLength: 1 }
+
+    RequestUploadUrlResponse:
+      type: object
+      required: [uploadURL, objectPath]
+      properties:
+        uploadURL:   { type: string }
+        objectPath:  { type: string }
+        metadata:    { $ref: "#/components/schemas/RequestUploadUrlBody" }
+
+    # ── Guest ─────────────────────────────────────────────────────────────────
+    GuestPass:
+      type: object
+      required: [id, passUuid, verificationToken, firstName, lastName, visitDate, status]
+      properties:
+        id:                 { type: integer }
+        passUuid:           { type: string }
+        verificationToken:  { type: string }
+        firstName:          { type: string }
+        lastName:           { type: string }
+        nationalId:         { type: ["string", "null"] }
+        visitDate:          { type: string }
+        vehiclePlate:       { type: ["string", "null"] }
+        reasonForVisit:     { type: ["string", "null"] }
+        status:             { type: string, enum: [approved, expired, revoked] }
+        approvedAt:         { type: ["string", "null"] }
+        createdAt:          { type: string }
+
+    Guest:
+      type: object
+      required: [id, residentId, firstName, lastName, visitDate, status, createdAt]
+      properties:
+        id:            { type: integer }
+        residentId:    { type: integer }
+        firstName:     { type: string }
+        lastName:      { type: string }
+        nationalId:    { type: ["string", "null"] }
+        vehiclePlate:  { type: ["string", "null"] }
+        visitDate:     { type: string }
+        visitReason:   { type: ["string", "null"] }
+        status:        { type: string, enum: [pending, approved, denied, checked_in, checked_out] }
+        pass:
+          oneOf:
+            - $ref: "#/components/schemas/GuestPass"
+            - type: "null"
+        residentName:   { type: ["string", "null"] }
+        residentMobile: { type: ["string", "null"] }
+        residentUnit:   { type: ["string", "null"] }
+        createdAt:      { type: string }
+
+    GuestInput:
+      type: object
+      required: [firstName, lastName, visitDate]
+      properties:
+        firstName:    { type: string }
+        lastName:     { type: string }
+        visitDate:    { type: string }
+        nationalId:   { type: string }
+        vehiclePlate: { type: string }
+        visitReason:  { type: string }
+
+    GuestUpdate:
+      type: object
+      properties:
+        status:       { type: string, enum: [approved, denied] }
+        vehiclePlate: { type: string }
+        visitReason:  { type: string }
+
+    # ── Vehicle ───────────────────────────────────────────────────────────────
+    Vehicle:
+      type: object
+      required: [id, userId, plateNumber, make, model, isAdditional, status, parkingLot, createdAt]
+      properties:
+        id:              { type: integer }
+        userId:          { type: integer }
+        make:            { type: string }
+        model:           { type: string }
+        year:            { type: ["integer", "null"] }
+        color:           { type: ["string", "null"] }
+        plateNumber:     { type: string }
+        istimaraNumber:  { type: ["string", "null"] }
+        isAdditional:    { type: boolean }
+        status:          { type: string, enum: [active, inactive, pending_approval] }
+        approvalNote:    { type: ["string", "null"] }
+        parkingLotId:     { type: ["integer", "null"] }
+        parkingLot:
+          type: ["object", "null"]
+          description: Assigned normalized parking lot. This is returned even when the assigned lot is inactive.
+          required: [id, lotNumber, building, parkingType, active, underground]
+          properties:
+            id: { type: integer }
+            lotNumber: { type: string }
+            building: { type: string }
+            parkingType: { type: string, enum: [underground, surface] }
+            active: { type: boolean }
+            underground: { type: boolean }
+        createdAt:       { type: string }
+
+    VehicleInput:
+      type: object
+      required: [make, model, plateNumber]
+      properties:
+        make:           { type: string }
+        model:          { type: string }
+        plateNumber:    { type: string }
+        year:           { type: integer }
+        color:          { type: string }
+        istimaraNumber: { type: string }
+        parkingLotId:   { type: integer, description: "Active lot belonging to the caller's canonical unit" }
+
+    VehicleUpdate:
+      type: object
+      properties:
+        make:           { type: string }
+        model:          { type: string }
+        plateNumber:    { type: string }
+        year:           { type: integer }
+        color:          { type: string }
+        istimaraNumber: { type: string }
+        status:         { type: string, enum: [active, inactive, pending_approval] }
+        approvalNote:   { type: string }
+        parkingLotId:   { type: integer }
+
+    # ── AI ─────────────────────────────────────────────────────────────────────
+    AiKnowledgeDocument:
+      type: object
+      required: [id, filename, uploadedById, createdAt, chunkCount]
+      properties:
+        id:           { type: integer }
+        filename:     { type: string }
+        mimeType:     { type: ["string", "null"] }
+        uploadedById: { type: integer }
+        chunkCount:   { type: integer }
+        createdAt:    { type: string, format: date-time }
+
+    AiChatMessage:
+      type: object
+      required: [role, content]
+      properties:
+        role:    { type: string, enum: [user, assistant] }
+        content: { type: string }
+
+    AiChatRequest:
+      type: object
+      required: [message]
+      properties:
+        message:  { type: string }
+        language: { type: string, enum: [en, ar], default: en }
+        history:
+          type: array
+          items:
+            $ref: "#/components/schemas/AiChatMessage"
+
+  # ── Shared ────────────────────────────────────────────────────────────────
+    StatusUpdate:
+      type: object
+      required: [status]
+      properties:
+        status:     { type: string }
+        adminNotes: { type: ["string", "null"] }
+
+    # ── Admin ─────────────────────────────────────────────────────────────────
+    AdminUnitRegistryVehicle:
+      type: object
+      required: [id, make, model, plateNumber, status, parkingLotId, parkingLotNumber, parkingType, underground]
+      properties:
+        id:               { type: integer }
+        make:             { type: string }
+        model:            { type: string }
+        year:             { type: ["integer", "null"] }
+        color:            { type: ["string", "null"] }
+        plateNumber:      { type: string }
+        status:           { type: string }
+        parkingLotId:     { type: ["integer", "null"] }
+        parkingLotNumber: { type: ["string", "null"] }
+        parkingType:      { type: ["string", "null"], enum: [underground, surface, null] }
+        underground:      { type: boolean }
+
+    AdminUnitRegistryResident:
+      type: object
+      required: [id, firstName, lastName, portalAccess, hasActiveWahaCredential]
+      properties:
+        id:                      { type: integer }
+        firstName:               { type: string }
+        lastName:                { type: string }
+        portalAccess:            { type: boolean, description: "True only for an active, linked portal account" }
+        hasActiveWahaCredential: { type: boolean }
+
+    AdminUnitRegistryUnit:
+      type: object
+      required: [id, building, unitNumber, residents, vehicles]
+      properties:
+        id:          { type: integer }
+        building:    { type: string }
+        unitNumber:  { type: string }
+        residents:
+          type: array
+          items: { $ref: "#/components/schemas/AdminUnitRegistryResident" }
+        vehicles:
+          type: array
+          items: { $ref: "#/components/schemas/AdminUnitRegistryVehicle" }
+
+    AdminUnitRegistryResponse:
+      type: object
+      required: [data, pagination, buildings]
+      properties:
+        data:
+          type: array
+          items: { $ref: "#/components/schemas/AdminUnitRegistryUnit" }
+        pagination:
+          type: object
+          required: [page, limit, total, totalPages]
+          properties:
+            page:       { type: integer }
+            limit:      { type: integer }
+            total:      { type: integer }
+            totalPages: { type: integer }
+        buildings:
+          type: array
+          items: { type: string }
+
+    AdminSummary:
+      type: object
+      required: [totalUsers, totalBookings, pendingBookings, pendingPermits, pendingMoveForms, upcomingBookingsToday, totalResidents, totalVehicles]
+      properties:
+        totalUsers:             { type: integer }
+        totalResidents:         { type: integer }
+        totalBookings:          { type: integer }
+        pendingBookings:        { type: integer }
+        pendingPermits:         { type: integer }
+        pendingMoveForms:       { type: integer }
+        upcomingBookingsToday:  { type: integer }
+        totalVehicles:          { type: integer }
+        recentAnnouncements:
+          type: array
+          items:
+            $ref: "#/components/schemas/Announcement"
+
+    PendingItems:
+      type: object
+      required: [ownerVerifications, permits, wahaApplications, wahaReplacementRequests, ownershipChanges, tenancyReleaseCases, communications]
+      properties:
+        ownerVerifications:
+          type: array
+          items:
+            $ref: "#/components/schemas/PendingQueueItem"
+        permits:
+          type: array
+          items:
+            $ref: "#/components/schemas/PendingQueueItem"
+        wahaApplications:
+          type: array
+          items:
+            $ref: "#/components/schemas/PendingQueueItem"
+        wahaReplacementRequests:
+          type: array
+          items:
+            $ref: "#/components/schemas/WahaReplacementRequest"
+        ownershipChanges:
+          type: array
+          items:
+            $ref: "#/components/schemas/PendingQueueItem"
+        tenancyReleaseCases:
+          type: array
+          items:
+            $ref: "#/components/schemas/PendingQueueItem"
+        communications:
+          type: array
+          items:
+            $ref: "#/components/schemas/PendingQueueItem"
+
+    PendingQueueItem:
+      type: object
+      required: [id]
+      properties:
+        id: { type: integer }
+        status: { type: string }
+
+    WahaReplacementReviewRequest:
+      type: object
+      required: [action]
+      properties:
+        action: { type: string, enum: [approved, rejected] }
+        reviewNote: { type: ["string", "null"] }
+
+    WahaReplacementRequest:
+      type: object
+      required: [id, applicationId, originalCredentialId, requestedByUserId, reason, status, createdAt, updatedAt]
+      properties:
+        id: { type: integer }
+        applicationId: { type: integer }
+        originalCredentialId: { type: integer }
+        requestedByUserId: { type: integer }
+        reason: { type: string }
+        status: { type: string, enum: [pending_review, approved, rejected, payment_pending, paid] }
+        reviewedById: { type: ["integer", "null"] }
+        reviewNote: { type: ["string", "null"] }
+        paymentAttemptId: { type: ["integer", "null"] }
+        createdAt: { type: string }
+        reviewedAt: { type: ["string", "null"] }
+        paidAt: { type: ["string", "null"] }
+        updatedAt: { type: string }
+
+    # ── Payments ─────────────────────────────────────────────────────────────
+    CreateChargeRequest:
+      type: object
+      properties:
+        bookingId: { type: integer, description: "ID of the booking to pay for" }
+        permitId:  { type: integer, description: "ID of the permit to pay for" }
+
+    CreateChargeResponse:
+      type: object
+      required: [paymentUrl, chargeId]
+      properties:
+        paymentUrl: { type: string, description: "Redirect user to this URL to complete payment" }
+        chargeId:   { type: string }
+
+    VerifyChargeRequest:
+      type: object
+      required: [chargeId]
+      properties:
+        bookingId: { type: integer }
+        permitId:  { type: integer }
+        chargeId:  { type: string }
+
+    VerifyChargeResponse:
+      type: object
+      required: [status]
+      properties:
+        status:  { type: string, enum: [paid, already_paid, initiated, failed] }
+        booking: { $ref: "#/components/schemas/Booking" }
+        permit:  { $ref: "#/components/schemas/RenovationPermit" }
+
+    PaymentReconciliationInput:
+      type: object
+      required: [chargeId]
+      properties:
+        chargeId:
+          type: string
+          minLength: 1
+          maxLength: 200
+          description: Moyasar payment ID copied from the provider dashboard
+
+    PaymentReconciliationResult:
+      type: object
+      required: [status, attemptId, purpose]
+      properties:
+        status:
+          type: string
+          description: Confirmed only after a direct provider verification; provider_pending never issues an entitlement
+        attemptId: { type: integer }
+        purpose: { type: string }
+        confirmedAt: { type: ["string", "null"], format: date-time }
+
+    PaymentRecord:
+      type: object
+      required: [id, recordType, recordId, description, amount, currency, transactionType, paymentStatus, createdAt]
+      properties:
+        id:              { type: string }
+        recordType:      { type: string, enum: [booking, permit] }
+        recordId:        { type: integer }
+        description:     { type: string }
+        amount:          { type: string }
+        currency:        { type: string }
+        transactionType: { type: string, enum: [payment, refund, waived] }
+        paymentStatus:   { type: string }
+        paidAt:          { type: ["string", "null"], format: date-time }
+        chargeId:        { type: ["string", "null"] }
+        paymentMethod:   { type: ["string", "null"] }
+        paymentProvider: { type: ["string", "null"] }
+        facilityName:    { type: ["string", "null"] }
+        permitType:      { type: ["string", "null"] }
+        serviceDate:     { type: ["string", "null"] }
+        unitNumber:      { type: ["string", "null"] }
+        resident:
+          type: ["object", "null"]
+          properties:
+            id:         { type: integer }
+            firstName:  { type: ["string", "null"] }
+            lastName:   { type: ["string", "null"] }
+            email:      { type: string }
+            unitNumber: { type: ["string", "null"] }
+        createdAt: { type: string, format: date-time }
+
+    # ── Waha Pass ─────────────────────────────────────────────────────────────
+    WahaPassApplication:
+      type: object
+      required: [id, unitId, applicantUserId, occupancyTrack, status, createdAt, updatedAt]
+      properties:
+        id:               { type: integer }
+        unitId:           { type: integer }
+        applicantUserId:  { type: integer }
+        secondResidentId: { type: ["integer", "null"] }
+        occupancyTrack:   { type: string, enum: [owner, tenant] }
+        status:           { type: string, enum: [pending_review, active, revoked, rejected] }
+        reviewedById:     { type: ["integer", "null"] }
+        reviewNote:       { type: ["string", "null"] }
+        createdAt:        { type: string, format: date-time }
+        updatedAt:        { type: string, format: date-time }
+
+    WahaPassCredential:
+      type: object
+      required: [id, applicationId, credentialIndex, holderName, status, createdAt]
+      properties:
+        id:                     { type: integer }
+        applicationId:          { type: integer }
+        credentialIndex:        { type: integer, enum: [1, 2] }
+        passNumber:             { type: ["string", "null"] }
+        verificationToken:      { type: ["string", "null"] }
+        holderName:             { type: string }
+        heldByUserId:           { type: ["integer", "null"] }
+        status:                 { type: string, enum: [active, revoked, lost, stolen, damaged] }
+        revocationReason:       { type: ["string", "null"] }
+        revokedAt:              { type: ["string", "null"], format: date-time }
+        replacedByCredentialId: { type: ["integer", "null"] }
+        chargeId:               { type: ["string", "null"] }
+        paymentUrl:             { type: ["string", "null"] }
+        paymentProvider:        { type: ["string", "null"] }
+        createdAt:              { type: string, format: date-time }
+
+    WahaPassEvent:
+      type: object
+      required: [id, applicationId, eventType, actorUserId, createdAt]
+      properties:
+        id:            { type: integer }
+        applicationId: { type: integer }
+        credentialId:  { type: ["integer", "null"] }
+        eventType:     { type: string, enum: [applied, approved, rejected, revoked, lost_reported, replacement_paid, replacement_issued, resident_archived] }
+        actorUserId:   { type: integer }
+        notes:         { type: ["string", "null"] }
+        createdAt:     { type: string, format: date-time }
+
+    WahaPassApplicationDetail:
+      allOf:
+        - $ref: "#/components/schemas/WahaPassApplication"
+        - type: object
+          properties:
+            credentials:    { type: array, items: { $ref: "#/components/schemas/WahaPassCredential" } }
+            events:         { type: array, items: { $ref: "#/components/schemas/WahaPassEvent" } }
+            isApplicant:    { type: boolean }
+
+    WahaPassEligibility:
+      type: object
+      required: [eligible]
+      properties:
+        eligible:               { type: boolean }
+        reason:                 { type: string }
+        applicationId:          { type: integer }
+        applicationStatus:      { type: string }
+        occupancyTrack:         { type: string, enum: [owner, tenant] }
+        unitId:                 { type: integer }
+        eligibleSecondResidents:
+          type: array
+          items:
+            $ref: "#/components/schemas/Resident"
+
+    WahaPassApplyRequest:
+      type: object
+      properties:
+        secondResidentId: { type: integer, description: "Optional resident ID for Credential 2" }
+
+    WahaPassApproveResponse:
+      type: object
+      properties:
+        application:  { $ref: "#/components/schemas/WahaPassApplication" }
+        credentials:
+          type: array
+          items:
+            $ref: "#/components/schemas/WahaPassCredential"
+
+    WahaGateVerifyResponse:
+      type: object
+      required: [valid, status, message]
+      properties:
+        valid:           { type: boolean }
+        status:          { type: string }
+        passNumber:      { type: ["string", "null"] }
+        credentialIndex: { type: ["integer", "null"] }
+        holderName:      { type: ["string", "null"] }
+        occupancyTrack:  { type: ["string", "null"] }
+        unitNumber:        { type: ["string", "null"] }
+        sameDayGuestCount: { type: integer }
+        message:           { type: string }
+
+    # ── Waha Guest Day Passes ─────────────────────────────────────────────────
+    WahaGuestDayPass:
+      type: object
+      required: [id, unitId, date, extraGuestCount, amountSar, paymentStatus, purchasedByUserId, createdAt]
+      properties:
+        id:                { type: integer }
+        unitId:            { type: integer }
+        unitNumber:        { type: ["string", "null"] }
+        date:              { type: string, format: date, description: "YYYY-MM-DD" }
+        extraGuestCount:   { type: integer, minimum: 1 }
+        vehiclePlate:      { type: ["string", "null"], maxLength: 32 }
+        amountSar:         { type: string, description: "Decimal string e.g. '30.00'" }
+        chargeId:          { type: ["string", "null"] }
+        paymentUrl:        { type: ["string", "null"] }
+        paymentProvider:   { type: ["string", "null"] }
+        paymentStatus:     { type: string, enum: [pending, paid] }
+        purchasedByUserId: { type: integer }
+        createdAt:         { type: string, format: date-time }
+
+    WahaGuestDayPassRequest:
+      type: object
+      required: [extraCount, visitDate]
+      properties:
+        extraCount: { type: integer, minimum: 1, description: "Number of extra guest slots to purchase" }
+        visitDate:  { type: string, format: date, description: "YYYY-MM-DD date for which guests are being registered" }
+
+    WahaGuestDayPassInitiateResponse:
+      type: object
+      required: [dayPassId, paymentUrl, chargeId]
+      properties:
+        dayPassId:  { type: integer }
+        paymentUrl: { type: string }
+        chargeId:   { type: string }
+
+    GuestDayPassRequired:
+      type: object
+      required: [error, extraNeeded, costSar, visitDate]
+      properties:
+        error:               { type: string, enum: [GUEST_DAY_PASS_REQUIRED] }
+        extraNeeded:         { type: integer, description: "How many extra slots must be purchased" }
+        costSar:             { type: integer, description: "Total cost in SAR (extraNeeded × 30)" }
+        visitDate:           { type: string, format: date }
+        wahaPassHolderUserId: { type: ["integer", "null"], description: "DB user ID of the unit's active Waha Pass holder" }
+
+    # ── Gate QR Verification ──────────────────────────────────────────────────
+    GuestPassVerifyResponse:
+      type: object
+      required: [valid, status, message]
+      properties:
+        valid:            { type: boolean }
+        status:           { type: string }
+        passId:           { type: ["integer", "null"] }
+        passUuid:         { type: ["string", "null"] }
+        firstName:        { type: ["string", "null"] }
+        lastName:         { type: ["string", "null"] }
+        visitDate:        { type: ["string", "null"], format: date }
+        visitStartTime:   { type: ["string", "null"] }
+        visitEndTime:     { type: ["string", "null"] }
+        vehiclePlate:     { type: ["string", "null"] }
+        reasonForVisit:   { type: ["string", "null"] }
+        residentId:       { type: ["integer", "null"] }
+        message:          { type: string }
+
+    # ── Gate plate lookup ──────────────────────────────────────────────────────
+    GatePlateLookupResponse:
+      type: object
+      required: [status]
+      properties:
+        status:       { type: string, enum: [registered, not_registered] }
+        residentName: { type: ["string", "null"] }
+        unitNumber:   { type: ["string", "null"] }
+        vehicle:
+          type: ["object", "null"]
+          properties:
+            make:  { type: string }
+            model: { type: string }
+            color: { type: ["string", "null"] }
+
+    # ── Unit Verification ─────────────────────────────────────────────────────
+    OwnershipChangeEvent:
+      type: object
+      required: [id, unitId, initiationType, status, createdAt]
+      properties:
+        id:                      { type: integer }
+        unitId:                  { type: integer }
+        initiationType:          { type: string, enum: [path_a, path_b] }
+        status:                  { type: string, enum: [pending, approved, rejected, completed] }
+        rejectionReason:         { type: ["string", "null"], enum: [auto_expired, auto_expired_path_b, admin_rejected, null] }
+        outgoingOwnerName:       { type: ["string", "null"] }
+        outgoingOwnerNationalId: { type: ["string", "null"] }
+        newOwnerName:            { type: ["string", "null"] }
+        newOwnerUserId:          { type: ["integer", "null"] }
+        newOwnerNationalId:      { type: ["string", "null"] }
+        proofDocumentKey:        { type: ["string", "null"] }
+        notes:                   { type: ["string", "null"] }
+        reviewNote:              { type: ["string", "null"] }
+        createdAt:               { type: string }
+        updatedAt:               { type: string }
+
+    OwnershipChangeCreate:
+      type: object
+      required: []
+      properties:
+        notes: { type: string }
+
+    OwnershipClaimCreate:
+      type: object
+      required: [building, unitNumber, newOwnerName, newOwnerNationalId]
+      properties:
+        building:           { type: string }
+        unitNumber:         { type: string }
+        newOwnerName:       { type: string }
+        newOwnerNationalId: { type: string }
+        proofDocumentKey:   { type: string }
+        notes:              { type: string }
+
+    UnitVerifyOwnerRequest:
+      type: object
+      required: [building, unitNumber, nationalId, titleDeedNumber, mobile, gender]
+      additionalProperties: false
+      properties:
+        building:   { type: string }
+        unitNumber: { type: string }
+        nationalId: { type: string }
+        mobile: { type: string }
+        gender: { type: string, enum: [male, female] }
+        titleDeedNumber: { type: string, pattern: '^[0-9]{16}$', description: "16-digit deed number to verify against Mullak" }
+
+    UnitVerifyOwnerResponse:
+      type: object
+      required: [result]
+      properties:
+        result:         { type: string, enum: [auto_approved, pending_manual_review, pending_owner_approval, unit_has_owner, pre_approved] }
+        unit:           { type: object, description: "Unit record on auto_approved, unit_has_owner, or pre_approved" }
+        verificationId: { type: integer, description: "Verification ID returned on pending_manual" }
+
+    UnitVerifyTenantRequest:
+      type: object
+      required: [building, unitNumber]
+      properties:
+        building:       { type: string }
+        unitNumber:     { type: string }
+        nationalId:     { type: string }
+        ejarReference:  { type: string, description: "Ejar lease reference number" }
+
+    UnitVerifyTenantResponse:
+      type: object
+      required: [result, verificationId]
+      properties:
+        result:         { type: string, enum: [pending_owner_approval] }
+        verificationId: { type: integer }
+
+    UnitVerification:
+      type: object
+      required: [id, type, userId, unitId, status]
+      properties:
+        id:             { type: integer }
+        type:           { type: string, enum: [owner_manual, tenant_request] }
+        userId:         { type: integer }
+        unitId:         { type: integer }
+        nationalId:     { type: ["string", "null"] }
+        firstName:
+          type: ["string", "null"]
+          description: Submitted tenant name; for owner_manual requests this is the authoritative account name.
+        middleName:
+          type: ["string", "null"]
+          description: Submitted tenant name; for owner_manual requests this is the authoritative account name.
+        lastName:
+          type: ["string", "null"]
+          description: Submitted tenant name; for owner_manual requests this is the authoritative account name.
+        ejarReference:  { type: ["string", "null"] }
+        status:         { type: string, enum: [pending, approved, rejected] }
+        reviewedById:   { type: ["integer", "null"] }
+        reviewNote:     { type: ["string", "null"] }
+        expiresAt:      { type: ["string", "null"], format: date-time }
+        createdAt:      { type: string, format: date-time }
+
+    UnitVerificationRequester:
+      type: object
+      properties:
+        id:         { type: integer }
+        firstName:  { type: ["string", "null"] }
+        lastName:   { type: ["string", "null"] }
+        email:      { type: ["string", "null"] }
+        nationalId: { type: ["string", "null"] }
+        middleName: { type: ["string", "null"] }
+
+    UnitVerificationEnriched:
+      allOf:
+        - $ref: "#/components/schemas/UnitVerification"
+        - type: object
+          properties:
+            requester: { $ref: "#/components/schemas/UnitVerificationRequester" }
+
+    UnitVerificationAdmin:
+      allOf:
+        - $ref: "#/components/schemas/UnitVerification"
+        - type: object
+          properties:
+            requester: { $ref: "#/components/schemas/UnitVerificationRequester" }
+            unit:
+              type: object
+              properties:
+                id:         { type: integer }
+                building:   { type: string }
+                unitNumber: { type: string }
+
+    # ── Historical Records ────────────────────────────────────────────────────
+    HistoricalResident:
+      type: object
+      required: [id, type, firstName, lastName, unitNumber, status, createdAt, updatedAt]
+      properties:
+        id:             { type: integer }
+        type:           { type: string, enum: [owner, tenant, family] }
+        firstName:      { type: string }
+        lastName:       { type: string }
+        email:          { type: ["string", "null"] }
+        phone:          { type: ["string", "null"] }
+        unitNumber:     { type: string }
+        unitId:         { type: ["integer", "null"] }
+        relationship:   { type: ["string", "null"] }
+        dateOfBirth:    { type: ["string", "null"], format: date }
+        idNumber:       { type: ["string", "null"] }
+        hasPortalAccess: { type: boolean }
+        registeredById: { type: ["integer", "null"] }
+        status:         { type: string, enum: [active, inactive, moved_out] }
+        createdAt:      { type: string, format: date-time }
+        updatedAt:      { type: string, format: date-time }
+
+    PaginatedHistoricalRecords:
+      type: object
+      required: [recordType, data, pagination]
+      properties:
+        recordType: { type: string }
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/HistoricalResident"
+        pagination:
+          type: object
+          required: [page, limit, total, totalPages]
+          properties:
+            page:       { type: integer }
+            limit:      { type: integer }
+            total:      { type: integer }
+            totalPages: { type: integer }
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: >
+        Clerk-issued JWT. Pass as `Authorization: Bearer <token>`.
+        In web apps this is handled automatically via the session cookie;
+        in mobile apps call `setAuthTokenGetter` in custom-fetch.
