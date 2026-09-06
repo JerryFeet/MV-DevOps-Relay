@@ -1,0 +1,36 @@
+{
+  "section": "Round 3 Section 3 — Waha second credential",
+  "status": "confirmed pre-fix",
+  "browser": {
+    "command": "PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=$(which chromium) pnpm --filter @workspace/hoa-portal exec playwright test --config playwright.config.ts --project=round3-regression e2e/round3-section3-waha-second-credential.spec.ts",
+    "setupTestsPassed": 2,
+    "productTestsFailed": 2,
+    "mineCurrentUnitScope": {
+      "firstAttempt": {
+        "currentUserUnitId": 57,
+        "mineApplicationUnitId": 47
+      },
+      "retry": {
+        "currentUserUnitId": 58,
+        "mineApplicationUnitId": 47
+      }
+    },
+    "credential2VisibleOptionLabels": [
+      "Select household member…",
+      "E2E Round3Waha",
+      "Round3Underage Fixture"
+    ]
+  },
+  "api": {
+    "command": "pnpm --filter @workspace/api-server exec vitest run src/__tests__/wahaPassCompositionI5.test.ts",
+    "controlsPassed": 8,
+    "regressionsFailed": 4,
+    "receivedStatusByCase": {
+      "missingDateOfBirth": 200,
+      "under18": 200,
+      "noPortalAccess": 200,
+      "applicationCurrentUnitMismatch": 200
+    }
+  },
+  "productBehaviorChangedBeforeCapture": false
+}
