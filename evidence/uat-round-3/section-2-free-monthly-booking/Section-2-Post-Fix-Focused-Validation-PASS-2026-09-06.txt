@@ -1,0 +1,34 @@
+$ pnpm --filter @workspace/api-server exec vitest run src/__tests__/bookingGuards.test.ts --reporter=verbose
+
+ RUN  v4.1.9 /home/runner/workspace/artifacts/api-server
+
+ ✓ src/__tests__/bookingGuards.test.ts > #51 — Staff cannot cancel a past booking via PATCH > admin gets 409 when cancelling a booking whose endTime has passed 32ms
+ ✓ src/__tests__/bookingGuards.test.ts > #51 — Staff cannot cancel a past booking via PATCH > supervisor sees only own bookings; not owner A's — own-only 404 after X6 5ms
+ ✓ src/__tests__/bookingGuards.test.ts > Round 3 Section 1 — elapsed booking starts are never offerable or accepted > marks elapsed Riyadh-today availability slots unavailable while retaining future slots 6ms
+ ✓ src/__tests__/bookingGuards.test.ts > Round 3 Section 1 — elapsed booking starts are never offerable or accepted > returns the stable elapsed-start error before grid validation 5ms
+ ✓ src/__tests__/bookingGuards.test.ts > #52 — A past booking cannot be confirmed > admin gets 409 when confirming a booking whose endTime has passed 4ms
+ ✓ src/__tests__/bookingGuards.test.ts > #52 — A past booking cannot be confirmed > supervisor is blocked (403) before reaching business logic — role removed in X6 4ms
+ ✓ src/__tests__/bookingGuards.test.ts > #57 — Duration guard applies when min equals max (point-duration facility) > booking with duration > max (90 min) is rejected with 400 3ms
+ ✓ src/__tests__/bookingGuards.test.ts > #57 — Duration guard applies when min equals max (point-duration facility) > booking with duration < min (30 min) is also rejected with 400 4ms
+ ✓ src/__tests__/bookingGuards.test.ts > #57 — Duration guard applies when min equals max (point-duration facility) > exact-duration booking (60 min) passes the duration guard 5ms
+ ✓ src/__tests__/bookingGuards.test.ts > #61 — movieTitle is stored and returned in GET /api/bookings > cinema booking appears in staff listing with its movieTitle 5ms
+ ✓ src/__tests__/bookingGuards.test.ts > #61 — movieTitle is stored and returned in GET /api/bookings > movieTitle is null for non-cinema bookings 6ms
+ ✓ src/__tests__/bookingGuards.test.ts > Round 3 Section 2 — zero-price resident bookings > confirms a zero-price facility booking and records the resident's monthly allowance claim 9ms
+
+ Test Files  1 passed (1)
+      Tests  12 passed (12)
+   Start at  21:28:02
+   Duration  2.32s (transform 1.07s, setup 0ms, import 2.06s, tests 92ms, environment 0ms)
+
+
+$ pnpm --filter @workspace/api-server run typecheck
+
+> @workspace/api-server@0.0.0 typecheck /home/runner/workspace/artifacts/api-server
+> tsc -p tsconfig.json --noEmit
+
+
+$ pnpm --filter @workspace/hoa-portal run typecheck
+
+> @workspace/hoa-portal@0.0.0 typecheck /home/runner/workspace/artifacts/hoa-portal
+> tsc -p tsconfig.json --noEmit
+
