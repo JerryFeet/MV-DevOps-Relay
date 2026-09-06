@@ -1,0 +1,5 @@
+ba319d0a6a65f8d2b90a9209df11266798a2b158efafc00aaa25796ea5f44d51  evidence/uat-round-3/section-1-past-slot/Section-1-1a-Elapsed-Slots-FAIL-2026-09-06.png
+c76dc7737ab9272e42a8d440f2c3a351a0596b2319e2ee4895b017d626b31bff  evidence/uat-round-3/section-1-past-slot/Section-1-1b-Past-POST-FAIL-2026-09-06.png
+2d1d09be6bca57f8cbb8db32c4afde5a4743a0bb7d09ec6a851a5bd5f9ba7c71  evidence/uat-round-3/section-1-past-slot/Section-1-1c-Silent-Cancel-FAIL-2026-09-06.png
+56d3d0b01606db7f28a9d67a98a71870b0355a3749a6e851ba3e9815fa915dfa  evidence/uat-round-3/section-1-past-slot/Section-1-Pre-Fix-Failure-Summary-2026-09-06.md
+a24c3d4fe03fc834579cf1076e5eeda424b759174c944f1747e8fd8694713eba  evidence/uat-round-3/section-1-past-slot/Section-1-Pre-Fix-Playwright-FAIL-2026-09-06.txt
