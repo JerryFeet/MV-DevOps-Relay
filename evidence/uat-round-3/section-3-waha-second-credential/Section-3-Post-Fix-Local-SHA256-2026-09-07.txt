@@ -1,0 +1,6 @@
+695a85c4e2e400b2579c7a0662a720809aed51d7fcdd4578e090c88a2b03ba7a  evidence/uat-round-3/section-3-waha-second-credential/Round-3-Section-3-Assign-Second-API-Regression-Final-2026-09-07.ts
+c436f942ce44308596eec97ece5555e2b69b6700eb636861ca52b88e9b82789f  evidence/uat-round-3/section-3-waha-second-credential/Round-3-Section-3-Permanent-Regression-Suite-Final-2026-09-07.ts
+80312d9bb1eefce318415b737430ba60372fbb99ed89096db026e6403d9fdabf  evidence/uat-round-3/section-3-waha-second-credential/Section-3-Post-Fix-Complete-Playwright-PASS-2026-09-07.txt
+1facfd334b053ac29f371a4fc6e5ea77e5e05ae58049dac6c19d41258c232809  evidence/uat-round-3/section-3-waha-second-credential/Section-3-Post-Fix-Full-API-PASS-2026-09-07.txt
+29875d6d7527f5b8e9cb0a9dcad93818fc0e984d0b408457c18966ce38bfda97  evidence/uat-round-3/section-3-waha-second-credential/Section-3-Post-Fix-Observed-Facts-2026-09-07.json
+0dbd881590b22e67da3e6f1d033c4d0d94ecd37f2e544e3c24517cc2bcae7524  evidence/uat-round-3/section-3-waha-second-credential/Section-3-Post-Fix-Delivery-2026-09-07.md
