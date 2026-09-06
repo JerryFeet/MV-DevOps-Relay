@@ -1,0 +1,50 @@
+$ pnpm --filter @workspace/api-server exec vitest run src/__tests__/bookingGuards.test.ts --reporter=verbose
+
+ RUN  v4.1.9 /home/runner/workspace/artifacts/api-server
+
+ ✓ src/__tests__/bookingGuards.test.ts > #51 — Staff cannot cancel a past booking via PATCH > admin gets 409 when cancelling a booking whose endTime has passed 25ms
+ ✓ src/__tests__/bookingGuards.test.ts > #51 — Staff cannot cancel a past booking via PATCH > supervisor sees only own bookings; not owner A's — own-only 404 after X6 5ms
+ ✓ src/__tests__/bookingGuards.test.ts > Round 3 Section 1 — elapsed booking starts are never offerable or accepted > marks elapsed Riyadh-today availability slots unavailable while retaining future slots 8ms
+ ✓ src/__tests__/bookingGuards.test.ts > Round 3 Section 1 — elapsed booking starts are never offerable or accepted > returns the stable elapsed-start error before grid validation 4ms
+ ✓ src/__tests__/bookingGuards.test.ts > #52 — A past booking cannot be confirmed > admin gets 409 when confirming a booking whose endTime has passed 4ms
+ ✓ src/__tests__/bookingGuards.test.ts > #52 — A past booking cannot be confirmed > supervisor is blocked (403) before reaching business logic — role removed in X6 3ms
+ ✓ src/__tests__/bookingGuards.test.ts > #57 — Duration guard applies when min equals max (point-duration facility) > booking with duration > max (90 min) is rejected with 400 3ms
+ ✓ src/__tests__/bookingGuards.test.ts > #57 — Duration guard applies when min equals max (point-duration facility) > booking with duration < min (30 min) is also rejected with 400 4ms
+ ✓ src/__tests__/bookingGuards.test.ts > #57 — Duration guard applies when min equals max (point-duration facility) > exact-duration booking (60 min) passes the duration guard 4ms
+ ✓ src/__tests__/bookingGuards.test.ts > #61 — movieTitle is stored and returned in GET /api/bookings > cinema booking appears in staff listing with its movieTitle 5ms
+ ✓ src/__tests__/bookingGuards.test.ts > #61 — movieTitle is stored and returned in GET /api/bookings > movieTitle is null for non-cinema bookings 4ms
+
+ Test Files  1 passed (1)
+      Tests  11 passed (11)
+   Start at  21:06:04
+   Duration  1.68s (transform 782ms, setup 0ms, import 1.48s, tests 72ms, environment 0ms)
+
+
+$ pnpm --filter @workspace/hoa-portal exec vitest run src/__tests__/bookingFacilityNameDisplay.test.tsx --reporter=verbose
+ DEPRECATED  `test.poolOptions` was removed in Vitest 4. All previous `poolOptions` are now top-level options. Please, refer to the migration guide: https://vitest.dev/guide/migration#pool-rework
+
+ RUN  v4.1.9 /home/runner/workspace/artifacts/hoa-portal
+
+ ✓ src/__tests__/bookingFacilityNameDisplay.test.tsx > BookingCard — facilityName display > renders the facility name string in the booking card 57ms
+ ✓ src/__tests__/bookingFacilityNameDisplay.test.tsx > BookingCard — facilityName display > does NOT render the raw facilityId number as the facility label 8ms
+ ✓ src/__tests__/bookingFacilityNameDisplay.test.tsx > BookingCard — facilityName display > keeps the cancellation dialog open and shows the server reason on failure 147ms
+ ✓ src/__tests__/bookingFacilityNameDisplay.test.tsx > BookingCard — facilityName display > renders the facility name for a pending booking as well as confirmed 7ms
+ ✓ src/__tests__/bookingFacilityNameDisplay.test.tsx > BookingCard — facilityName display > renders a different facility name when the booking carries a different facilityName 7ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  21:06:06
+   Duration  4.34s (transform 316ms, setup 105ms, import 2.96s, tests 229ms, environment 921ms)
+
+
+$ pnpm --filter @workspace/api-server run typecheck
+
+> @workspace/api-server@0.0.0 typecheck /home/runner/workspace/artifacts/api-server
+> tsc -p tsconfig.json --noEmit
+
+
+$ pnpm --filter @workspace/hoa-portal run typecheck
+
+> @workspace/hoa-portal@0.0.0 typecheck /home/runner/workspace/artifacts/hoa-portal
+> tsc -p tsconfig.json --noEmit
+
