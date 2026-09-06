@@ -1,0 +1,105 @@
+
+> workspace@0.0.0 round3:regression:e2e /home/runner/workspace
+> pnpm --filter @workspace/hoa-portal run round3:regression:e2e
+
+
+> @workspace/hoa-portal@0.0.0 round3:regression:e2e /home/runner/workspace/artifacts/hoa-portal
+> playwright test --config playwright.config.ts --project=round3-regression
+
+[e2e pre-flight] Portal and API server are reachable ✓
+[dotenv@17.2.2] injecting env (0) from .env.local,.env -- tip: ⚙️  override existing env vars with { override: true }
+[e2e setup] Clerk user exists: e2e-resident+clerk_test@example.com (user_3Ge2n30N1IFH4apQKNpegAxhXrq)
+[e2e setup] Clerk user exists: e2e-admin+clerk_test@example.com (user_3Ge2nDVktp277PStuqyqcM4lGyw)
+[e2e setup] Clerk user exists: e2e-verified-resident+clerk_test@example.com (user_3IDMLt6PwzxBsKMcNUP7wurtrKg)
+[e2e setup] Clerk user exists: e2e-guard+clerk_test@example.com (user_3IPsXz9FqjDpZplchPXYAdhbZKk)
+
+Running 6 tests using 1 worker
+
+  ✓  1 [verified-resident-setup] › e2e/verified-resident.setup.ts:23:1 › authenticate and seed verified resident (6.9s)
+  ✓  2 [round3-regression] › e2e/round3-section1-booking.spec.ts:160:3 › Round 3 Section 1 — booking time and active-booking regressions › 1a — today's UI availability never renders an elapsed slot (3.1s)
+  ✓  3 [round3-regression] › e2e/round3-section1-booking.spec.ts:172:3 › Round 3 Section 1 — booking time and active-booking regressions › 1b — POST booking with an elapsed start is rejected (2.8s)
+  ✓  4 [round3-regression] › e2e/round3-section1-booking.spec.ts:215:3 › Round 3 Section 1 — booking time and active-booking regressions › 1c — a rejected cancellation remains visible instead of closing silently (5.7s)
+  ✓  5 [round3-regression] › e2e/round3-section1-booking.spec.ts:254:3 › Round 3 Section 1 — booking time and active-booking regressions › F12 — the UI exposes the active unit/facility rule on a second future booking (4.6s)
+  ✘  6 [round3-regression] › e2e/round3-section2-monthly-allowance.spec.ts:91:3 › Round 3 Section 2 — zero-price monthly allowance regression › a zero-priced facility booking consumes the monthly allowance (2.8s)
+  ✘  7 [round3-regression] › e2e/round3-section2-monthly-allowance.spec.ts:91:3 › Round 3 Section 2 — zero-price monthly allowance regression › a zero-priced facility booking consumes the monthly allowance (retry #1) (3.6s)
+
+
+  1) [round3-regression] › e2e/round3-section2-monthly-allowance.spec.ts:91:3 › Round 3 Section 2 — zero-price monthly allowance regression › a zero-priced facility booking consumes the monthly allowance 
+
+    Error: expect(received).toMatchObject(expected)
+
+    - Expected  - 4
+    + Received  + 2
+
+      Object {
+    -   "available": false,
+    -   "claim": Object {
+    -     "bookingId": 23,
+    -   },
+    +   "available": true,
+    +   "claim": null,
+        "eligibleForBooking": true,
+      }
+
+      173 |
+      174 |       const refreshedAllowance = await (await refreshedAllowanceResponse).json() as Allowance;
+    > 175 |       expect(refreshedAllowance).toMatchObject({
+          |                                  ^
+      176 |         available: false,
+      177 |         eligibleForBooking: true,
+      178 |         claim: { bookingId: createdBookingId },
+        at /home/runner/workspace/artifacts/hoa-portal/e2e/round3-section2-monthly-allowance.spec.ts:175:34
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/round3-section2-monthly-al-3aa7f-sumes-the-monthly-allowance-round3-regression/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/round3-section2-monthly-al-3aa7f-sumes-the-monthly-allowance-round3-regression/error-context.md
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: expect(received).toMatchObject(expected)
+
+    - Expected  - 4
+    + Received  + 2
+
+      Object {
+    -   "available": false,
+    -   "claim": Object {
+    -     "bookingId": 24,
+    -   },
+    +   "available": true,
+    +   "claim": null,
+        "eligibleForBooking": true,
+      }
+
+      173 |
+      174 |       const refreshedAllowance = await (await refreshedAllowanceResponse).json() as Allowance;
+    > 175 |       expect(refreshedAllowance).toMatchObject({
+          |                                  ^
+      176 |         available: false,
+      177 |         eligibleForBooking: true,
+      178 |         claim: { bookingId: createdBookingId },
+        at /home/runner/workspace/artifacts/hoa-portal/e2e/round3-section2-monthly-allowance.spec.ts:175:34
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/round3-section2-monthly-al-3aa7f-sumes-the-monthly-allowance-round3-regression-retry1/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/round3-section2-monthly-al-3aa7f-sumes-the-monthly-allowance-round3-regression-retry1/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/round3-section2-monthly-al-3aa7f-sumes-the-monthly-allowance-round3-regression-retry1/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/round3-section2-monthly-al-3aa7f-sumes-the-monthly-allowance-round3-regression-retry1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [round3-regression] › e2e/round3-section2-monthly-allowance.spec.ts:91:3 › Round 3 Section 2 — zero-price monthly allowance regression › a zero-priced facility booking consumes the monthly allowance 
+  5 passed (34.1s)
+/home/runner/workspace/artifacts/hoa-portal:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @workspace/hoa-portal@0.0.0 round3:regression:e2e: `playwright test --config playwright.config.ts --project=round3-regression`
+Exit status 1
+ ELIFECYCLE  Command failed with exit code 1.
