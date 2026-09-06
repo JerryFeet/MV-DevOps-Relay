@@ -1,0 +1,41 @@
+{
+  "section": "Round 3 Section 3 — Waha second credential",
+  "status": "post-fix verified",
+  "remediated": {
+    "mineCurrentUnitScope": true,
+    "mineDeterministicLifecycleOrdering": true,
+    "credential2MineRequiresActiveCurrentUnitApplication": true,
+    "assignSecondApplicationUnitMatch": true,
+    "assignSecondDobRequired": true,
+    "assignSecondAdultRequired": true,
+    "assignSecondPortalAccessRequired": true,
+    "assignSecondCanonicalOccupancyLock": true,
+    "assignSecondAtomicApplicationAndCredentialUpdate": true,
+    "portalUsesAuthoritativeEligibilityCandidates": true
+  },
+  "validation": {
+    "portalTypecheck": "passed",
+    "focusedApi": {
+      "passed": 12,
+      "failed": 0
+    },
+    "namedRound3Playwright": {
+      "passed": 9,
+      "failed": 0
+    },
+    "fullApi": {
+      "testFilesPassed": 104,
+      "testFilesSkipped": 1,
+      "testsPassed": 1478,
+      "testsSkipped": 26,
+      "failed": 0
+    },
+    "completePlaywright": {
+      "testsTotal": 101,
+      "passed": 92,
+      "skipped": 9,
+      "failed": 0,
+      "duration": "6.0m"
+    }
+  }
+}
