@@ -1,0 +1,4 @@
+193b2eba151424272e48b9589c40f9d4f74901ebf3b4ae1be347fb2b24acf4bd  evidence/uat-round-3/section-2-free-monthly-booking/Round-3-Section-2-Permanent-Regression-Suite-Post-Fix-2026-09-06.ts
+d9e70cf5074fa9968c70a05d2633c8203bff47e53d403db126ae031a72dbd90b  evidence/uat-round-3/section-2-free-monthly-booking/Section-2-Post-Fix-Playwright-PASS-2026-09-06.txt
+56cfb77fdb22fe522b38dcb5f39605bffbab9dfa4281b9cfb1fe5e8dc4f3b6ef  evidence/uat-round-3/section-2-free-monthly-booking/Section-2-Post-Fix-Focused-Validation-PASS-2026-09-06.txt
+ad72553d8abf6bfc25d1f570f20921b241a4cb5161ddc1c39b12b5ac279df2c6  evidence/uat-round-3/section-2-free-monthly-booking/Section-2-Post-Fix-Validation-Summary-2026-09-06.md
