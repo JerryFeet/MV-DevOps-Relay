@@ -1,0 +1,4 @@
+50e28357edd4b41e07adf47d4e40f408b172cc1887293435454a84e4c83f2290  evidence/uat-round-3/section-1-past-slot/Round-3-Section-1-Permanent-Regression-Suite-2026-09-06.ts
+c7ebd0237e94d4a797ca0570ba5c1066139e3a2c9e0e458cef3b2f0f0fcf6314  evidence/uat-round-3/section-1-past-slot/Section-1-Post-Fix-Playwright-PASS-2026-09-06.txt
+30afe73d5a3d8e2d17ac899925ddecf1ce44330770cb1461a20c66d80903d17a  evidence/uat-round-3/section-1-past-slot/Section-1-Post-Fix-Focused-Validation-PASS-2026-09-06.txt
+affde9001e178a88658d1dd1e74bc60845463ab4eda8d695fc2459dec4b45094  evidence/uat-round-3/section-1-past-slot/Section-1-Post-Fix-Validation-Summary-2026-09-06.md
