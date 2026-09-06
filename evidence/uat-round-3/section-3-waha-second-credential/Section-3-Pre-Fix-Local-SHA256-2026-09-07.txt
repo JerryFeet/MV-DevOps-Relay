@@ -1,0 +1,9 @@
+695a85c4e2e400b2579c7a0662a720809aed51d7fcdd4578e090c88a2b03ba7a  evidence/uat-round-3/section-3-waha-second-credential/Round-3-Section-3-Assign-Second-API-Regression-Pre-Fix-2026-09-07.ts
+4545e519cbccd60eb187a82eb4dcd1eaee587bc5b93d765592ba157debb547f3  evidence/uat-round-3/section-3-waha-second-credential/Round-3-Section-3-Permanent-Regression-Suite-Pre-Fix-2026-09-07.ts
+f10f50a0ea9ab22c551314c6ad62805e604cccdc3bfdacc88f532b42afb4bde9  evidence/uat-round-3/section-3-waha-second-credential/Section-3-3a-Stale-Mine-FAIL-2026-09-07.png
+5df84017d33d9a714cf61940a249d5b6026d825ac6ad1047b0c5ab70bcc5851b  evidence/uat-round-3/section-3-waha-second-credential/Section-3-3b-Underage-Credential-Option-FAIL-2026-09-07.png
+bceaca9d039a4fad2546e49b6d7b3c8063ef5565b90e24c39cc5c8bf47fd9178  evidence/uat-round-3/section-3-waha-second-credential/Section-3-Pre-Fix-Assign-Second-API-FAIL-2026-09-07.txt
+736771708a709bf72539349cfa98fca0c7c6073bc968d1748e2283de5e7eca30  evidence/uat-round-3/section-3-waha-second-credential/Section-3-Pre-Fix-Failure-Summary-2026-09-07.md
+4c040648da429a8fe4f9a95cda8c6a46f4883f7c7260d450af46ebc2369feeee  evidence/uat-round-3/section-3-waha-second-credential/Section-3-Pre-Fix-Observed-Facts-2026-09-07.json
+0731f2cf5104e172e6317468618b6c6886ebc5772082ea4b36a8cb55dd55175c  evidence/uat-round-3/section-3-waha-second-credential/Section-3-Pre-Fix-Playwright-FAIL-2026-09-07.txt
+45c2384373ef657c8d79743432c4759160e2ded9111c1d455351b380a119c926  evidence/uat-round-3/section-3-waha-second-credential/Section-3-Waha-Invariant-Route-Matrix-2026-09-07.md
