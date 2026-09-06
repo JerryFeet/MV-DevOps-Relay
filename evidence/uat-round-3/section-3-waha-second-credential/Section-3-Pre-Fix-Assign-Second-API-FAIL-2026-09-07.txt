@@ -1,0 +1,109 @@
+
+ RUN  v4.1.9 /home/runner/workspace/artifacts/api-server
+
+ ✓ src/__tests__/wahaPassCompositionI5.test.ts > POST /waha-pass/apply — I5 second-resident rules > DOB-1: rejects second resident with no date_of_birth with SECOND_RESIDENT_DOB_ABSENT 26ms
+ ✓ src/__tests__/wahaPassCompositionI5.test.ts > POST /waha-pass/apply — I5 second-resident rules > DOB-2: rejects second resident under 18 with SECOND_RESIDENT_UNDER_18 6ms
+ ✓ src/__tests__/wahaPassCompositionI5.test.ts > POST /waha-pass/apply — I5 second-resident rules > DOB-3: rejects second resident without portal access with SECOND_RESIDENT_NO_PORTAL_ACCESS 4ms
+ ✓ src/__tests__/wahaPassCompositionI5.test.ts > POST /waha-pass/apply — I5 second-resident rules > CTRL: accepts second resident with valid DOB ≥18 and portal access 4ms
+ × src/__tests__/wahaPassCompositionI5.test.ts > POST /waha-pass/:id/assign-second — I5 parity with apply > rejects a second resident with no DOB 8ms
+   → expected 200 to be 422 // Object.is equality
+ × src/__tests__/wahaPassCompositionI5.test.ts > POST /waha-pass/:id/assign-second — I5 parity with apply > rejects a second resident under 18 4ms
+   → expected 200 to be 422 // Object.is equality
+ × src/__tests__/wahaPassCompositionI5.test.ts > POST /waha-pass/:id/assign-second — I5 parity with apply > rejects a second resident without portal access 3ms
+   → expected 200 to be 422 // Object.is equality
+ × src/__tests__/wahaPassCompositionI5.test.ts > POST /waha-pass/:id/assign-second — I5 parity with apply > rejects assignment when the applicant has moved units 4ms
+   → expected 200 to be 409 // Object.is equality
+ ✓ src/__tests__/wahaPassCompositionI5.test.ts > GET /waha-pass/eligibility — I5 ineligible second resident tagging > ELG-1: resident with no DOB appears in ineligibleSecondResidents with reason=dob_absent 5ms
+ ✓ src/__tests__/wahaPassCompositionI5.test.ts > GET /waha-pass/eligibility — I5 ineligible second resident tagging > ELG-2: resident under 18 appears in ineligibleSecondResidents with reason=under_18 4ms
+ ✓ src/__tests__/wahaPassCompositionI5.test.ts > GET /waha-pass/eligibility — I5 ineligible second resident tagging > ELG-3: resident without portal access appears in ineligibleSecondResidents with reason=no_portal_access 3ms
+ ✓ src/__tests__/wahaPassCompositionI5.test.ts > GET /waha-pass/eligibility — I5 ineligible second resident tagging > ELG-4: resident meeting all I5 criteria appears in eligibleSecondResidents 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/__tests__/wahaPassCompositionI5.test.ts > POST /waha-pass/:id/assign-second — I5 parity with apply > rejects a second resident with no DOB
+AssertionError: expected 200 to be 422 // Object.is equality
+
+- Expected
++ Received
+
+- 422
++ 200
+
+ ❯ src/__tests__/wahaPassCompositionI5.test.ts:251:24
+    249|     });
+    250|     const res = await request(app).post("/api/waha-pass/1/assign-secon…
+    251|     expect(res.status).toBe(422);
+       |                        ^
+    252|     expect(res.body.error).toBe("SECOND_RESIDENT_DOB_ABSENT");
+    253|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  src/__tests__/wahaPassCompositionI5.test.ts > POST /waha-pass/:id/assign-second — I5 parity with apply > rejects a second resident under 18
+AssertionError: expected 200 to be 422 // Object.is equality
+
+- Expected
++ Received
+
+- 422
++ 200
+
+ ❯ src/__tests__/wahaPassCompositionI5.test.ts:261:24
+    259|     });
+    260|     const res = await request(app).post("/api/waha-pass/1/assign-secon…
+    261|     expect(res.status).toBe(422);
+       |                        ^
+    262|     expect(res.body.error).toBe("SECOND_RESIDENT_UNDER_18");
+    263|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  src/__tests__/wahaPassCompositionI5.test.ts > POST /waha-pass/:id/assign-second — I5 parity with apply > rejects a second resident without portal access
+AssertionError: expected 200 to be 422 // Object.is equality
+
+- Expected
++ Received
+
+- 422
++ 200
+
+ ❯ src/__tests__/wahaPassCompositionI5.test.ts:271:24
+    269|     });
+    270|     const res = await request(app).post("/api/waha-pass/1/assign-secon…
+    271|     expect(res.status).toBe(422);
+       |                        ^
+    272|     expect(res.body.error).toBe("SECOND_RESIDENT_NO_PORTAL_ACCESS");
+    273|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  src/__tests__/wahaPassCompositionI5.test.ts > POST /waha-pass/:id/assign-second — I5 parity with apply > rejects assignment when the applicant has moved units
+AssertionError: expected 200 to be 409 // Object.is equality
+
+- Expected
++ Received
+
+- 409
++ 200
+
+ ❯ src/__tests__/wahaPassCompositionI5.test.ts:292:24
+    290|     mockAuthState.userId = CLERK_OWNER;
+    291|     const res = await request(app).post("/api/waha-pass/1/assign-secon…
+    292|     expect(res.status).toBe(409);
+       |                        ^
+    293|     expect(res.body.error).toBe("APPLICATION_UNIT_MISMATCH");
+    294|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 8 passed (12)
+   Start at  22:10:56
+   Duration  1.38s (transform 660ms, setup 0ms, import 1.16s, tests 76ms, environment 0ms)
+
+undefined
+/home/runner/workspace/artifacts/api-server:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/__tests__/wahaPassCompositionI5.test.ts
+
+[recorded exit status] 1
