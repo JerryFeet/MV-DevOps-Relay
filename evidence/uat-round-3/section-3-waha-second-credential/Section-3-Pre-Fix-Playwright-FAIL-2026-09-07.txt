@@ -1,0 +1,129 @@
+[e2e pre-flight] Portal and API server are reachable ✓
+[dotenv@17.2.2] injecting env (0) from .env.local,.env -- tip: 📡 version env with Radar: https://dotenvx.com/radar
+[e2e setup] Clerk user exists: e2e-resident+clerk_test@example.com (user_3Ge2n30N1IFH4apQKNpegAxhXrq)
+[e2e setup] Clerk user exists: e2e-admin+clerk_test@example.com (user_3Ge2nDVktp277PStuqyqcM4lGyw)
+[e2e setup] Clerk user exists: e2e-verified-resident+clerk_test@example.com (user_3IDMLt6PwzxBsKMcNUP7wurtrKg)
+[e2e setup] Clerk user exists: e2e-guard+clerk_test@example.com (user_3IPsXz9FqjDpZplchPXYAdhbZKk)
+[e2e setup] Clerk user exists: e2e-round3-waha+clerk_test@example.com (user_3IyN5yujeJpHhRo8msOLhBmqM3i)
+
+Running 4 tests using 1 worker
+
+  ✓  1 [round3-waha-second-credential-setup] › e2e/round3-waha-second-credential.setup.ts:9:1 › authenticate and seed round3 Waha Credential 2 resident (9.1s)
+  ✓  2 [verified-resident-setup] › e2e/verified-resident.setup.ts:23:1 › authenticate and seed verified resident (6.2s)
+  ✘  3 [round3-regression] › e2e/round3-section3-waha-second-credential.spec.ts:13:3 › Round 3 Section 3 — Waha application/unit and Credential 2 regressions › 3a — browser /mine is scoped to the current rotated unit (2.4s)
+  ✘  4 [round3-regression] › e2e/round3-section3-waha-second-credential.spec.ts:13:3 › Round 3 Section 3 — Waha application/unit and Credential 2 regressions › 3a — browser /mine is scoped to the current rotated unit (retry #1) (2.7s)
+  ✘  5 [round3-regression] › e2e/round3-section3-waha-second-credential.spec.ts:32:3 › Round 3 Section 3 — Credential 2 adult portal-access options › 3b — Assign Credential 2 omits the marked under-18 portal resident (2.9s)
+  ✘  6 [round3-regression] › e2e/round3-section3-waha-second-credential.spec.ts:32:3 › Round 3 Section 3 — Credential 2 adult portal-access options › 3b — Assign Credential 2 omits the marked under-18 portal resident (retry #1) (3.3s)
+
+
+  1) [round3-regression] › e2e/round3-section3-waha-second-credential.spec.ts:13:3 › Round 3 Section 3 — Waha application/unit and Credential 2 regressions › 3a — browser /mine is scoped to the current rotated unit 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 57
+    Received: 47
+
+      20 |     await testInfo.attach("section3-mine-current-unit.png", { body: await page.screenshot(), contentType: "image/png" });
+      21 |     expect(mine).not.toBeNull();
+    > 22 |     expect(mine.unitId).toBe(me.unitId);
+         |                         ^
+      23 |   });
+      24 | });
+      25 |
+        at /home/runner/workspace/artifacts/hoa-portal/e2e/round3-section3-waha-second-credential.spec.ts:22:25
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/round3-section3-waha-secon-f4970-to-the-current-rotated-unit-round3-regression/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/round3-section3-waha-secon-f4970-to-the-current-rotated-unit-round3-regression/error-context.md
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 58
+    Received: 47
+
+      20 |     await testInfo.attach("section3-mine-current-unit.png", { body: await page.screenshot(), contentType: "image/png" });
+      21 |     expect(mine).not.toBeNull();
+    > 22 |     expect(mine.unitId).toBe(me.unitId);
+         |                         ^
+      23 |   });
+      24 | });
+      25 |
+        at /home/runner/workspace/artifacts/hoa-portal/e2e/round3-section3-waha-second-credential.spec.ts:22:25
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/round3-section3-waha-secon-f4970-to-the-current-rotated-unit-round3-regression-retry1/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/round3-section3-waha-secon-f4970-to-the-current-rotated-unit-round3-regression-retry1/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/round3-section3-waha-secon-f4970-to-the-current-rotated-unit-round3-regression-retry1/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/round3-section3-waha-secon-f4970-to-the-current-rotated-unit-round3-regression-retry1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [round3-regression] › e2e/round3-section3-waha-second-credential.spec.ts:32:3 › Round 3 Section 3 — Credential 2 adult portal-access options › 3b — Assign Credential 2 omits the marked under-18 portal resident 
+
+    Error: expect(received).not.toContain(expected) // indexOf
+
+    Expected value: not "Round3Underage Fixture"
+    Received array:     ["Select household member…", "E2E Round3Waha", "Round3Underage Fixture"]
+
+      41 |     await testInfo.attach("section3-credential2-options.json", { body: JSON.stringify({ fixture, optionLabels }, null, 2), contentType: "application/json" });
+      42 |     await testInfo.attach("section3-credential2-options.png", { body: await page.screenshot(), contentType: "image/png" });
+    > 43 |     expect(optionLabels).not.toContain(fixture.underageResidentName);
+         |                              ^
+      44 |   });
+      45 | });
+        at /home/runner/workspace/artifacts/hoa-portal/e2e/round3-section3-waha-second-credential.spec.ts:43:30
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/round3-section3-waha-secon-06c8f-ed-under-18-portal-resident-round3-regression/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/round3-section3-waha-secon-06c8f-ed-under-18-portal-resident-round3-regression/error-context.md
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: expect(received).not.toContain(expected) // indexOf
+
+    Expected value: not "Round3Underage Fixture"
+    Received array:     ["Select household member…", "E2E Round3Waha", "Round3Underage Fixture"]
+
+      41 |     await testInfo.attach("section3-credential2-options.json", { body: JSON.stringify({ fixture, optionLabels }, null, 2), contentType: "application/json" });
+      42 |     await testInfo.attach("section3-credential2-options.png", { body: await page.screenshot(), contentType: "image/png" });
+    > 43 |     expect(optionLabels).not.toContain(fixture.underageResidentName);
+         |                              ^
+      44 |   });
+      45 | });
+        at /home/runner/workspace/artifacts/hoa-portal/e2e/round3-section3-waha-second-credential.spec.ts:43:30
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/round3-section3-waha-secon-06c8f-ed-under-18-portal-resident-round3-regression-retry1/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/round3-section3-waha-secon-06c8f-ed-under-18-portal-resident-round3-regression-retry1/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/round3-section3-waha-secon-06c8f-ed-under-18-portal-resident-round3-regression-retry1/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/round3-section3-waha-secon-06c8f-ed-under-18-portal-resident-round3-regression-retry1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [round3-regression] › e2e/round3-section3-waha-second-credential.spec.ts:13:3 › Round 3 Section 3 — Waha application/unit and Credential 2 regressions › 3a — browser /mine is scoped to the current rotated unit 
+    [round3-regression] › e2e/round3-section3-waha-second-credential.spec.ts:32:3 › Round 3 Section 3 — Credential 2 adult portal-access options › 3b — Assign Credential 2 omits the marked under-18 portal resident 
+  2 passed (38.7s)
+undefined
+/home/runner/workspace/artifacts/hoa-portal:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: playwright test --config playwright.config.ts --project=round3-regression e2e/round3-section3-waha-second-credential.spec.ts
+
+[recorded exit status] 1
