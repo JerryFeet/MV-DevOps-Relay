@@ -1,0 +1,25 @@
+
+> workspace@0.0.0 round3:regression:e2e /home/runner/workspace
+> pnpm --filter @workspace/hoa-portal run round3:regression:e2e
+
+
+> @workspace/hoa-portal@0.0.0 round3:regression:e2e /home/runner/workspace/artifacts/hoa-portal
+> playwright test --config playwright.config.ts --project=round3-regression
+
+[e2e pre-flight] Portal and API server are reachable ✓
+[dotenv@17.2.2] injecting env (0) from .env.local,.env -- tip: ⚙️  suppress all logs with { quiet: true }
+[e2e setup] Clerk user exists: e2e-resident+clerk_test@example.com (user_3Ge2n30N1IFH4apQKNpegAxhXrq)
+[e2e setup] Clerk user exists: e2e-admin+clerk_test@example.com (user_3Ge2nDVktp277PStuqyqcM4lGyw)
+[e2e setup] Clerk user exists: e2e-verified-resident+clerk_test@example.com (user_3IDMLt6PwzxBsKMcNUP7wurtrKg)
+[e2e setup] Clerk user exists: e2e-guard+clerk_test@example.com (user_3IPsXz9FqjDpZplchPXYAdhbZKk)
+
+Running 6 tests using 1 worker
+
+  ✓  1 [verified-resident-setup] › e2e/verified-resident.setup.ts:23:1 › authenticate and seed verified resident (7.9s)
+  ✓  2 [round3-regression] › e2e/round3-section1-booking.spec.ts:172:3 › Round 3 Section 1 — booking time and active-booking regressions › 1a — today's UI availability never renders an elapsed slot (2.9s)
+  ✓  3 [round3-regression] › e2e/round3-section1-booking.spec.ts:184:3 › Round 3 Section 1 — booking time and active-booking regressions › 1b — POST booking with an elapsed start is rejected (2.8s)
+  ✓  4 [round3-regression] › e2e/round3-section1-booking.spec.ts:224:3 › Round 3 Section 1 — booking time and active-booking regressions › 1c — a rejected cancellation remains visible instead of closing silently (5.6s)
+  ✓  5 [round3-regression] › e2e/round3-section1-booking.spec.ts:258:3 › Round 3 Section 1 — booking time and active-booking regressions › F12 — the UI exposes the active unit/facility rule on a second future booking (5.2s)
+  ✓  6 [round3-regression] › e2e/round3-section2-monthly-allowance.spec.ts:103:3 › Round 3 Section 2 — zero-price monthly allowance regression › a zero-priced facility booking consumes the monthly allowance (2.9s)
+
+  6 passed (31.2s)
