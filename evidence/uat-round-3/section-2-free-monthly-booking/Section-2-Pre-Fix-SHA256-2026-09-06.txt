@@ -1,0 +1,4 @@
+da167ccb9a344937841c04210481f7be2e1cd213bbc2000fe8a2933f0e4e49a8  evidence/uat-round-3/section-2-free-monthly-booking/Round-3-Section-2-Permanent-Regression-Suite-Pre-Fix-2026-09-06.ts
+5bf48c4cddf78f877530a9aae777abc04019bc018a25418609cf27b4c3a99589  evidence/uat-round-3/section-2-free-monthly-booking/Section-2-Free-Monthly-Allowance-FAIL-2026-09-06.png
+62438670fc84ffe1dd23abeb7cf7dba6875dee0f4a9703e0574f05bfef781c13  evidence/uat-round-3/section-2-free-monthly-booking/Section-2-Pre-Fix-Failure-and-Fixture-Audit-2026-09-06.md
+0f8b93eced18a2915e8124e3d54478d1d77dc621e41990a0e68548eaa6d16961  evidence/uat-round-3/section-2-free-monthly-booking/Section-2-Pre-Fix-Playwright-FAIL-2026-09-06.txt
