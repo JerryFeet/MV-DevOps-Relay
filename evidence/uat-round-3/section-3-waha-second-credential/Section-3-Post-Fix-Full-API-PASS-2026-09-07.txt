@@ -1,0 +1,406 @@
+ ✓ src/__tests__/moveFormPermitApproval.test.ts > Admin-only — PATCH /api/permits/:id/status > admin can advance a permit to under_review (200) 6ms
+ ✓ src/__tests__/moveFormPermitApproval.test.ts > Admin-only — PATCH /api/permits/:id/status > supervisor cannot approve a permit (404) 6ms
+ ✓ src/__tests__/moveFormPermitApproval.test.ts > Admin-only — PATCH /api/permits/:id/status > guard cannot approve a permit (404) 5ms
+ ✓ src/__tests__/moveFormPermitApproval.test.ts > Admin-only — PATCH /api/permits/:id/status > owner cannot approve a permit (404) 6ms
+ ✓ src/__tests__/moveFormPermitApproval.test.ts > Admin-only — PATCH /api/permits/:id/status > tenant cannot approve a permit (404) 5ms
+ ✓ src/__tests__/moveFormPermitApproval.test.ts > Admin-only — PATCH /api/permits/:id/status > unauthenticated caller is rejected (401 or 403) 4ms
+ ✓ src/__tests__/moveFormPermitApproval.test.ts > Move-form status-transition workflow > admin advances a pending form to 'approved' and receives the updated form (200) 4ms
+ ✓ src/__tests__/moveFormPermitApproval.test.ts > Move-form status-transition workflow > admin advances an approved form to 'completed' and receives the updated form (200) 3ms
+ ✓ src/__tests__/moveFormPermitApproval.test.ts > Move-form status-transition workflow > patching a completed form (terminal state) returns 409 4ms
+ ✓ src/__tests__/moveFormPermitApproval.test.ts > Move-form status-transition workflow > invalid transition pending → completed (skipping approved) returns 409 3ms
+ ✓ src/__tests__/bookingGuards.test.ts > #51 — Staff cannot cancel a past booking via PATCH > admin gets 409 when cancelling a booking whose endTime has passed 52ms
+ ✓ src/__tests__/bookingGuards.test.ts > #51 — Staff cannot cancel a past booking via PATCH > supervisor sees only own bookings; not owner A's — own-only 404 after X6 6ms
+ ✓ src/__tests__/bookingGuards.test.ts > Round 3 Section 1 — elapsed booking starts are never offerable or accepted > marks elapsed Riyadh-today availability slots unavailable while retaining future slots 12ms
+ ✓ src/__tests__/bookingGuards.test.ts > Round 3 Section 1 — elapsed booking starts are never offerable or accepted > returns the stable elapsed-start error before grid validation 5ms
+ ✓ src/__tests__/bookingGuards.test.ts > #52 — A past booking cannot be confirmed > admin gets 409 when confirming a booking whose endTime has passed 5ms
+ ✓ src/__tests__/bookingGuards.test.ts > #52 — A past booking cannot be confirmed > supervisor is blocked (403) before reaching business logic — role removed in X6 3ms
+ ✓ src/__tests__/bookingGuards.test.ts > #57 — Duration guard applies when min equals max (point-duration facility) > booking with duration > max (90 min) is rejected with 400 4ms
+ ✓ src/__tests__/bookingGuards.test.ts > #57 — Duration guard applies when min equals max (point-duration facility) > booking with duration < min (30 min) is also rejected with 400 5ms
+ ✓ src/__tests__/bookingGuards.test.ts > #57 — Duration guard applies when min equals max (point-duration facility) > exact-duration booking (60 min) passes the duration guard 6ms
+ ✓ src/__tests__/bookingGuards.test.ts > #61 — movieTitle is stored and returned in GET /api/bookings > cinema booking appears in staff listing with its movieTitle 7ms
+ ✓ src/__tests__/bookingGuards.test.ts > #61 — movieTitle is stored and returned in GET /api/bookings > movieTitle is null for non-cinema bookings 4ms
+ ✓ src/__tests__/bookingGuards.test.ts > Round 3 Section 2 — zero-price resident bookings > confirms a zero-price facility booking and records the resident's monthly allowance claim 10ms
+ ✓ src/__tests__/suspendedAccountBlock.test.ts > GET /api/users/me — suspended account returns 403 > returns 403 for a suspended user 18ms
+ ✓ src/__tests__/suspendedAccountBlock.test.ts > GET /api/users/me — suspended account returns 403 > returns error code ACCOUNT_SUSPENDED for a suspended user 5ms
+ ✓ src/__tests__/suspendedAccountBlock.test.ts > GET /api/users/me — suspended account returns 403 > does NOT return the user record body for a suspended user 3ms
+ ✓ src/__tests__/suspendedAccountBlock.test.ts > GET /api/users/me — active account returns 200 > returns 200 for an active user 6ms
+ ✓ src/__tests__/suspendedAccountBlock.test.ts > GET /api/users/me — active account returns 200 > returns the user record for an active user 3ms
+ ✓ src/__tests__/suspendedAccountBlock.test.ts > POST /api/users/me/sync — suspended account returns 403 > returns 403 for a suspended user 11ms
+ ✓ src/__tests__/suspendedAccountBlock.test.ts > POST /api/users/me/sync — suspended account returns 403 > returns error code ACCOUNT_SUSPENDED for a suspended user 3ms
+ ✓ src/__tests__/suspendedAccountBlock.test.ts > POST /api/users/me/sync — suspended account returns 403 > does NOT update the user record when the account is suspended 4ms
+ ✓ src/__tests__/suspendedAccountBlock.test.ts > POST /api/users/me/sync — active account returns 200 > returns 200 for an active user 4ms
+ ✓ src/__tests__/suspendedAccountBlock.test.ts > POST /api/users/me/sync — active account returns 200 > returns the updated user record for an active user 4ms
+ ✓ src/__tests__/suspendedAccountBlock.test.ts > SG7 — same-session guard suspension and removal take effect next request > refuses a suspended guard's next gate request without returning account data 10ms
+ ✓ src/__tests__/suspendedAccountBlock.test.ts > SG7 — same-session guard suspension and removal take effect next request > refuses the next gate request after the active session loses the guard role 8ms
+ ✓ src/__tests__/suspendedAccountBlock.test.ts > SG7 — same-session guard suspension and removal take effect next request > fails closed when a Clerk session has no remaining app-user record 5ms
+ ✓ src/__tests__/releaseMutationBoundary.test.ts > terminal release mutation boundary > allows terminal account deletion only in releaseSubject and occupancy mutations only in occupancy.ts 8ms
+ ✓ src/__tests__/releaseMutationBoundary.test.ts > terminal release mutation boundary > requires releaseSubject to orchestrate terminal occupancy through the shared authority 2ms
+ ✓ src/__tests__/releaseMutationBoundary.test.ts > terminal release mutation boundary > rejects a synthetic new route that attempts a direct account deletion 1ms
+ ✓ src/__tests__/releaseMutationBoundary.test.ts > terminal release mutation boundary > rejects a synthetic direct move-out outside occupancy.ts 0ms
+ ✓ src/__tests__/releaseMutationBoundary.test.ts > terminal release mutation boundary > rejects the retired legacy deletion helper and ownership-route import 0ms
+ ✓ src/__tests__/releaseMutationBoundary.test.ts > terminal release mutation boundary > documents the only external-deletion adapter as a durable release-job worker 0ms
+ ✓ src/__tests__/communicationsOwnerGuard.test.ts > POST /api/communications (type="complaint") — non-owner roles are blocked (403) > tenant receives 403 33ms
+ ✓ src/__tests__/communicationsOwnerGuard.test.ts > POST /api/communications (type="complaint") — non-owner roles are blocked (403) > supervisor receives 403 9ms
+ ✓ src/__tests__/communicationsOwnerGuard.test.ts > POST /api/communications (type="complaint") — non-owner roles are blocked (403) > guard receives 403 9ms
+ ✓ src/__tests__/communicationsOwnerGuard.test.ts > POST /api/communications (type="complaint") — non-owner roles are blocked (403) > admin receives 403 4ms
+ ✓ src/__tests__/communicationsOwnerGuard.test.ts > POST /api/communications (type="suggestion") — non-owner roles are blocked (403) > tenant receives 403 8ms
+ ✓ src/__tests__/communicationsOwnerGuard.test.ts > POST /api/communications (type="suggestion") — non-owner roles are blocked (403) > supervisor receives 403 4ms
+ ✓ src/__tests__/communicationsOwnerGuard.test.ts > POST /api/communications (type="suggestion") — non-owner roles are blocked (403) > guard receives 403 4ms
+ ✓ src/__tests__/communicationsOwnerGuard.test.ts > POST /api/communications (type="suggestion") — non-owner roles are blocked (403) > admin receives 403 4ms
+ ✓ src/__tests__/communicationsOwnerGuard.test.ts > POST /api/communications (type="complaint") — owner is allowed (201) > owner receives 201 and the communication is persisted 7ms
+ ✓ src/__tests__/communicationsOwnerGuard.test.ts > POST /api/communications (type="suggestion") — owner is allowed (201) > owner receives 201 and the communication is persisted 4ms
+ ✓ src/__tests__/vehicleNormalizedParking.test.ts > POST /vehicles — normalized parking_lots basement eligibility > normalized-only success > returns 201 when a normalized active underground lot exists 39ms
+ ✓ src/__tests__/vehicleNormalizedParking.test.ts > POST /vehicles — normalized parking_lots basement eligibility > normalized-only success > stores the vehicle with isBasementParking=true 8ms
+ ✓ src/__tests__/vehicleNormalizedParking.test.ts > POST /vehicles — normalized parking_lots basement eligibility > normalized stale-legacy denial > rejects a foreign lot even though legacy JSON has an underground entry 5ms
+ ✓ src/__tests__/vehicleNormalizedParking.test.ts > POST /vehicles — normalized parking_lots basement eligibility > normalized stale-legacy denial > does not insert a vehicle when stale legacy is denied by normalized records 9ms
+ ✓ src/__tests__/vehicleNormalizedParking.test.ts > POST /vehicles — normalized parking_lots basement eligibility > normalized inactive denial > returns 400 when the only normalized lot is inactive, even though legacy JSON has isInside:true 9ms
+ ✓ src/__tests__/vehicleNormalizedParking.test.ts > POST /vehicles — normalized parking_lots basement eligibility > normalized inactive denial > does not insert a vehicle when inactive normalized lot + stale legacy isInside:true 6ms
+ ✓ src/__tests__/vehicleNormalizedParking.test.ts > POST /vehicles — normalized parking_lots basement eligibility > normalized inactive denial > returns 400 when inactive normalized lot exists and no legacy JSON is present 9ms
+ ✓ src/__tests__/vehicleNormalizedParking.test.ts > POST /vehicles — normalized parking_lots basement eligibility > legacy fallback (no normalized records present) > legacy fallback success — isInside:true > does not use legacy JSON when no normalized rows exist 4ms
+ ✓ src/__tests__/vehicleNormalizedParking.test.ts > POST /vehicles — normalized parking_lots basement eligibility > legacy fallback (no normalized records present) > legacy fallback denial — no isInside:true in legacy JSON > returns 400 when no normalized records exist and legacy JSON has only isInside:false 8ms
+ ✓ src/__tests__/vehicleNormalizedParking.test.ts > GET /vehicles — inactive assigned parking-lot display contract > includes the inactive assigned lot on both list and detail, but not in selection 25ms
+{"level":40,"time":1788733541634,"pid":46485,"hostname":"repl","msg":"PAYMENT_PROVIDER=moyasar but MOYASAR_SECRET_KEY is not set — payments fail closed"}
+ ✓ src/__tests__/paymentProductionGuard.test.ts > deterministic payment production guard > never enables the deterministic provider in production 44ms
+ ✓ src/__tests__/permitConditionsNullOnlyErasePath.test.ts > (A) conditions: null + status in_progress — conditions remain protected > PATCH { status: 'in_progress', conditions: null } from approved_with_conditions returns 400 32ms
+ ✓ src/__tests__/permitConditionsNullOnlyErasePath.test.ts > (A) conditions: null + status in_progress — conditions remain protected > conditions column remains intact after the blocked request 8ms
+ ✓ src/__tests__/permitConditionsNullOnlyErasePath.test.ts > (A) conditions: null + status in_progress — conditions remain protected > permit status remains approved_with_conditions after the blocked request 7ms
+ ✓ src/__tests__/permitConditionsNullOnlyErasePath.test.ts > (A) conditions: null + status in_progress — conditions remain protected > GET /api/permits/:id returns the preserved conditions after the blocked request 13ms
+ ✓ src/__tests__/permitConditionsNullOnlyErasePath.test.ts > (B) conditions: "" + status in_progress — empty string is NOT an erase path > PATCH { status: "in_progress", conditions: "" } returns 200 6ms
+ ✓ src/__tests__/permitConditionsNullOnlyErasePath.test.ts > (B) conditions: "" + status in_progress — empty string is NOT an erase path > conditions column is UNCHANGED after conditions: "" + in_progress transition 8ms
+ ✓ src/__tests__/permitConditionsNullOnlyErasePath.test.ts > (B) conditions: "" + status in_progress — empty string is NOT an erase path > GET /api/permits/:id still returns original conditions after "" + in_progress 16ms
+ ✓ src/__tests__/permitConditionsNullOnlyErasePath.test.ts > (C) conditions: null is blocked when the permit is already at in_progress > PATCH { conditions: null } when already in_progress returns 400 6ms
+ ✓ src/__tests__/permitConditionsNullOnlyErasePath.test.ts > (C) conditions: null is blocked when the permit is already at in_progress > conditions string is preserved in the store after the blocked null-clear attempt 6ms
+ ✓ src/__tests__/permitConditionsPreservedOnProgress.test.ts > conditions text is preserved when permit advances to in_progress > PATCH approved_with_conditions → in_progress (no conditions field) returns 200 44ms
+ ✓ src/__tests__/permitConditionsPreservedOnProgress.test.ts > conditions text is preserved when permit advances to in_progress > PATCH response still carries the original conditions string 9ms
+ ✓ src/__tests__/permitConditionsPreservedOnProgress.test.ts > conditions text is preserved when permit advances to in_progress > conditions column in the store is unchanged after in_progress transition 5ms
+ ✓ src/__tests__/permitConditionsPreservedOnProgress.test.ts > conditions text is preserved when permit advances to in_progress > GET /api/permits/:id confirms conditions survives approved_with_conditions → in_progress 8ms
+ ✓ src/__tests__/permitConditionsPreservedOnProgress.test.ts > conditions text is preserved when permit advances to in_progress > GET /api/permits list also shows conditions intact after in_progress transition 6ms
+ ✓ src/__tests__/permitConditionsPreservedOnProgress.test.ts > conditions text is preserved when permit advances from in_progress to completed > PATCH in_progress → completed (no conditions field) returns 200 7ms
+ ✓ src/__tests__/permitConditionsPreservedOnProgress.test.ts > conditions text is preserved when permit advances from in_progress to completed > PATCH response still carries the original conditions string after completed transition 4ms
+ ✓ src/__tests__/permitConditionsPreservedOnProgress.test.ts > conditions text is preserved when permit advances from in_progress to completed > conditions column in the store is unchanged after completed transition 4ms
+ ✓ src/__tests__/permitConditionsPreservedOnProgress.test.ts > conditions text is preserved when permit advances from in_progress to completed > GET /api/permits/:id confirms conditions survives in_progress → completed 6ms
+ ✓ src/__tests__/permitConditionsPreservedOnProgress.test.ts > conditions text is preserved when permit advances from in_progress to completed > GET /api/permits list also shows conditions intact after completed transition 11ms
+ ✓ src/__tests__/communicationsVerifiedOwnerGuard.test.ts > POST /api/communications — verified owner guard > verified owner (role=owner, verificationStatus=verified_owner) receives 201 35ms
+ ✓ src/__tests__/communicationsVerifiedOwnerGuard.test.ts > POST /api/communications — verified owner guard > unverified owner (role=owner, verificationStatus=unverified) receives 403 5ms
+ ✓ src/__tests__/communicationsVerifiedOwnerGuard.test.ts > POST /api/communications — verified owner guard > household member (role=tenant, verificationStatus=verified_household_member) receives 403 4ms
+ ✓ src/__tests__/communicationsVerifiedOwnerGuard.test.ts > POST /api/communications — verified owner guard > tenant receives 403 4ms
+ ✓ src/__tests__/communicationsVerifiedOwnerGuard.test.ts > POST /api/communications — verified owner guard > supervisor receives 403 5ms
+ ✓ src/__tests__/communicationsVerifiedOwnerGuard.test.ts > POST /api/communications — verified owner guard > guard receives 403 4ms
+ ✓ src/__tests__/communicationsVerifiedOwnerGuard.test.ts > POST /api/communications — verified owner guard > admin receives 403 4ms
+ ✓ src/__tests__/communicationsVerifiedOwnerGuard.test.ts > GET /api/communications/mine — verified owner guard > verified owner receives 200 4ms
+ ✓ src/__tests__/communicationsVerifiedOwnerGuard.test.ts > GET /api/communications/mine — verified owner guard > unverified owner (role=owner, verificationStatus=unverified) receives 403 4ms
+ ✓ src/__tests__/communicationsVerifiedOwnerGuard.test.ts > GET /api/communications/mine — verified owner guard > household member (role=tenant, verificationStatus=verified_household_member) receives 403 4ms
+ ✓ src/__tests__/communicationsVerifiedOwnerGuard.test.ts > GET /api/communications/mine — verified owner guard > tenant receives 403 3ms
+ ✓ src/__tests__/communicationsVerifiedOwnerGuard.test.ts > GET /api/communications/mine — verified owner guard > guard receives 403 6ms
+ ✓ src/__tests__/communicationsVerifiedOwnerGuard.test.ts > GET /api/communications/mine — verified owner guard > admin receives 403 3ms
+ ✓ src/__tests__/vehicleGuards.test.ts > #65 — Resident cannot view another resident's vehicle details > owner_b gets 403 when accessing owner_a's vehicle (id=1) 47ms
+ ✓ src/__tests__/vehicleGuards.test.ts > #65 — Resident cannot view another resident's vehicle details > owner_a gets 403 when accessing owner_b's vehicle (id=3) 6ms
+ ✓ src/__tests__/vehicleGuards.test.ts > #65 — Resident cannot view another resident's vehicle details > owner_a can view their own vehicle (id=1) 7ms
+ ✓ src/__tests__/vehicleGuards.test.ts > #65 — Resident cannot view another resident's vehicle details > admin (STAFF) can view any vehicle 6ms
+ ✓ src/__tests__/vehicleGuards.test.ts > #66 — Pending additional vehicle cannot be self-deleted by the owner > owner_a gets 403 when deleting their own pending_approval additional vehicle 9ms
+ ✓ src/__tests__/vehicleGuards.test.ts > #66 — Pending additional vehicle cannot be self-deleted by the owner > admin can delete a pending_approval additional vehicle 3ms
+ ✓ src/__tests__/vehicleGuards.test.ts > #67 — Admin cannot approve a vehicle that is not marked as additional > admin gets 400 when setting status=active on a non-additional vehicle 12ms
+ ✓ src/__tests__/vehicleGuards.test.ts > #67 — Admin cannot approve a vehicle that is not marked as additional > admin can approve an additional vehicle with status=active 5ms
+ ✓ src/__tests__/aiSuggestArabicSource.test.ts > POST /api/announcements/ai-suggest — sourceLang: ar > fires exactly two OpenAI completions (optimize + translate), not three 39ms
+ ✓ src/__tests__/aiSuggestArabicSource.test.ts > POST /api/announcements/ai-suggest — sourceLang: ar > returns titleAr as empty string when sourceLang is ar 5ms
+ ✓ src/__tests__/aiSuggestArabicSource.test.ts > POST /api/announcements/ai-suggest — sourceLang: ar > still returns optimized and translated text for Arabic source 7ms
+ ✓ src/__tests__/bookings-vehicles-pagination-contract.test.ts > GET /api/bookings — pagination contract (H4 P1) > page 1: total equals all records, not data.length 20ms
+ ✓ src/__tests__/bookings-vehicles-pagination-contract.test.ts > GET /api/bookings — pagination contract (H4 P1) > page 2: returns the remaining records; total is unchanged 7ms
+ ✓ src/__tests__/bookings-vehicles-pagination-contract.test.ts > GET /api/bookings — pagination contract (H4 P1) > status filter: total reflects only records matching the filter 4ms
+ ✓ src/__tests__/bookings-vehicles-pagination-contract.test.ts > GET /api/bookings — pagination contract (H4 P1) > upcoming filter: total reflects only future bookings; all data rows are in the future 4ms
+ ✓ src/__tests__/bookings-vehicles-pagination-contract.test.ts > GET /api/bookings — pagination contract (H4 P1) > page 3 (beyond last): returns empty data; total unchanged 4ms
+ ✓ src/__tests__/bookings-vehicles-pagination-contract.test.ts > GET /api/vehicles — pagination contract (H4 P1) > page 1: total equals all records, not data.length 4ms
+ ✓ src/__tests__/bookings-vehicles-pagination-contract.test.ts > GET /api/vehicles — pagination contract (H4 P1) > page 2: returns the remaining records; total is unchanged 4ms
+ ✓ src/__tests__/bookings-vehicles-pagination-contract.test.ts > GET /api/vehicles — pagination contract (H4 P1) > page 3 (beyond last): returns empty data; total unchanged 4ms
+ ✓ src/__tests__/aiSuggestEnSourceEmptyTitle.test.ts > POST /api/announcements/ai-suggest — sourceLang: en, title: empty string > fires exactly two OpenAI completions (optimize + translate), not three 31ms
+ ✓ src/__tests__/aiSuggestEnSourceEmptyTitle.test.ts > POST /api/announcements/ai-suggest — sourceLang: en, title: empty string > returns titleAr as empty string when title is empty 12ms
+ ✓ src/__tests__/aiSuggestEnSourceEmptyTitle.test.ts > POST /api/announcements/ai-suggest — sourceLang: en, title: missing > fires exactly two OpenAI completions when title field is omitted 6ms
+ ✓ src/__tests__/aiSuggestEnSourceEmptyTitle.test.ts > POST /api/announcements/ai-suggest — sourceLang: en, title: missing > returns titleAr as empty string when title field is omitted 11ms
+ ✓ src/__tests__/communicationsAdminEnrichment.test.ts > GET /api/communications — senderPhone is included (K5) > returns senderPhone for a sender who has a phone on record 26ms
+ ✓ src/__tests__/communicationsAdminEnrichment.test.ts > GET /api/communications — senderPhone is included (K5) > includes senderFirstName, senderLastName, senderEmail, and senderUnit 10ms
+ ✓ src/__tests__/communicationsAdminEnrichment.test.ts > PATCH /api/communications/:id — bilingual reply persisted in adminNote (K5) > rejected status stores the bilingual rejection body in adminNote 18ms
+ ✓ src/__tests__/communicationsAdminEnrichment.test.ts > PATCH /api/communications/:id — bilingual reply persisted in adminNote (K5) > deferred_to_maintenance status stores the bilingual maintenance referral in adminNote 8ms
+ ✓ src/__tests__/communicationsAdminEnrichment.test.ts > PATCH /api/communications/:id — bilingual reply persisted in adminNote (K5) > custom admin note is appended after the bilingual reply when provided 6ms
+ ✓ src/__tests__/communicationsAdminEnrichment.test.ts > PATCH /api/communications/:id — bilingual reply persisted in adminNote (K5) > resolved status does not prepend any bilingual template to adminNote 5ms
+ ✓ src/__tests__/aiChat.test.ts > POST /api/ai/chat error paths > 503 when OPENAI_API_KEY is absent > returns 503 JSON with a detail field when the key is not configured 32ms
+ ✓ src/__tests__/aiChat.test.ts > POST /api/ai/chat error paths > 503 when OPENAI_API_KEY is absent > 503 response body is JSON, not a plain spinner or empty body 7ms
+ ✓ src/__tests__/aiChat.test.ts > POST /api/ai/chat error paths > H9 durable rate-limit integration > passes the Dalil H9 rule and authenticated user subject to the durable limiter 6ms
+ ✓ src/__tests__/aiChat.test.ts > POST /api/ai/chat error paths > H9 durable rate-limit integration > returns the durable limiter's 429 response without invoking OpenAI 4ms
+ ✓ src/__tests__/aiChat.test.ts > POST /api/ai/chat error paths > mid-stream OpenAI API error > writes a { type: 'error' } SSE event and closes the response when the stream throws mid-way 5ms
+ ✓ src/__tests__/moveFormCrossUserPrivacy.test.ts > GET /api/move-forms/:id — cross-user privacy > owner A can read their own form (200) 21ms
+ ✓ src/__tests__/moveFormCrossUserPrivacy.test.ts > GET /api/move-forms/:id — cross-user privacy > owner B gets 404 when requesting owner A's form (not 200, not 403) 6ms
+ ✓ src/__tests__/moveFormCrossUserPrivacy.test.ts > GET /api/move-forms/:id — cross-user privacy > admin (APPROVER) can still read owner A's form (200) 8ms
+ ✓ src/__tests__/moveFormCrossUserPrivacy.test.ts > GET /api/move-forms — cross-user list scoping > owner B's list contains no forms (owner A's form is not leaked) 13ms
+ ✓ src/__tests__/moveFormCrossUserPrivacy.test.ts > GET /api/move-forms — cross-user list scoping > owner A's list contains exactly their own form 4ms
+ ✓ src/__tests__/moveFormCrossUserPrivacy.test.ts > GET /api/move-forms — tenant cannot read other users' forms > tenant's list is empty — owner A's form is not leaked 7ms
+ ✓ src/__tests__/moveFormCrossUserPrivacy.test.ts > GET /api/move-forms — tenant cannot read other users' forms > tenant gets 404 when requesting owner A's form by id (not 200, not 403) 5ms
+ ✓ src/__tests__/securityGateGuards.test.ts > #59 — Entry/exit log blocked when visit date has passed > guard gets 409 when logging ENTRY for a pass with a past visitDate 25ms
+ ✓ src/__tests__/securityGateGuards.test.ts > #59 — Entry/exit log blocked when visit date has passed > guard gets 409 for EXIT as well (not just ENTRY) 4ms
+ ✓ src/__tests__/securityGateGuards.test.ts > #59 — Entry/exit log blocked when visit date has passed > admin also gets 409 for a past-date pass (guard applies to all GATE_ROLES) 5ms
+ ✓ src/__tests__/securityGateGuards.test.ts > #59 — Entry/exit log blocked when visit date has passed > guard can log entry for a future-dated approved pass (positive control) 4ms
+ ✓ src/__tests__/securityGateGuards.test.ts > #60 — GET /api/security/gate/entry-exit/:passId blocked for non-GATE_ROLES > owner (not in GATE_ROLES) gets 403 8ms
+ ✓ src/__tests__/securityGateGuards.test.ts > #60 — GET /api/security/gate/entry-exit/:passId blocked for non-GATE_ROLES > guard (in GATE_ROLES) gets 200 3ms
+ ✓ src/__tests__/securityGateGuards.test.ts > #60 — GET /api/security/gate/entry-exit/:passId blocked for non-GATE_ROLES > admin (in GATE_ROLES) gets 200 6ms
+ ✓ src/__tests__/communicationsTenantBlock.test.ts > POST /api/communications — verified tenant co-resident is blocked > returns 403 when a verified tenant submits a complaint 58ms
+ ✓ src/__tests__/communicationsTenantBlock.test.ts > POST /api/communications — verified tenant co-resident is blocked > returns 403 when a verified tenant submits a suggestion 12ms
+ ✓ src/__tests__/communicationsTenantBlock.test.ts > POST /api/communications — verified tenant co-resident is blocked > does not persist any record when a tenant is blocked 3ms
+ ✓ src/__tests__/communicationsTenantBlock.test.ts > POST /api/communications — owner in the same unit is allowed (positive control) > returns 201 and persists the communication for the unit owner 6ms
+ ✓ src/__tests__/permitTenantGuard.test.ts > POST /api/permits — tenant guard > tenant (verified_tenant) is blocked with 403 when submitting a renovation permit 35ms
+ ✓ src/__tests__/permitTenantGuard.test.ts > POST /api/permits — tenant guard > owner (verified_owner) can submit a renovation permit (201) 13ms
+ ✓ src/__tests__/permitTenantGuard.test.ts > POST /api/permits — tenant guard > unauthenticated caller is rejected (401 or 403) 9ms
+ ✓ src/__tests__/permitTenantGuard.test.ts > POST /api/permits — tenant guard > tenant's blocked attempt leaves no permit persisted in the database 5ms
+ ✓ src/__tests__/permitDateRangeGuard.test.ts > POST /api/permits — date-range validation > rejects a renovation permit where end date is before start date (400) 45ms
+ ✓ src/__tests__/permitDateRangeGuard.test.ts > POST /api/permits — date-range validation > accepts a renovation permit where end date equals start date (201) 8ms
+ ✓ src/__tests__/permitDateRangeGuard.test.ts > POST /api/permits — date-range validation > accepts a renovation permit where end date is after start date (201) 6ms
+ ✓ src/__tests__/permitDateRangeGuard.test.ts > POST /api/permits — date-range validation > rejects a renovation permit with no end date (400) 5ms
+ ✓ src/__tests__/permitDateRangeGuard.test.ts > POST /api/permits — date-range validation > a rejected date-range leaves no permit in the database 6ms
+ ✓ src/__tests__/moveFormTenantGuard.test.ts > POST /api/move-forms — deprecated (410 Gone) > tenant receives 410 with a clear deprecation message 46ms
+ ✓ src/__tests__/moveFormTenantGuard.test.ts > POST /api/move-forms — deprecated (410 Gone) > owner also receives 410 (endpoint is deprecated for everyone) 12ms
+ ✓ src/__tests__/moveFormTenantGuard.test.ts > POST /api/move-forms — deprecated (410 Gone) > unauthenticated caller is rejected (401 or 403) 9ms
+ ✓ src/__tests__/moveFormTenantGuard.test.ts > POST /api/move-forms — deprecated (410 Gone) > deprecated POST leaves no form persisted in the database 10ms
+ ✓ src/__tests__/paymentWebhookRoute.test.ts > Moyasar payment webhook route > accepts the documented envelope and passes nested payment data to settlement 38ms
+ ✓ src/__tests__/paymentWebhookRoute.test.ts > Moyasar payment webhook route > rejects an invalid secret before any payment purpose handler can run 6ms
+ ✓ src/__tests__/paymentWebhookRoute.test.ts > Moyasar payment webhook route > rejects malformed or unsupported events before any payment purpose handler can run 6ms
+ ✓ src/__tests__/paymentWebhookRoute.test.ts > Moyasar payment webhook route > rejects a documented event with no nested payment ID before settlement 4ms
+ ✓ src/__tests__/communicationsMineIsolation.test.ts > GET /api/communications/mine — non-owner roles are rejected with 403 > guard receives 403 Forbidden 27ms
+ ✓ src/__tests__/communicationsMineIsolation.test.ts > GET /api/communications/mine — non-owner roles are rejected with 403 > admin receives 403 Forbidden 6ms
+ ✓ src/__tests__/communicationsMineIsolation.test.ts > GET /api/communications/mine — non-owner roles are rejected with 403 > supervisor receives 403 Forbidden 6ms
+ ✓ src/__tests__/communicationsMineIsolation.test.ts > GET /api/communications/mine — cross-owner isolation > owner B cannot see owner A's complaint 10ms
+ ✓ src/__tests__/communicationsMineIsolation.test.ts > GET /api/communications/mine — cross-owner isolation > owner B sees only their own suggestion 6ms
+ ✓ src/__tests__/communicationsMineIsolation.test.ts > GET /api/communications/mine — cross-owner isolation > owner A sees only their own complaint 5ms
+ ✓ src/__tests__/aiKnowledgeOnlyPrivacy.test.ts > POST /api/ai/chat — Dalil knowledge-only privacy contract > does not inject resident, unit, booking, permit, facility, or guest records 42ms
+ ✓ src/__tests__/aiKnowledgeOnlyPrivacy.test.ts > POST /api/ai/chat — Dalil knowledge-only privacy contract > redirects personal-record questions instead of answering from account data 9ms
+ ✓ src/__tests__/aiKnowledgeOnlyPrivacy.test.ts > POST /api/ai/chat — Dalil knowledge-only privacy contract > instructs Dalil to say it does not know when documents do not support an answer 8ms
+ ✓ src/__tests__/aiKnowledgeOnlyPrivacy.test.ts > POST /api/ai/chat — Dalil knowledge-only privacy contract > keeps the empty knowledge repository as an explicit safe state 4ms
+ ✓ src/__tests__/settingsSecurity.test.ts > HOA settings secret boundary > rejects an unknown key before any DB write 46ms
+ ✓ src/__tests__/settingsSecurity.test.ts > HOA settings secret boundary > accepts and returns the technical-maintenance contact settings 7ms
+ ✓ src/__tests__/settingsSecurity.test.ts > HOA settings secret boundary > stores smtp_pass as an envelope, never returns it, and blank preserves it 15ms
+ ✓ src/__tests__/aiSuggestEnglishSource.test.ts > POST /api/announcements/ai-suggest — sourceLang: en > fires exactly three OpenAI completions (optimize + translate + title-translate) 24ms
+ ✓ src/__tests__/aiSuggestEnglishSource.test.ts > POST /api/announcements/ai-suggest — sourceLang: en > returns a non-empty titleAr when sourceLang is en and title is supplied 6ms
+ ✓ src/__tests__/aiSuggestEnglishSource.test.ts > POST /api/announcements/ai-suggest — sourceLang: en > still returns optimized and translated text for English source 5ms
+ ✓ src/__tests__/portalHelp.test.ts > portal help resident boundary > accepts only schema categories and never returns screenshot paths to a resident 43ms
+ ✓ src/__tests__/portalHelp.test.ts > portal help resident boundary > blocks guard access even with a verified status 4ms
+ ✓ src/__tests__/communicationsAdminListGuard.test.ts > GET /api/communications — resident roles are blocked (403) > owner receives 403 20ms
+ ✓ src/__tests__/communicationsAdminListGuard.test.ts > GET /api/communications — resident roles are blocked (403) > tenant receives 403 7ms
+ ✓ src/__tests__/communicationsAdminListGuard.test.ts > GET /api/communications — admin receives full list (positive control) > admin receives 200 and the seeded complaint appears in the response 7ms
+ ✓ src/__tests__/communicationsTenantIsolation.test.ts > GET /api/communications/mine — tenant cannot see owner's complaints > tenant receives 403 (only owners may call this endpoint) 34ms
+ ✓ src/__tests__/communicationsTenantIsolation.test.ts > GET /api/communications/mine — tenant cannot see owner's complaints > owner receives 200 and sees only their own complaint 7ms
+ ✓ src/__tests__/occupancyWriteBoundary.static.test.ts > occupancy write boundary > keeps resident and unit occupancy writes in occupancy.ts wrappers 3ms
+ ✓ src/__tests__/occupancyWriteBoundary.static.test.ts > occupancy write boundary > recursively rejects bypasses in every production route and library 17ms
+ ✓ src/__tests__/occupancyWriteBoundary.static.test.ts > occupancy write boundary > detects synthetic ORM and raw-SQL bypass attempts 2ms
+ ✓ src/__tests__/occupancyWriteBoundary.static.test.ts > occupancy write boundary > does not exempt misleading occupancy-like filenames 1ms
+ ✓ src/__tests__/occupancyWriteBoundary.static.test.ts > occupancy write boundary > requires sorted multi-unit locking and explicit cross-unit refusal 0ms
+ ✓ src/__tests__/occupancyWriteBoundary.static.test.ts > occupancy write boundary > requires unit-scoped entitlement routes to use the shared occupancy authority 1ms
+ ✓ src/__tests__/communicationsUnitLabels.test.ts > GET /api/communications — building/apartment labels > returns 200 with all communications for admin 20ms
+ ✓ src/__tests__/communicationsUnitLabels.test.ts > GET /api/communications — building/apartment labels > sender with a verified unit has senderBuilding and senderApartment populated 7ms
+ ✓ src/__tests__/communicationsUnitLabels.test.ts > GET /api/communications — building/apartment labels > sender without a verified unit has null senderBuilding and senderApartment (no broken labels) 3ms
+ ✓ src/__tests__/communicationsUnitLabels.test.ts > GET /api/communications — building/apartment labels > sender without a verified unit still has the legacy senderUnit text 5ms
+ ✓ src/__tests__/notificationProducer.test.ts > X3 producer paired-channel audit > persists email and push rows for event 1 with one stable business key 3ms
+ ✓ src/__tests__/notificationProducer.test.ts > X3 producer paired-channel audit > persists email and push rows for event 2 with one stable business key 0ms
+ ✓ src/__tests__/notificationProducer.test.ts > X3 producer paired-channel audit > persists email and push rows for event 3 with one stable business key 0ms
+ ✓ src/__tests__/notificationProducer.test.ts > X3 producer paired-channel audit > persists email and push rows for event 4 with one stable business key 1ms
+ ✓ src/__tests__/notificationProducer.test.ts > X3 producer paired-channel audit > persists email and push rows for event 5 with one stable business key 0ms
+ ✓ src/__tests__/notificationProducer.test.ts > X3 producer paired-channel audit > persists email and push rows for event 6 with one stable business key 1ms
+ ✓ src/__tests__/notificationProducer.test.ts > X3 producer paired-channel audit > persists email and push rows for event 7 with one stable business key 0ms
+ ✓ src/__tests__/notificationProducer.test.ts > X3 producer paired-channel audit > persists email and push rows for event 8 with one stable business key 0ms
+ ✓ src/__tests__/notificationProducer.test.ts > X3 producer paired-channel audit > persists email and push rows for event 9 with one stable business key 0ms
+ ✓ src/__tests__/notificationProducer.test.ts > X3 producer paired-channel audit > persists email and push rows for event 10 with one stable business key 0ms
+ ✓ src/__tests__/notificationProducer.test.ts > X3 producer paired-channel audit > persists email and push rows for event 11 with one stable business key 0ms
+ ✓ src/__tests__/notificationProducer.test.ts > X3 producer paired-channel audit > persists email and push rows for event 12 with one stable business key 0ms
+ ✓ src/__tests__/notificationProducer.test.ts > X3 producer paired-channel audit > persists email and push rows for event 13 with one stable business key 0ms
+ ✓ src/__tests__/notificationProducer.test.ts > X3 producer paired-channel audit > persists email and push rows for event 14 with one stable business key 0ms
+ ✓ src/__tests__/notificationProducer.test.ts > X3 producer paired-channel audit > persists email and push rows for event 15 with one stable business key 0ms
+ ✓ src/__tests__/notificationProducer.test.ts > X3 producer paired-channel audit > persists email and push rows for event 16 with one stable business key 0ms
+ ✓ src/__tests__/cancelFutureBookingsF8.test.ts > cancelFutureBookings helper > UNIT-1: cancels bookings with startTime in the future 2ms
+ ✓ src/__tests__/cancelFutureBookingsF8.test.ts > cancelFutureBookings helper > UNIT-2: does not cancel bookings with startTime in the past 0ms
+ ✓ src/__tests__/cancelFutureBookingsF8.test.ts > cancelFutureBookings helper > UNIT-3: does not touch already-cancelled bookings 0ms
+ ✓ src/__tests__/cancelFutureBookingsF8.test.ts > cancelFutureBookings helper > UNIT-4: returns the count of cancelled bookings 0ms
+ ✓ src/__tests__/cancelFutureBookingsF8.test.ts > POST /waha-pass/:id/revoke — F8 future booking cancellation > RVOKE-1: revoke cancels future bookings for the credential holder 27ms
+ ✓ src/__tests__/cancelFutureBookingsF8.test.ts > POST /waha-pass/:id/revoke — F8 future booking cancellation > RVOKE-2: revoke does not cancel past bookings 12ms
+ ✓ src/__tests__/bookingFacilityNameSnapshot.test.ts > enrichBookings() — facilityName snapshot fallback > returns the live facility name when the facility still exists in the DB 30ms
+ ✓ src/__tests__/bookingFacilityNameSnapshot.test.ts > enrichBookings() — facilityName snapshot fallback > falls back to the stored snapshot when the facility has been removed from the DB 19ms
+ ✓ src/__tests__/bookingFacilityNameSnapshot.test.ts > enrichBookings() — facilityName snapshot fallback > returns 'Unknown' when the facility is absent from the DB and no snapshot is stored 3ms
+ ✓ src/__tests__/bookingFacilityNameSnapshot.test.ts > enrichBookings() — facilityName snapshot fallback > prefers the live facility name over a stale snapshot when both are present 7ms
+ ✓ src/__tests__/ownershipChangeScheduler.test.ts > runOwnershipChangeExpiry — Path A expiry does NOT touch Path B pending events > Path B pending event older than 14 days remains pending after expiry run 2ms
+ ✓ src/__tests__/ownershipChangeScheduler.test.ts > runOwnershipChangeExpiry — Path A expiry does NOT touch Path B pending events > Path A pending event older than 14 days IS auto-rejected (control) 12ms
+ ✓ src/__tests__/ownershipChangeScheduler.test.ts > runOwnershipChangeExpiry — Path A expiry does NOT touch Path B pending events > Path B approved event with no claimant is NOT touched by Path A expiry 1ms
+ ✓ src/__tests__/ownershipChangeScheduler.test.ts > runOwnershipChangeExpiry — Path A expiry does NOT touch Path B pending events > Path A pending event submitted recently is NOT auto-rejected 1ms
+ ✓ src/__tests__/ownershipChangeScheduler.test.ts > runOwnershipChangeExpiry — Path A expiry does NOT touch Path B pending events > already-rejected Path A event is left unchanged 1ms
+ ✓ src/__tests__/ownershipChangeScheduler.test.ts > runOwnershipChangeExpiry — sets rejectionReason=auto_expired on rejected events > auto-rejected Path A event has rejectionReason=auto_expired 1ms
+ ✓ src/__tests__/ownershipChangeScheduler.test.ts > runOwnershipChangeExpiry — sets rejectionReason=auto_expired on rejected events > auto-rejected Path A event gets reviewedAt timestamp 1ms
+ ✓ src/__tests__/notificationService.test.ts > enqueueNotification > persists a pending row with locale defaulting to 'ar' 3ms
+ ✓ src/__tests__/notificationService.test.ts > enqueueNotification > uses supplied locale when provided 0ms
+ ✓ src/__tests__/notificationService.test.ts > enqueueNotification > returns null for duplicate (idempotency) — same key inserted again 0ms
+ ✓ src/__tests__/notificationService.test.ts > enqueueNotification > stores preferencePolicy correctly 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 1 with a concrete Arabic and English subject 2ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 2 with a concrete Arabic and English subject 1ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 3 with a concrete Arabic and English subject 1ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 4 with a concrete Arabic and English subject 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 5 with a concrete Arabic and English subject 1ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 6 with a concrete Arabic and English subject 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 7 with a concrete Arabic and English subject 3ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 8 with a concrete Arabic and English subject 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 9 with a concrete Arabic and English subject 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 10 with a concrete Arabic and English subject 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 11 with a concrete Arabic and English subject 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 12 with a concrete Arabic and English subject 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 13 with a concrete Arabic and English subject 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 14 with a concrete Arabic and English subject 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 15 with a concrete Arabic and English subject 1ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders EVT 16 with a concrete Arabic and English subject 1ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 1 using the catalogue policy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 2 using the catalogue policy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 3 using the catalogue policy 1ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 4 using the catalogue policy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 5 using the catalogue policy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 6 using the catalogue policy 1ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 7 using the catalogue policy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 8 using the catalogue policy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 9 using the catalogue policy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 10 using the catalogue policy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 11 using the catalogue policy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 12 using the catalogue policy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 13 using the catalogue policy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 14 using the catalogue policy 1ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 15 using the catalogue policy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > enqueues email and push for EVT 16 using the catalogue policy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > defaults catalogue rendering to Arabic and rejects non-EVT event types 1ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders event 12 as an explicit irreversible account-deletion warning in both languages 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > uses the business key to idempotently retain one record per channel 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders mandatory bilingual P2 contract tenancy_pre_expiry_tenant with its role-specific copy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders mandatory bilingual P2 contract tenancy_pre_expiry_landlord with its role-specific copy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > renders mandatory bilingual P2 contract tenancy_renewal_decision_reminder with its role-specific copy 0ms
+ ✓ src/__tests__/notificationService.test.ts > X3 notification catalogue and recipient enqueue helper > interpolates P2 tenancy notification variables and enqueues both mandatory channels 0ms
+ ✓ src/__tests__/notificationService.test.ts > dispatchPendingNotifications — email delivery > delivers an email event and marks it delivered 1ms
+ ✓ src/__tests__/notificationService.test.ts > dispatchPendingNotifications — email delivery > does not dispatch events whose nextAttemptAt is in the future 0ms
+ ✓ src/__tests__/notificationService.test.ts > dispatchPendingNotifications — email delivery > does not dispatch already-delivered events 0ms
+ ✓ src/__tests__/notificationService.test.ts > dispatchPendingNotifications — push delivery > delivers a push event when the user has a valid expo token 0ms
+ ✓ src/__tests__/notificationService.test.ts > dispatchPendingNotifications — push delivery > marks push event delivered even when user has no tokens 0ms
+ ✓ src/__tests__/notificationService.test.ts > preference policy > suppresses event type 8 when user has announcements=false and policy=announcement 0ms
+ ✓ src/__tests__/notificationService.test.ts > preference policy > does NOT suppress event type 8 when user has announcements=true 0ms
+ ✓ src/__tests__/notificationService.test.ts > preference policy > delivers event 9 even when announcements=false (mandatory bypass) 0ms
+ ✓ src/__tests__/notificationService.test.ts > preference policy > delivers event 12 even when all prefs=false (mandatory bypass) 0ms
+ ✓ src/__tests__/notificationService.test.ts > preference policy > delivers when user has no preference row (default opt-in) 0ms
+ ✓ src/__tests__/notificationService.test.ts > retry logic > schedules a retry when delivery fails (attempts < MAX_ATTEMPTS) 1ms
+ ✓ src/__tests__/notificationService.test.ts > retry logic > does not mark a typed failed email outcome as delivered 0ms
+ ✓ src/__tests__/notificationService.test.ts > retry logic > marks row as 'failed' after MAX_ATTEMPTS (5) failures 0ms
+ ✓ src/__tests__/notificationService.test.ts > retry logic > picks up 'retrying' rows that are due 1ms
+ ✓ src/__tests__/notificationService.test.ts > startNotificationDispatchScheduler > calls setInterval and returns without throwing 1ms
+ ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > uses the exact real-release graph for dry runs while mutating nothing 10ms
+ ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > serializes concurrent terminal requests and returns already_ended without repeated effects 3ms
+ ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > keeps tenant records outside a legal ownership-transfer release graph 1ms
+ ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > accepts a legacy bare unit number only when it identifies one unit 2ms
+ ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > moves an owner household out while retaining the verified ownership claim 1ms
+ ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > Stage 6C O3/O4 releases an owner once without a claimant slot and preserves the verified tenant graph 2ms
+ ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > rolls back every mutation when a postcondition is induced to fail 4ms
+ ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > rolls back when a released booking would lose its final unit attribution 1ms
+ ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > F11: refuses the HOA COMMON system unit before any release mutation 1ms
+ ✓ src/__tests__/gateResidentSearch.test.ts > GET /gate/residents — authorization > returns 403 for an owner caller 1ms
+ ✓ src/__tests__/gateResidentSearch.test.ts > GET /gate/residents — authorization > returns 403 for a tenant caller 0ms
+ ✓ src/__tests__/gateResidentSearch.test.ts > GET /gate/residents — authorization > returns 403 for a supervisor caller 0ms
+ ✓ src/__tests__/gateResidentSearch.test.ts > GET /gate/residents — authorization > allows guard role to search 0ms
+ ✓ src/__tests__/gateResidentSearch.test.ts > GET /gate/residents — authorization > allows admin role to search 0ms
+ ✓ src/__tests__/gateResidentSearch.test.ts > GET /gate/residents — name query validation > returns empty array for blank name 1ms
+ ✓ src/__tests__/gateResidentSearch.test.ts > GET /gate/residents — name query validation > returns empty array for single-character query (too short) 0ms
+ ✓ src/__tests__/gateResidentSearch.test.ts > GET /gate/residents — search results > finds residents by first name (case-insensitive) 0ms
+ ✓ src/__tests__/gateResidentSearch.test.ts > GET /gate/residents — search results > finds residents by last name 0ms
+ ✓ src/__tests__/gateResidentSearch.test.ts > GET /gate/residents — search results > finds residents by partial full name 0ms
+ ✓ src/__tests__/gateResidentSearch.test.ts > GET /gate/residents — search results > returns unitNumber in results 0ms
+ ✓ src/__tests__/gateResidentSearch.test.ts > GET /gate/residents — search results > does NOT return admin users in results 0ms
+ ✓ src/__tests__/gateResidentSearch.test.ts > GET /gate/residents — search results > does NOT return guard staff in results 0ms
+ ✓ src/__tests__/gateResidentSearch.test.ts > GET /gate/residents — search results > returns both owners and tenants 1ms
+ ✓ src/__tests__/gateResidentSearch.test.ts > GET /gate/residents — National ID / Iqama lookup > matches an owner by National ID while returning only name, unit, and role 0ms
+ ✓ src/__tests__/gateResidentSearch.test.ts > GET /gate/residents — National ID / Iqama lookup > matches a tenant by Iqama and never returns internal or contact fields 1ms
+ ✓ src/__tests__/gateResidentSearch.test.ts > GET /gate/residents — National ID / Iqama lookup > uses the same empty response for malformed, unknown, and non-matching identifiers 0ms
+ ✓ src/__tests__/gateResidentSearch.test.ts > GET /gate/residents — National ID / Iqama lookup > uses a domain-separated HMAC for the rate-limit subject 1ms
+ ✓ src/__tests__/gateResidentSearch.test.ts > C-4b — shared guardian identifier lookup > returns every matching household record, with relationship and guardian flag but never the identifier 1ms
+ ✓ src/__tests__/gateResidentSearch.test.ts > GET /gate/residents — unit lookup > matches a resident by resolved authoritative unit ID without exposing an ID 0ms
+ ✓ src/__tests__/gateResidentSearch.test.ts > GET /gate/residents — unit lookup > finds CE34 through its resolved unitId when the linked user's legacy value is only 34 0ms
+ ✓ src/__tests__/gateResidentSearch.test.ts > GET /gate/residents — unit lookup > never treats ambiguous bare 34 as a unit lookup without a resolved canonical unit 0ms
+ ✓ src/__tests__/gateResidentSearch.test.ts > GET /gate/plate-lookup — exact, minimal plate result > normalizes casing, whitespace, hyphens, and Arabic digits 0ms
+ ✓ src/__tests__/gateResidentSearch.test.ts > GET /gate/plate-lookup — exact, minimal plate result > matches only an exact normalized plate and returns the minimal projection 0ms
+ ✓ src/__tests__/gateResidentSearch.test.ts > GET /gate/plate-lookup — exact, minimal plate result > does not expose the raw plate through its rate-limit subject 0ms
+ ✓ src/__tests__/durableRateLimit.test.ts > durable API rate limits > allows a counter exactly at both configured boundaries 2ms
+ ✓ src/__tests__/durableRateLimit.test.ts > durable API rate limits > rejects the bounded overflow row, including after a process restart 0ms
+ ✓ src/__tests__/durableRateLimit.test.ts > durable API rate limits > uses the database upsert result rather than a process-local map 0ms
+ ✓ src/__tests__/durableRateLimit.test.ts > durable API rate limits > does not persist raw source IP addresses in public-route subject keys 1ms
+ ✓ src/__tests__/durableRateLimit.test.ts > durable API rate limits > keeps authenticated callers independently scoped 1ms
+ ✓ src/__tests__/pushOptOut.test.ts > sendPushToUsers — opt-out filtering > excludes a user who has opted out of the 'bookings' category 3ms
+ ✓ src/__tests__/pushOptOut.test.ts > sendPushToUsers — opt-out filtering > includes a user who has no preference row (defaults to opted-in) 1ms
+ ✓ src/__tests__/pushOptOut.test.ts > sendPushToUsers — opt-out filtering > includes a user whose preference row has the category set to true 0ms
+ ✓ src/__tests__/pushOptOut.test.ts > sendPushToUsers — opt-out filtering > sends to all users when no category is specified (no preference check) 1ms
+ ✓ src/__tests__/pushOptOut.test.ts > sendPushToUsers — opt-out filtering > makes no Expo call when all requested users have opted out 1ms
+ ✓ src/__tests__/pushOptOut.test.ts > sendPushToAll — opt-out filtering > excludes users who opted out of 'announcements' and delivers to the rest 1ms
+ ✓ src/__tests__/pushOptOut.test.ts > sendPushToAll — opt-out filtering > delivers to all users when no one has opted out 0ms
+ ✓ src/__tests__/pushOptOut.test.ts > sendPushToAll — opt-out filtering > makes no Expo call when every user has opted out of the category 0ms
+ ✓ src/__tests__/pushOptOut.test.ts > sendPushToAll — opt-out filtering > sends to all registered tokens when called without a category 1ms
+ ✓ src/__tests__/paymentCallbackMatrix.test.ts > H2 deterministic callback outcome matrix > issues a day pass once after a matching paid callback and treats a duplicate as already confirmed 6ms
+ ✓ src/__tests__/paymentCallbackMatrix.test.ts > H2 deterministic callback outcome matrix > reconciles a missed callback only after the provider independently confirms payment 1ms
+ ✓ src/__tests__/paymentCallbackMatrix.test.ts > H2 deterministic callback outcome matrix > leaves a missed callback pending when Moyasar still reports the charge as pending 1ms
+ ✓ src/__tests__/paymentCallbackMatrix.test.ts > H2 deterministic callback outcome matrix > keeps a paid event retryable until a later reconciliation observes the paid provider result 1ms
+ ✓ src/__tests__/paymentCallbackMatrix.test.ts > H2 deterministic callback outcome matrix > does not issue a pass after provider failure/cancellation 1ms
+ ✓ src/__tests__/paymentCallbackMatrix.test.ts > H2 deterministic callback outcome matrix > rejects a paid callback with a wrong amount 1ms
+ ✓ src/__tests__/paymentCallbackMatrix.test.ts > H2 deterministic callback outcome matrix > rejects a paid callback with a wrong user 1ms
+ ✓ src/__tests__/paymentCallbackMatrix.test.ts > H2 deterministic callback outcome matrix > rejects a paid callback with a wrong unit 0ms
+ ✓ src/__tests__/paymentCallbackMatrix.test.ts > H2 deterministic callback outcome matrix > rejects a late paid callback after a facility hold is cancelled instead of leaving the attempt pending 0ms
+ ✓ src/__tests__/emailSecurity.test.ts > SMTP credential and send outcomes > fails closed for plaintext or corrupt DB credentials 3ms
+ ✓ src/__tests__/emailSecurity.test.ts > SMTP credential and send outcomes > distinguishes unconfigured, provider failure, and success 2ms
+ ✓ src/__tests__/externalIdentityDeletionJobs.test.ts > external identity deletion jobs > completes a claimed Clerk deletion 4ms
+ ✓ src/__tests__/externalIdentityDeletionJobs.test.ts > external identity deletion jobs > treats an already-absent Clerk identity as idempotent completion 1ms
+ ✓ src/__tests__/externalIdentityDeletionJobs.test.ts > external identity deletion jobs > moves a repeatedly failing job into the admin-visible failed state 0ms
+ ✓ src/__tests__/deterministicPaymentProvider.test.ts > deterministic payment provider > returns the configured paid outcome without contacting a live provider 2ms
+ ✓ src/__tests__/deterministicPaymentProvider.test.ts > deterministic payment provider > returns the configured failed outcome without contacting a live provider 1ms
+ ✓ src/__tests__/deterministicPaymentProvider.test.ts > deterministic payment provider > returns the configured pending outcome without contacting a live provider 0ms
+ ✓ src/__tests__/deterministicPaymentProvider.test.ts > deterministic payment provider > returns a terminal failure for an unknown charge 1ms
+ ✓ src/__tests__/deterministicPaymentProvider.test.ts > deterministic payment provider > marks a checkout cancelled without issuing a paid provider outcome 0ms
+ ✓ src/__tests__/initialAdminBootstrap.test.ts > initial administrator bootstrap > parses, normalizes, and deduplicates configured addresses 2ms
+ ✓ src/__tests__/initialAdminBootstrap.test.ts > initial administrator bootstrap > grants admin once to a pristine user with a Clerk-verified configured email 3ms
+ ✓ src/__tests__/initialAdminBootstrap.test.ts > initial administrator bootstrap > does not trust an unverified matching Clerk email 0ms
+ ✓ src/__tests__/initialAdminBootstrap.test.ts > initial administrator bootstrap > never re-grants after the consumed address is later demoted 1ms
+ ✓ src/__tests__/initialAdminBootstrap.test.ts > initial administrator bootstrap > refuses a configured identity that already has resident linkage and consumes the attempt 1ms
+ ✓ src/__tests__/pdfExtract.test.ts > extractPdfText > returns the text string from parser.getText() 2ms
+ ✓ src/__tests__/pdfExtract.test.ts > extractPdfText > passes the buffer as { data } to the parser constructor 2ms
+ ✓ src/__tests__/pdfExtract.test.ts > extractPdfText > calls destroy() in finally even when getText() throws 2ms
+ ✓ src/__tests__/pdfExtract.test.ts > extractPdfText > calls destroy() even when destroy itself rejects 0ms
+ ✓ src/__tests__/bookingOperatingHours.test.ts > facility operating-day model (F6) > uses Thursday, Friday, and Saturday as the weekend booking days 2ms
+ ✓ src/__tests__/bookingOperatingHours.test.ts > facility operating-day model (F6) > keeps weekday bookings within 10:00–23:00 1ms
+ ✓ src/__tests__/bookingOperatingHours.test.ts > facility operating-day model (F6) > exposes thirty half-hour starts on a Thursday, ending at 00:30 1ms
+ ✓ src/__tests__/bookingOperatingHours.test.ts > facility operating-day model (F6) > anchors a post-midnight slot to the preceding Thursday service day 0ms
+ ✓ src/__tests__/bookingOperatingHours.test.ts > facility operating-day model (F6) > rejects bookings that begin before opening or end after corrected closing 0ms
+ ✓ src/__tests__/bookingOperatingHours.test.ts > facility operating-day model (F6) > aligns start slots from facility opening, not midnight 1ms
+ ✓ src/__tests__/pushTokenPruning.test.ts > push token pruning — automatic cleanup on Expo rejection > prunes a token when the immediate ticket has status 'error' and DeviceNotRegistered 5ms
+ ✓ src/__tests__/pushTokenPruning.test.ts > push token pruning — automatic cleanup on Expo rejection > prunes a token when the receipt (deferred) reports DeviceNotRegistered 1ms
+ ✓ src/__tests__/pushTokenPruning.test.ts > push token pruning — automatic cleanup on Expo rejection > does NOT delete a token when Expo returns a successful ticket and receipt 0ms
+ ✓ src/__tests__/ownershipChangeExpiry.test.ts > OWNERSHIP_CHANGE_OVERDUE_DAYS > is 14 days 1ms
+ ✓ src/__tests__/ownershipChangeExpiry.test.ts > overdueCutoff() > returns a date approximately OVERDUE_DAYS ago (within 1 second) 0ms
+ ✓ src/__tests__/ownershipChangeExpiry.test.ts > overdueCutoff() > cutoff is in the past 0ms
+ ✓ src/__tests__/ownershipChangeExpiry.test.ts > startOwnershipChangeScheduler > is a function 0ms
+ ✓ src/__tests__/ownershipChangeExpiry.test.ts > Overdue badge threshold — frontend logic > a request 15 days old is overdue 0ms
+ ✓ src/__tests__/ownershipChangeExpiry.test.ts > Overdue badge threshold — frontend logic > a request exactly at the threshold boundary (14 days - 1 s) is NOT overdue 0ms
+ ✓ src/__tests__/ownershipChangeExpiry.test.ts > Overdue badge threshold — frontend logic > a request submitted today is not overdue 0ms
+ ✓ src/__tests__/ownershipChangeExpiry.test.ts > Overdue badge threshold — frontend logic > a request 14 days and 1 hour old is overdue 0ms
+ ✓ src/__tests__/guestHistoryPurge.test.ts > SG13 guest history retention > purges guest and guest-movement history older than 90 days while retaining recent rows 4ms
+ ✓ src/__tests__/guestHistoryPurge.test.ts > SG13 guest history retention > never includes Waha Day Passes or payment attempts in the guest-history purge 1ms
+ ✓ src/__tests__/gatePermitProjection.test.ts > gate permit projections > returns an approved move-in result with only status and dates 2ms
+ ✓ src/__tests__/gatePermitProjection.test.ts > gate permit projections > returns approved renovation status, dates, contractor name, and mobile only 1ms
+ ✓ src/__tests__/gatePermitProjection.test.ts > gate permit projections > does not treat submitted or wrong-purpose permits as approved 1ms
+ ✓ src/__tests__/gateCredentialScan.test.ts > unified gate credential classifier helpers > extracts a QR token without retaining its surrounding URL 2ms
+ ✓ src/__tests__/gateCredentialScan.test.ts > unified gate credential classifier helpers > recognizes numeric Code 128 Day Pass barcodes only 0ms
+ ✓ src/__tests__/gateCredentialScan.test.ts > unified gate credential classifier helpers > gives dated credentials an explicit gate reason 0ms
+ ✓ src/__tests__/bookingAdvisoryLockNamespace.test.ts > Stage 3 booking advisory-lock allocation > uses the exported facility namespace rather than a booking-route literal 2ms
+[22:25:52.398] WARN (46907): Deterministic payment provider enabled for non-production testing only
+ ✓ src/__tests__/paymentWebhookSecret.test.ts > Moyasar webhook secret token > requires the configured secret token 1ms
+ ✓ src/__tests__/paymentWebhookSecret.test.ts > Moyasar webhook secret token > accepts the exact documented secret_token value 1ms
+ ✓ src/__tests__/paymentPurposeRegistry.test.ts > payment purpose registry > allows a new payable purpose to supply pricing and a callback handler without core edits 2ms
+[22:25:53.581] WARN (46956): Deterministic payment provider enabled for non-production testing only
+ ↓ src/__tests__/residentsSelfRegistration.realDb.test.ts > POST /api/residents/self real PostgreSQL occupancy boundary > keeps verified owner approval vacant until deliberate self-registration starts occupancy
+ ↓ src/__tests__/residentsSelfRegistration.realDb.test.ts > POST /api/residents/self real PostgreSQL occupancy boundary > rejects a verified tenant at an owner-occupied unit without creating a tenant resident
+ ↓ src/__tests__/residentsSelfRegistration.realDb.test.ts > POST /api/residents/self real PostgreSQL occupancy boundary > rejects a verified owner at a tenant-occupied unit without creating an owner resident
+ ↓ src/__tests__/residentsSelfRegistration.realDb.test.ts > POST /api/residents/self real PostgreSQL occupancy boundary > rejects raw SQL contradictory tracks in both directions and permits a deferred repair
+ ↓ src/__tests__/residentsSelfRegistration.realDb.test.ts > POST /api/residents/self real PostgreSQL occupancy boundary > rejects occupied unit INSERTs without residents and a cross-unit opposing move
+
+ Test Files  104 passed | 1 skipped (105)
+      Tests  1478 passed | 26 skipped (1504)
+   Start at  22:25:16
+   Duration  37.32s (transform 4.18s, setup 0ms, import 62.02s, tests 28.94s, environment 10ms)
+
