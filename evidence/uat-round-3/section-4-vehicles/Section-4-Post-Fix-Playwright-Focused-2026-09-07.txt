@@ -1,0 +1,22 @@
+[e2e pre-flight] Portal and API server are reachable ✓
+[dotenv@17.2.2] injecting env (0) from .env.local,.env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+[e2e setup] Clerk user exists: e2e-resident+clerk_test@example.com (user_3Ge2n30N1IFH4apQKNpegAxhXrq)
+[e2e setup] Clerk user exists: e2e-admin+clerk_test@example.com (user_3Ge2nDVktp277PStuqyqcM4lGyw)
+[e2e setup] Clerk user exists: e2e-verified-resident+clerk_test@example.com (user_3IDMLt6PwzxBsKMcNUP7wurtrKg)
+[e2e setup] Clerk user exists: e2e-guard+clerk_test@example.com (user_3IPsXz9FqjDpZplchPXYAdhbZKk)
+[e2e setup] Clerk user exists: e2e-round3-waha+clerk_test@example.com (user_3IyN5yujeJpHhRo8msOLhBmqM3i)
+[e2e setup] Clerk user exists: e2e-round3-vehicles+clerk_test@example.com (user_3Iz92g7olEdKKI5vHlBSIoh1NmX)
+
+Running 9 tests using 1 worker
+
+  ✓  1 [round3-vehicles-setup] › e2e/round3-vehicles.setup.ts:11:1 › authenticate isolated Round 3 vehicle resident (8.4s)
+  ✓  2 [round3-waha-second-credential-setup] › e2e/round3-waha-second-credential.setup.ts:9:1 › authenticate and seed round3 Waha Credential 2 resident (7.6s)
+  ✓  3 [verified-resident-setup] › e2e/verified-resident.setup.ts:23:1 › authenticate and seed verified resident (7.3s)
+  ✓  4 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:33:3 › Round 3 Section 4 — vehicles and owner parking › 4a — owner-workflow legacy parking is selectable with lot number and type (2.4s)
+  ✓  5 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:56:3 › Round 3 Section 4 — vehicles and owner parking › 4b — vehicle registration has no Istimara field (2.3s)
+  ✓  6 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:72:3 › Round 3 Section 4 — vehicles and owner parking › 4c — clicking outside preserves the vehicle dialog and entered values (2.1s)
+  ✓  7 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:92:3 › Round 3 Section 4 — vehicles and owner parking › 4d — two vehicles may share one owner-registered lot and display its type (9.2s)
+  ✓  8 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:155:3 › Round 3 Section 4 — vehicles and owner parking › 4e — owner registration requires an explicit parking decision (2.2s)
+  ✓  9 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:166:3 › Round 3 Section 4 — vehicles and owner parking › 4f — tenant registration does not ask the tenant to declare parking (2.3s)
+
+  9 passed (50.6s)
