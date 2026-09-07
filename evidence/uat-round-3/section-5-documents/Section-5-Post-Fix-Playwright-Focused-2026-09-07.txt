@@ -1,0 +1,25 @@
+[e2e pre-flight] Portal and API server are reachable ✓
+[dotenv@17.2.2] injecting env (0) from .env.local,.env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+[e2e setup] Clerk user exists: e2e-resident+clerk_test@example.com (user_3Ge2n30N1IFH4apQKNpegAxhXrq)
+[e2e setup] Clerk user exists: e2e-admin+clerk_test@example.com (user_3Ge2nDVktp277PStuqyqcM4lGyw)
+[e2e setup] Clerk user exists: e2e-verified-resident+clerk_test@example.com (user_3IDMLt6PwzxBsKMcNUP7wurtrKg)
+[e2e setup] Clerk user exists: e2e-guard+clerk_test@example.com (user_3IPsXz9FqjDpZplchPXYAdhbZKk)
+[e2e setup] Clerk user exists: e2e-round3-waha+clerk_test@example.com (user_3IyN5yujeJpHhRo8msOLhBmqM3i)
+[e2e setup] Clerk user exists: e2e-round3-vehicles+clerk_test@example.com (user_3Iz92g7olEdKKI5vHlBSIoh1NmX)
+
+Running 12 tests using 1 worker
+
+  ✓   1 [round3-vehicles-setup] › e2e/round3-vehicles.setup.ts:11:1 › authenticate isolated Round 3 vehicle resident (8.1s)
+  ✓   2 [round3-waha-second-credential-setup] › e2e/round3-waha-second-credential.setup.ts:9:1 › authenticate and seed round3 Waha Credential 2 resident (7.7s)
+  ✓   3 [admin-setup] › e2e/admin.auth.setup.ts:41:1 › authenticate as admin (11.8s)
+  ✓   4 [verified-resident-setup] › e2e/verified-resident.setup.ts:23:1 › authenticate and seed verified resident (6.5s)
+  ✓   5 [round3-section5-signed-out] › e2e/round3-section5-dalil-signed-out.spec.ts:3:1 › 5g — signed-out Dalil shows sign-in guidance and never calls the authenticated chat endpoint (3.4s)
+  ✓   6 [round3-documents-fixture-setup] › e2e/round3-documents-fixture.setup.ts:12:1 › create isolated Round 3 Section 5 document fixtures as admin (8.8s)
+  ✓   7 [round3-section5-admin] › e2e/round3-section5-documents-admin.spec.ts:10:3 › Round 3 Section 5 — admin document controls › 5d — folder add and edit contain no download/view-only default control (2.9s)
+  ✓   8 [round3-section5-admin] › e2e/round3-section5-documents-admin.spec.ts:28:3 › Round 3 Section 5 — admin document controls › 5e — a download-allowed document can become view-only and remains so after reload (7.0s)
+  ✓   9 [round3-section5-admin] › e2e/round3-section5-documents-admin.spec.ts:44:3 › Round 3 Section 5 — admin document controls › 5f — choosing view-only before a custom folder preserves view-only (6.3s)
+  ✓  10 [round3-regression] › e2e/round3-section5-documents.spec.ts:8:3 › Round 3 Section 5 — resident document previews › 5a — resident view-only PDF uses portal-owned rendering, not a native browser plugin (8.2s)
+  ✓  11 [round3-regression] › e2e/round3-section5-documents.spec.ts:17:3 › Round 3 Section 5 — resident document previews › 5b — resident view-only Word document renders inside its sandboxed preview (5.4s)
+  ✓  12 [round3-regression] › e2e/round3-section5-documents.spec.ts:24:3 › Round 3 Section 5 — resident document previews › 5c — resident view-only image renders inside the portal preview (7.7s)
+
+  12 passed (1.6m)
