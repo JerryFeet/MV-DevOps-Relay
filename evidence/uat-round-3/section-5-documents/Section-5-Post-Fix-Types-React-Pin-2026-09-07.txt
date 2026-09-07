@@ -1,0 +1,1 @@
+OK: single @types/react version: 19.2.17
