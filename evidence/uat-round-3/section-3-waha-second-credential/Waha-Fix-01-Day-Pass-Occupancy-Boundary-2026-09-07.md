@@ -33,3 +33,10 @@ destination. Valid same-unit passes remain verifiable.
 
 The focused runtime suite passed **26/26** and covers both dedicated and unified
 guard paths, not only the purchaser self-read.
+
+The full portal suite then exposed a stale positive-control fixture that had a
+verified owner and paid day pass but no linked active resident occupancy. The
+guard correctly denied it. After the fixture was brought into the canonical
+owner-occupied graph, the focused real guard setup and five-decision browser
+walkthrough passed **2/2**, including the valid paid day pass.
+
