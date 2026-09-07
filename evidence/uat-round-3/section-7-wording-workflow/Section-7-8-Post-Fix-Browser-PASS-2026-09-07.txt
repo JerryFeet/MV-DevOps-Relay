@@ -1,0 +1,20 @@
+[e2e pre-flight] Portal and API server are reachable ✓
+[dotenv@17.2.2] injecting env (0) from .env.local,.env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+[e2e setup] Clerk user exists: e2e-resident+clerk_test@example.com (user_3Ge2n30N1IFH4apQKNpegAxhXrq)
+[e2e setup] Clerk user exists: e2e-admin+clerk_test@example.com (user_3Ge2nDVktp277PStuqyqcM4lGyw)
+[e2e setup] Clerk user exists: e2e-verified-resident+clerk_test@example.com (user_3IDMLt6PwzxBsKMcNUP7wurtrKg)
+[e2e setup] Clerk user exists: e2e-guard+clerk_test@example.com (user_3IPsXz9FqjDpZplchPXYAdhbZKk)
+[e2e setup] Clerk user exists: e2e-round3-waha+clerk_test@example.com (user_3IyN5yujeJpHhRo8msOLhBmqM3i)
+[e2e setup] Clerk user exists: e2e-round3-vehicles+clerk_test@example.com (user_3Iz92g7olEdKKI5vHlBSIoh1NmX)
+[e2e setup] Clerk user exists: e2e-round3-section8+clerk_test@example.com (user_3IziTsZh0xeWO2DtkygyerJnFEF)
+
+Running 6 tests using 1 worker
+
+  ✓  1 [verified-resident-setup] › e2e/verified-resident.setup.ts:23:1 › authenticate and seed verified resident (7.9s)
+  ✓  2 [round3-section8-tenancy-setup] › e2e/round3-section8-tenancy.setup.ts:8:1 › authenticate isolated Round 3 Section 8 tenant (7.5s)
+  ✓  3 [admin-setup] › e2e/admin.auth.setup.ts:41:1 › authenticate as admin (11.9s)
+  ✓  4 [round3-section8-tenancy] › e2e/round3-section8-tenancy.spec.ts:12:3 › Round 3 Section 8 — document-free Ejar tenancy verification › requires contract number and lease dates, then submits without Ejar document metadata (3.9s)
+  ✓  5 [round3-c6-admin] › e2e/round3-c6-unit-registry.spec.ts:11:3 › Round 3 C-6 — Unit Registry browser regression › admin sees canonical parking and can independently scroll all booking rows (4.0s)
+  ✓  6 [round3-c5-approval-workflow] › e2e/round3-c5-requires-approval.spec.ts:141:3 › Round 3 C-5 — requires-approval resident browser workflow › approval toggle keeps resident requests pending without Pay Now, then admin advances free and priced bookings (22.0s)
+
+  6 passed (1.1m)
