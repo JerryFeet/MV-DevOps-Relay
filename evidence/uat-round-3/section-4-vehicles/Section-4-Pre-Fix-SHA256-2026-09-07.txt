@@ -1,0 +1,9 @@
+a56ef9e48605865e1371585279eeaea3441969525da3152a9b252e1589fe285a  evidence/uat-round-3/section-4-vehicles/Round-3-Section-4-Permanent-Regression-Suite-Pre-Fix-2026-09-07.ts
+df874946c0ce82137ce7dbedf2d209cbd6bbebee231ab8f8cb60f3e9af86efb1  evidence/uat-round-3/section-4-vehicles/Section-4-4a-Legacy-Parking-Selector-FAIL-2026-09-07.png
+df874946c0ce82137ce7dbedf2d209cbd6bbebee231ab8f8cb60f3e9af86efb1  evidence/uat-round-3/section-4-vehicles/Section-4-4b-Istimara-Field-FAIL-2026-09-07.png
+a0205193372c2fce9a2185cbe504e57275dc24b9ea8da26c54270d3787a15808  evidence/uat-round-3/section-4-vehicles/Section-4-4c-Outside-Click-Discard-FAIL-2026-09-07.png
+4a5d0a682dfa103667d04d71f3fe1d65a3b6e9e63d5f78d4b8ffa6161b9adba6  evidence/uat-round-3/section-4-vehicles/Section-4-4d-Vehicle-Capacity-FAIL-2026-09-07.png
+1f431f29b53e0f23fe8738e95f19172dbf59d32a99c77abb12e238ecb639cc5d  evidence/uat-round-3/section-4-vehicles/Section-4-4e-No-Parking-Decision-FAIL-2026-09-07.png
+c39d09d0acc81608e109c8c039ff619c090ec79fb30adc1de82dcfd66d41e8f8  evidence/uat-round-3/section-4-vehicles/Section-4-Pre-Fix-Failure-Summary-2026-09-07.md
+7dca2c6694423e8a736d24499400fe42ffd759a349713555710f8bc86cc0e98d  evidence/uat-round-3/section-4-vehicles/Section-4-Pre-Fix-Observed-Facts-2026-09-07.json
+6ff2f2ff67b690388df2296ef8a3bab188ab3b89f315cd4038c0bfb2a19db2ee  evidence/uat-round-3/section-4-vehicles/Section-4-Pre-Fix-Playwright-FAIL-2026-09-07.txt
