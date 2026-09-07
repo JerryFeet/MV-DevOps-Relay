@@ -1,0 +1,16 @@
+[e2e pre-flight] Portal and API server are reachable ✓
+[dotenv@17.2.2] injecting env (0) from .env.local,.env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+[e2e setup] Clerk user exists: e2e-resident+clerk_test@example.com (user_3Ge2n30N1IFH4apQKNpegAxhXrq)
+[e2e setup] Clerk user exists: e2e-admin+clerk_test@example.com (user_3Ge2nDVktp277PStuqyqcM4lGyw)
+[e2e setup] Clerk user exists: e2e-verified-resident+clerk_test@example.com (user_3IDMLt6PwzxBsKMcNUP7wurtrKg)
+[e2e setup] Clerk user exists: e2e-guard+clerk_test@example.com (user_3IPsXz9FqjDpZplchPXYAdhbZKk)
+[e2e setup] Clerk user exists: e2e-round3-waha+clerk_test@example.com (user_3IyN5yujeJpHhRo8msOLhBmqM3i)
+[e2e setup] Clerk user exists: e2e-round3-vehicles+clerk_test@example.com (user_3Iz92g7olEdKKI5vHlBSIoh1NmX)
+[e2e setup] Clerk user exists: e2e-round3-section8+clerk_test@example.com (user_3IziTsZh0xeWO2DtkygyerJnFEF)
+
+Running 2 tests using 1 worker
+
+  ✓  1 [guard-setup] › e2e/guard.auth.setup.ts:35:1 › authenticate and seed guard gate walkthrough (9.7s)
+  ✓  2 [guard] › e2e/guard-gate-walkthrough.spec.ts:64:3 › Guard gate walkthrough — real Clerk session and live API › a signed-in guard sees all five positive decisions and signs out after 15 minutes idle (6.5s)
+
+  2 passed (21.1s)
