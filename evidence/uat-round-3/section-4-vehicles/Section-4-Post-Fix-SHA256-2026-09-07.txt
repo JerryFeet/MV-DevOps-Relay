@@ -1,0 +1,9 @@
+5487e5a1f3a0ead01bab18bfaa20000b6b39f2d773065b2145bb183a6a6d512a  evidence/uat-round-3/section-4-vehicles/Round-3-Section-4-Permanent-Regression-Suite-Post-Fix-2026-09-07.ts
+1dc81a8847962b7b2a445a93b59091180d8e5a0c3c1eaf41f6f4f9498ebac6f9  evidence/uat-round-3/section-4-vehicles/Section-4-Post-Fix-API-Focused-2026-09-07.txt
+5bd2b43a6493175a3f5d56491a7a59c6dab33da035a68d3b3b94d042a6706ed8  evidence/uat-round-3/section-4-vehicles/Section-4-Post-Fix-API-Full-2026-09-07.txt
+acaa0a5b579f7bc0f279d27e439422b941a178a10faff5e338ff0c2e19633a62  evidence/uat-round-3/section-4-vehicles/Section-4-Post-Fix-Delivery-Summary-2026-09-07.md
+cbad52be62e877773ca8c16347dc2dabdeca65db83705fa13b46dc6e8ab27692  evidence/uat-round-3/section-4-vehicles/Section-4-Post-Fix-Observed-Facts-2026-09-07.json
+a9f94f71f06730acd8e18b9d20c87a08334ec584d1b53aab9111c78cf3aa5a50  evidence/uat-round-3/section-4-vehicles/Section-4-Post-Fix-Playwright-Focused-2026-09-07.txt
+d8aacd936c415a3799d5405c301c625cba6e013990b8d11084ad31267ca5271e  evidence/uat-round-3/section-4-vehicles/Section-4-Post-Fix-Playwright-Full-2026-09-07.txt
+d9f54486fb1462b3e77fa4a00fdc68cf86502bff4f04874eb6ab1f462e0fe100  evidence/uat-round-3/section-4-vehicles/Section-4-Post-Fix-Playwright-Named-Round-3-2026-09-07.txt
+9a39779a7c38a1a5c27ca709d530547850ffafdce2c5ecc1d08e47e79a8fa05a  evidence/uat-round-3/section-4-vehicles/Section-4-Post-Fix-Portal-Health-2026-09-07.jpg
