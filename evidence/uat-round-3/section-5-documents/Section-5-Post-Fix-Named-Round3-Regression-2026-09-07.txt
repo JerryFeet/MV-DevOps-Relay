@@ -1,0 +1,42 @@
+
+> @workspace/hoa-portal@0.0.0 round3:regression:e2e /home/runner/workspace/artifacts/hoa-portal
+> playwright test --config playwright.config.ts --project=round3-regression --project=round3-section5-admin --project=round3-section5-signed-out
+
+[e2e pre-flight] Portal and API server are reachable ✓
+[dotenv@17.2.2] injecting env (0) from .env.local,.env -- tip: 📡 version env with Radar: https://dotenvx.com/radar
+[e2e setup] Clerk user exists: e2e-resident+clerk_test@example.com (user_3Ge2n30N1IFH4apQKNpegAxhXrq)
+[e2e setup] Clerk user exists: e2e-admin+clerk_test@example.com (user_3Ge2nDVktp277PStuqyqcM4lGyw)
+[e2e setup] Clerk user exists: e2e-verified-resident+clerk_test@example.com (user_3IDMLt6PwzxBsKMcNUP7wurtrKg)
+[e2e setup] Clerk user exists: e2e-guard+clerk_test@example.com (user_3IPsXz9FqjDpZplchPXYAdhbZKk)
+[e2e setup] Clerk user exists: e2e-round3-waha+clerk_test@example.com (user_3IyN5yujeJpHhRo8msOLhBmqM3i)
+[e2e setup] Clerk user exists: e2e-round3-vehicles+clerk_test@example.com (user_3Iz92g7olEdKKI5vHlBSIoh1NmX)
+
+Running 25 tests using 1 worker
+
+  ✓   1 [round3-vehicles-setup] › e2e/round3-vehicles.setup.ts:11:1 › authenticate isolated Round 3 vehicle resident (7.9s)
+  ✓   2 [round3-waha-second-credential-setup] › e2e/round3-waha-second-credential.setup.ts:9:1 › authenticate and seed round3 Waha Credential 2 resident (10.3s)
+  ✓   3 [admin-setup] › e2e/admin.auth.setup.ts:41:1 › authenticate as admin (13.3s)
+  ✓   4 [verified-resident-setup] › e2e/verified-resident.setup.ts:23:1 › authenticate and seed verified resident (7.2s)
+  ✓   5 [round3-section5-signed-out] › e2e/round3-section5-dalil-signed-out.spec.ts:3:1 › 5g — signed-out Dalil shows sign-in guidance and never calls the authenticated chat endpoint (3.7s)
+  ✓   6 [round3-documents-fixture-setup] › e2e/round3-documents-fixture.setup.ts:12:1 › create isolated Round 3 Section 5 document fixtures as admin (9.2s)
+  ✓   7 [round3-section5-admin] › e2e/round3-section5-documents-admin.spec.ts:10:3 › Round 3 Section 5 — admin document controls › 5d — folder add and edit contain no download/view-only default control (3.1s)
+  ✓   8 [round3-section5-admin] › e2e/round3-section5-documents-admin.spec.ts:28:3 › Round 3 Section 5 — admin document controls › 5e — a download-allowed document can become view-only and remains so after reload (7.5s)
+  ✓   9 [round3-section5-admin] › e2e/round3-section5-documents-admin.spec.ts:44:3 › Round 3 Section 5 — admin document controls › 5f — choosing view-only before a custom folder preserves view-only (5.9s)
+  ✓  10 [round3-regression] › e2e/round3-section1-booking.spec.ts:116:3 › Round 3 Section 1 — booking time and active-booking regressions › 1a — today's UI availability never renders an elapsed slot (3.4s)
+  ✓  11 [round3-regression] › e2e/round3-section1-booking.spec.ts:128:3 › Round 3 Section 1 — booking time and active-booking regressions › 1b — POST booking with an elapsed start is rejected (14.4s)
+  ✓  12 [round3-regression] › e2e/round3-section1-booking.spec.ts:170:3 › Round 3 Section 1 — booking time and active-booking regressions › 1c — a rejected cancellation remains visible instead of closing silently (16.3s)
+  ✓  13 [round3-regression] › e2e/round3-section1-booking.spec.ts:204:3 › Round 3 Section 1 — booking time and active-booking regressions › F12 — the UI exposes the active unit/facility rule on a second future booking (27.5s)
+  ✓  14 [round3-regression] › e2e/round3-section2-monthly-allowance.spec.ts:53:3 › Round 3 Section 2 — zero-price monthly allowance regression › a zero-priced facility booking consumes the monthly allowance (15.7s)
+  ✓  15 [round3-regression] › e2e/round3-section3-waha-second-credential.spec.ts:13:3 › Round 3 Section 3 — Waha application/unit and Credential 2 regressions › 3a — browser /mine is scoped to the current rotated unit (2.4s)
+  ✓  16 [round3-regression] › e2e/round3-section3-waha-second-credential.spec.ts:32:3 › Round 3 Section 3 — Credential 2 adult portal-access options › 3b — Assign Credential 2 omits the marked under-18 portal resident (2.9s)
+  ✓  17 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:33:3 › Round 3 Section 4 — vehicles and owner parking › 4a — owner-workflow legacy parking is selectable with lot number and type (2.4s)
+  ✓  18 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:56:3 › Round 3 Section 4 — vehicles and owner parking › 4b — vehicle registration has no Istimara field (2.1s)
+  ✓  19 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:72:3 › Round 3 Section 4 — vehicles and owner parking › 4c — clicking outside preserves the vehicle dialog and entered values (3.1s)
+  ✓  20 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:92:3 › Round 3 Section 4 — vehicles and owner parking › 4d — two vehicles may share one owner-registered lot and display its type (6.9s)
+  ✓  21 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:155:3 › Round 3 Section 4 — vehicles and owner parking › 4e — owner registration requires an explicit parking decision (2.9s)
+  ✓  22 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:166:3 › Round 3 Section 4 — vehicles and owner parking › 4f — tenant registration does not ask the tenant to declare parking (2.3s)
+  ✓  23 [round3-regression] › e2e/round3-section5-documents.spec.ts:8:3 › Round 3 Section 5 — resident document previews › 5a — resident view-only PDF uses portal-owned rendering, not a native browser plugin (6.4s)
+  ✓  24 [round3-regression] › e2e/round3-section5-documents.spec.ts:17:3 › Round 3 Section 5 — resident document previews › 5b — resident view-only Word document renders inside its sandboxed preview (4.7s)
+  ✓  25 [round3-regression] › e2e/round3-section5-documents.spec.ts:24:3 › Round 3 Section 5 — resident document previews › 5c — resident view-only image renders inside the portal preview (6.7s)
+
+  25 passed (3.3m)
