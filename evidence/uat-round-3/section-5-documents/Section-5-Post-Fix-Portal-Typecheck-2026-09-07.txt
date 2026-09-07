@@ -1,0 +1,4 @@
+
+> @workspace/hoa-portal@0.0.0 typecheck /home/runner/workspace/artifacts/hoa-portal
+> tsc -p tsconfig.json --noEmit
+
