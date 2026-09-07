@@ -1,0 +1,29 @@
+[e2e pre-flight] Portal and API server are reachable ✓
+[dotenv@17.2.2] injecting env (0) from .env.local,.env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+[e2e setup] Clerk user exists: e2e-resident+clerk_test@example.com (user_3Ge2n30N1IFH4apQKNpegAxhXrq)
+[e2e setup] Clerk user exists: e2e-admin+clerk_test@example.com (user_3Ge2nDVktp277PStuqyqcM4lGyw)
+[e2e setup] Clerk user exists: e2e-verified-resident+clerk_test@example.com (user_3IDMLt6PwzxBsKMcNUP7wurtrKg)
+[e2e setup] Clerk user exists: e2e-guard+clerk_test@example.com (user_3IPsXz9FqjDpZplchPXYAdhbZKk)
+[e2e setup] Clerk user exists: e2e-round3-waha+clerk_test@example.com (user_3IyN5yujeJpHhRo8msOLhBmqM3i)
+[e2e setup] Clerk user exists: e2e-round3-vehicles+clerk_test@example.com (user_3Iz92g7olEdKKI5vHlBSIoh1NmX)
+
+Running 16 tests using 1 worker
+
+  ✓   1 [round3-vehicles-setup] › e2e/round3-vehicles.setup.ts:11:1 › authenticate isolated Round 3 vehicle resident (11.7s)
+  ✓   2 [round3-waha-second-credential-setup] › e2e/round3-waha-second-credential.setup.ts:9:1 › authenticate and seed round3 Waha Credential 2 resident (7.3s)
+  ✓   3 [verified-resident-setup] › e2e/verified-resident.setup.ts:23:1 › authenticate and seed verified resident (7.7s)
+  ✓   4 [round3-regression] › e2e/round3-section1-booking.spec.ts:116:3 › Round 3 Section 1 — booking time and active-booking regressions › 1a — today's UI availability never renders an elapsed slot (2.8s)
+  ✓   5 [round3-regression] › e2e/round3-section1-booking.spec.ts:128:3 › Round 3 Section 1 — booking time and active-booking regressions › 1b — POST booking with an elapsed start is rejected (11.2s)
+  ✓   6 [round3-regression] › e2e/round3-section1-booking.spec.ts:170:3 › Round 3 Section 1 — booking time and active-booking regressions › 1c — a rejected cancellation remains visible instead of closing silently (19.7s)
+  ✓   7 [round3-regression] › e2e/round3-section1-booking.spec.ts:204:3 › Round 3 Section 1 — booking time and active-booking regressions › F12 — the UI exposes the active unit/facility rule on a second future booking (34.0s)
+  ✓   8 [round3-regression] › e2e/round3-section2-monthly-allowance.spec.ts:53:3 › Round 3 Section 2 — zero-price monthly allowance regression › a zero-priced facility booking consumes the monthly allowance (12.1s)
+  ✓   9 [round3-regression] › e2e/round3-section3-waha-second-credential.spec.ts:13:3 › Round 3 Section 3 — Waha application/unit and Credential 2 regressions › 3a — browser /mine is scoped to the current rotated unit (2.3s)
+  ✓  10 [round3-regression] › e2e/round3-section3-waha-second-credential.spec.ts:32:3 › Round 3 Section 3 — Credential 2 adult portal-access options › 3b — Assign Credential 2 omits the marked under-18 portal resident (2.5s)
+  ✓  11 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:33:3 › Round 3 Section 4 — vehicles and owner parking › 4a — owner-workflow legacy parking is selectable with lot number and type (2.0s)
+  ✓  12 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:56:3 › Round 3 Section 4 — vehicles and owner parking › 4b — vehicle registration has no Istimara field (2.0s)
+  ✓  13 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:72:3 › Round 3 Section 4 — vehicles and owner parking › 4c — clicking outside preserves the vehicle dialog and entered values (2.4s)
+  ✓  14 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:92:3 › Round 3 Section 4 — vehicles and owner parking › 4d — two vehicles may share one owner-registered lot and display its type (8.5s)
+  ✓  15 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:155:3 › Round 3 Section 4 — vehicles and owner parking › 4e — owner registration requires an explicit parking decision (2.4s)
+  ✓  16 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:166:3 › Round 3 Section 4 — vehicles and owner parking › 4f — tenant registration does not ask the tenant to declare parking (2.2s)
+
+  16 passed (2.4m)
