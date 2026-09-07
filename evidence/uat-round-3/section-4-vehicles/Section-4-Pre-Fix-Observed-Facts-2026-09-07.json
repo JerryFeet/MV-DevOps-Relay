@@ -1,0 +1,19 @@
+{
+  "section": "Round 3 Section 4 — vehicles and parking",
+  "boundary": "pre-fix",
+  "focusedRun": {
+    "productFailures": 5,
+    "productPasses": 1,
+    "setupPasses": 3,
+    "retriesConfirmed": true
+  },
+  "observations": {
+    "legacyOwnerParkingSelectable": false,
+    "istimaraFieldVisible": true,
+    "outsideClickPreservedDialogState": false,
+    "firstVehicleCreatedAndDisplayedLotType": true,
+    "secondVehicleSameLotHttpStatus": 409,
+    "explicitNoParkingLotOptionVisible": false,
+    "tenantAskedToRedeclareParking": false
+  }
+}
