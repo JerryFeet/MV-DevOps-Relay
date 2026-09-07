@@ -14,7 +14,8 @@
     "stage5:regression:api": "node scripts/stage5-regression.mjs --suites=api-typecheck,api-vitest",
     "stage5:regression:portal": "node scripts/stage5-regression.mjs --suites=portal-typecheck,portal-vitest",
     "stage5:regression:mobile": "node scripts/stage5-regression.mjs --suites=mobile-typecheck,mobile-vitest",
-    "stage5:regression:e2e": "node scripts/stage5-regression.mjs --suites=portal-playwright"
+    "stage5:regression:e2e": "node scripts/stage5-regression.mjs --suites=portal-playwright",
+    "round3:regression:e2e": "pnpm --filter @workspace/hoa-portal run round3:regression:e2e"
   },
   "private": true,
   "devDependencies": {
