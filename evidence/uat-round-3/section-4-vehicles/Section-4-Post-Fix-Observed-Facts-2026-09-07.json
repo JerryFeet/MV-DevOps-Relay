@@ -1,0 +1,27 @@
+{
+  "section": "Round 3 Section 4 — vehicles and parking",
+  "boundary": "post-fix",
+  "legacyCompatibilityStrategy": {
+    "choice": "materialize legacy owner parking into normalized parking rows",
+    "reason": "vehicle assignment requires a persistent parking-lot identity and historical lot/type display"
+  },
+  "behaviors": {
+    "legacyOwnerParkingSelectable": true,
+    "lotNumberAndTypeVisible": true,
+    "multipleVehiclesMayShareLot": true,
+    "istimaraInRegistration": false,
+    "outsideClickClosesDialog": false,
+    "escapeClosesDialog": false,
+    "ownerParkingDecisionRequired": true,
+    "explicitNoParkingLotAvailable": true,
+    "tenantAskedToRedeclareParking": false
+  },
+  "validation": {
+    "portalTypecheck": "passed",
+    "focusedApi": { "passed": 71, "failed": 0 },
+    "focusedSection4Playwright": { "passed": 9, "failed": 0 },
+    "namedRound3Playwright": { "passed": 16, "failed": 0 },
+    "fullApi": { "passed": 1478, "skipped": 26, "failed": 0 },
+    "completePlaywright": { "passed": 99, "skipped": 9, "failed": 0 }
+  }
+}
