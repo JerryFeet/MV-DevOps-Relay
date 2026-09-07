@@ -1,0 +1,181 @@
+ DEPRECATED  `test.poolOptions` was removed in Vitest 4. All previous `poolOptions` are now top-level options. Please, refer to the migration guide: https://vitest.dev/guide/migration#pool-rework
+
+ RUN  v4.1.9 /home/runner/workspace/artifacts/hoa-portal
+
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_title" has a non-empty Arabic translation 4ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_subtitle" has a non-empty Arabic translation 1ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_verified_owner" has a non-empty Arabic translation 2ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_verified_tenant" has a non-empty Arabic translation 1ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_unit_label" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_owner_confirmed" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_tenant_confirmed" has a non-empty Arabic translation 1ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_tenant_requests" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_no_tenant_requests" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_expires" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_national_id" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_ejar" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_awaiting_manual" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_awaiting_owner" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_pending_manual_desc" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_pending_owner_desc" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_link_desc" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_not_linked_warning" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_i_am" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_owner" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_tenant" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_owner_desc" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_tenant_desc" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_ownership_verified" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_auto_approved_desc" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_submitted_review" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_sent_to_owner_result" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_pending_manual_result_desc" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_pending_owner_result_desc" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_owner_verification" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_tenant_linkage" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_owner_form_desc" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_tenant_form_desc" has a non-empty Arabic translation 3ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_building" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_building_placeholder" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_unit_number" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_unit_placeholder" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_national_id_placeholder" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_ejar_placeholder" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_auto_match_note" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_verify_ownership" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_send_to_owner" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_verified_toast" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_submitted_toast" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_sent_to_owner_toast" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_tenant_approved" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_tenant_rejected" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "common_error" has a non-empty Arabic translation 1ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "common_back" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "common_approve" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "common_decline" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "common_submitting" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "common_recommended" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "uv_parking_lot_incomplete" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "sg11_tenant_approval_basis" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "sg11_ejar_contract_verified" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "sg11_tenant_known_to_me" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "sg11_other" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit Verification page Arabic translations — completeness > key "sg11_other_placeholder" has a non-empty Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > T1 and T15 — exact bilingual entry-point and move-out warning contracts > uses the mandated combined owner/tenant labels on the main screen and sidebar 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > T1 and T15 — exact bilingual entry-point and move-out warning contracts > shows the exact bilingual approved-permit gate fine warning on the tenancy form 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit verification action button labels — length guard (≤ 20 chars) > Arabic label for "uv_verify_ownership" is ≤ 20 characters 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit verification action button labels — length guard (≤ 20 chars) > Arabic label for "uv_send_to_owner" is ≤ 20 characters 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit verification action button labels — length guard (≤ 20 chars) > Arabic label for "common_approve" is ≤ 20 characters 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit verification action button labels — length guard (≤ 20 chars) > Arabic label for "common_decline" is ≤ 20 characters 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Unit verification action button labels — length guard (≤ 20 chars) > Arabic label for "common_back" is ≤ 20 characters 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Role selection card labels — Arabic counterparts > role card label "uv_owner" has Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Role selection card labels — Arabic counterparts > role card label "uv_tenant" has Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Role selection card labels — Arabic counterparts > role card label "uv_owner_desc" has Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Role selection card labels — Arabic counterparts > role card label "uv_tenant_desc" has Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Role selection card labels — Arabic counterparts > role card label "uv_i_am" has Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Verification status headings — Arabic counterparts > status heading "uv_verified_owner" has Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Verification status headings — Arabic counterparts > status heading "uv_verified_tenant" has Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Verification status headings — Arabic counterparts > status heading "uv_awaiting_manual" has Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Verification status headings — Arabic counterparts > status heading "uv_awaiting_owner" has Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Verification status headings — Arabic counterparts > status heading "uv_ownership_verified" has Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Verification status headings — Arabic counterparts > status heading "uv_submitted_review" has Arabic translation 0ms
+ ✓ src/__tests__/unitVerificationArabicLayout.test.ts > Verification status headings — Arabic counterparts > status heading "uv_sent_to_owner_result" has Arabic translation 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_admin_parking_title" has non-empty English translation 5ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_admin_parking_title" has non-empty Arabic translation differing from English 6ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_type" has non-empty English translation 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_type" has non-empty Arabic translation differing from English 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_underground" has non-empty English translation 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_underground" has non-empty Arabic translation differing from English 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_surface" has non-empty English translation 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_surface" has non-empty Arabic translation differing from English 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_add" has non-empty English translation 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_add" has non-empty Arabic translation differing from English 1ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_edit" has non-empty English translation 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_edit" has non-empty Arabic translation differing from English 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_delete" has non-empty English translation 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_delete" has non-empty Arabic translation differing from English 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_confirm_delete" has non-empty English translation 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_confirm_delete" has non-empty Arabic translation differing from English 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_add_title" has non-empty English translation 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_add_title" has non-empty Arabic translation differing from English 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_edit_title" has non-empty English translation 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_edit_title" has non-empty Arabic translation differing from English 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_building_label" has non-empty English translation 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_building_label" has non-empty Arabic translation differing from English 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_lot_label" has non-empty English translation 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_lot_label" has non-empty Arabic translation differing from English 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_save" has non-empty English translation 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_save" has non-empty Arabic translation differing from English 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_saving" has non-empty English translation 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_saving" has non-empty Arabic translation differing from English 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_added" has non-empty English translation 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_added" has non-empty Arabic translation differing from English 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_updated" has non-empty English translation 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_updated" has non-empty Arabic translation differing from English 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_deleted" has non-empty English translation 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_deleted" has non-empty Arabic translation differing from English 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_error_duplicate" has non-empty English translation 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_error_duplicate" has non-empty Arabic translation differing from English 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_active" has non-empty English translation 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_active" has non-empty Arabic translation differing from English 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_inactive" has non-empty English translation 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking panel — translation completeness > key "unit_reg_parking_inactive" has non-empty Arabic translation differing from English 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Parking panel action button labels — Arabic length guard (≤ 20 chars) > Arabic label for "unit_reg_parking_add" is ≤ 20 characters 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Parking panel action button labels — Arabic length guard (≤ 20 chars) > Arabic label for "unit_reg_parking_edit" is ≤ 20 characters 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Parking panel action button labels — Arabic length guard (≤ 20 chars) > Arabic label for "unit_reg_parking_delete" is ≤ 20 characters 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Parking panel action button labels — Arabic length guard (≤ 20 chars) > Arabic label for "unit_reg_parking_save" is ≤ 20 characters 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Corrections panel — translation completeness > key "unit_reg_corrections_title" has non-empty English translation 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Corrections panel — translation completeness > key "unit_reg_corrections_title" has non-empty Arabic translation differing from English 1ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Corrections panel — translation completeness > key "unit_reg_corrections_empty" has non-empty English translation 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Corrections panel — translation completeness > key "unit_reg_corrections_empty" has non-empty Arabic translation differing from English 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Corrections panel — translation completeness > key "unit_reg_correction_entity" has non-empty English translation 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Corrections panel — translation completeness > key "unit_reg_correction_entity" has non-empty Arabic translation differing from English 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Corrections panel — translation completeness > key "unit_reg_correction_source_ref" has non-empty English translation 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Corrections panel — translation completeness > key "unit_reg_correction_source_ref" has non-empty Arabic translation differing from English 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Corrections panel — translation completeness > key "unit_reg_correction_issue" has non-empty English translation 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Corrections panel — translation completeness > key "unit_reg_correction_issue" has non-empty Arabic translation differing from English 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Corrections panel — translation completeness > key "unit_reg_correction_details" has non-empty English translation 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Corrections panel — translation completeness > key "unit_reg_correction_details" has non-empty Arabic translation differing from English 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Corrections panel — translation completeness > key "unit_reg_correction_created" has non-empty English translation 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Corrections panel — translation completeness > key "unit_reg_correction_created" has non-empty Arabic translation differing from English 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Parking type labels — differentiation > English underground and surface labels differ 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Parking type labels — differentiation > Arabic underground and surface labels differ 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Parking type labels — differentiation > English underground label is non-empty 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Parking type labels — differentiation > Arabic underground label is non-empty 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Admin parking section title — Arabic length guard (≤ 40 chars) > Arabic section title is ≤ 40 characters (fits inline header) 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Parking status badge labels > English active and inactive labels are non-empty 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Parking status badge labels > Arabic active and inactive labels are non-empty 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Parking status badge labels > English active and inactive labels differ 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Parking status badge labels > Arabic active and inactive labels differ 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Corrections panel — safe identifier rendering > renders entityType 12ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Corrections panel — safe identifier rendering > renders sourceReference 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Corrections panel — safe identifier rendering > renders issueCode 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Corrections panel — safe identifier rendering > renders details 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Corrections panel — safe identifier rendering > falls back to dash when sourceReference is null 1ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Corrections panel — safe identifier rendering > falls back to dash when details is null 0ms
+ ✓ src/__tests__/unitRegistryAdminParking.test.ts > Corrections panel — safe identifier rendering > does not reference rawPayload field 7ms
+ ✓ src/__tests__/unitRegistryRound3C6Presentation.test.ts > Round 3 C-6 — many-booking registry UI > keeps every booking row in an independently bounded, keyboard-reachable scroll list 3ms
+ ✓ src/__tests__/unitRegistryRound3C6Presentation.test.ts > Round 3 C-6 — normalized parking presentation > returns canonical parking lots with the fields needed for the registry count and rows 1ms
+ ✓ src/__tests__/unitRegistryRound3C6Presentation.test.ts > Round 3 C-6 — normalized parking presentation > renders the normalized lot count and type, rather than parsing legacy unit JSON 0ms
+ ✓ src/__tests__/unitRegistryRound3C6Presentation.test.ts > Round 3 C-6 — normalized parking presentation > mounts exactly one admin parking editor for a unit detail sheet 2ms
+ ✓ src/__tests__/unitRegistryRound3C6Presentation.test.ts > Round 3 C-6 — ownership reference label > labels a title-reference value accurately instead of using an owner-name identifier 0ms
+ ✓ src/__tests__/unitRegistryRound3C6Presentation.test.ts > Round 3 C-6 — refreshed selected-unit detail > uses the current query row for an open stable unit ID, including refreshed bookings 1ms
+ ✓ src/__tests__/task735-portal.test.tsx > Task 735 - Monthly Free Booking and Unit Master Data UI > renders the free allowance badge on the booking card when paymentExemptionReason is monthly_free_allowance 59ms
+ ✓ src/__tests__/task735-portal.test.tsx > Task 735 - Monthly Free Booking and Unit Master Data UI > shows explicit free booking cancellation warning when cancel is clicked 125ms
+ ✓ src/__tests__/task735-portal.test.tsx > Task 735 - Monthly Free Booking and Unit Master Data UI > checks GET /bookings/monthly-allowance is the expected contract source 1ms
+ ✓ src/__tests__/task735-portal.test.tsx > Task 735 - Monthly Free Booking and Unit Master Data UI > checks skipping /payments/create when paymentExemptionReason is monthly_free_allowance 0ms
+ ✓ src/__tests__/task735-portal.test.tsx > Task 735 - Monthly Free Booking and Unit Master Data UI > Round 3 C-5 browser regression only exposes Pay Now after approval advances the booking to pending_payment 13ms
+ ✓ src/__tests__/task735-portal.test.tsx > Task 735 - Monthly Free Booking and Unit Master Data UI > checks PATCH /units/:id sends building and unitNumber only 2ms
+ ✓ src/__tests__/task735-portal.test.tsx > Task 735 - Monthly Free Booking and Unit Master Data UI > checks GET /units/:id/history returns master data audit history 1ms
+ ✓ src/__tests__/task735-portal.test.tsx > Task 735 - Monthly Free Booking and Unit Master Data UI > invalidates the visible unit audit history immediately after a correction 1ms
+ ✓ src/__tests__/task735-portal.test.tsx > Task 735 - Monthly Free Booking and Unit Master Data UI > validates structured PARKING_ENTITLEMENT_OVERALLOCATED is parsed properly 0ms
+
+ Test Files  4 passed (4)
+      Tests  167 passed (167)
+   Start at  10:07:16
+   Duration  7.08s (transform 1.83s, setup 556ms, import 6.16s, tests 279ms, environment 6.22s)
+
+
+> @workspace/hoa-portal@0.0.0 typecheck /home/runner/workspace/artifacts/hoa-portal
+> tsc -p tsconfig.json --noEmit
+
