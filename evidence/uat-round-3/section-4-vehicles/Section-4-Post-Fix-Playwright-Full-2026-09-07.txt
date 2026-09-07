@@ -1,0 +1,162 @@
+
+> @workspace/hoa-portal@0.0.0 e2e /home/runner/workspace/artifacts/hoa-portal
+> playwright test --config playwright.config.ts
+
+[e2e pre-flight] Portal and API server are reachable ✓
+[dotenv@17.2.2] injecting env (0) from .env.local,.env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+[e2e setup] Clerk user exists: e2e-resident+clerk_test@example.com (user_3Ge2n30N1IFH4apQKNpegAxhXrq)
+[e2e setup] Clerk user exists: e2e-admin+clerk_test@example.com (user_3Ge2nDVktp277PStuqyqcM4lGyw)
+[e2e setup] Clerk user exists: e2e-verified-resident+clerk_test@example.com (user_3IDMLt6PwzxBsKMcNUP7wurtrKg)
+[e2e setup] Clerk user exists: e2e-guard+clerk_test@example.com (user_3IPsXz9FqjDpZplchPXYAdhbZKk)
+[e2e setup] Clerk user exists: e2e-round3-waha+clerk_test@example.com (user_3IyN5yujeJpHhRo8msOLhBmqM3i)
+[e2e setup] Clerk user exists: e2e-round3-vehicles+clerk_test@example.com (user_3Iz92g7olEdKKI5vHlBSIoh1NmX)
+
+Running 108 tests using 1 worker
+
+(node:14013) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    1 [mobile-sidebar-setup] › e2e/mobile-sidebar-resident.setup.ts:21:1 › authenticate as resident (mobile-sidebar isolated session) (10.4s)
+(node:14150) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    2 [guard-setup] › e2e/guard.auth.setup.ts:35:1 › authenticate and seed guard gate walkthrough (7.8s)
+(node:14287) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    3 [resident-setup] › e2e/auth.setup.ts:18:1 › authenticate as resident (6.1s)
+(node:14426) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    4 [admin-setup] › e2e/admin.auth.setup.ts:41:1 › authenticate as admin (11.5s)
+(node:14565) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    5 [round3-vehicles-setup] › e2e/round3-vehicles.setup.ts:11:1 › authenticate isolated Round 3 vehicle resident (6.6s)
+(node:14702) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    6 [round3-waha-second-credential-setup] › e2e/round3-waha-second-credential.setup.ts:9:1 › authenticate and seed round3 Waha Credential 2 resident (6.7s)
+(node:14842) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    7 [verified-resident-setup] › e2e/verified-resident.setup.ts:23:1 › authenticate and seed verified resident (6.0s)
+(node:14980) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    8 [p4-evidence-public] › e2e/p1-p4-browser-evidence.spec.ts:174:3 › UAT workbook evidence — P4 homepage map › P4-R1 — Madain Village map remains centered at desktop and 390px (3.3s)
+  ✓    9 [p4-evidence-public] › e2e/p1-p4-browser-evidence.spec.ts:205:3 › UAT workbook evidence — P4 homepage map › P4-R2 — unsupported legacy map coordinate is deliberately refused (1.5s)
+(node:15148) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   10 [round3-regression] › e2e/round3-section1-booking.spec.ts:116:3 › Round 3 Section 1 — booking time and active-booking regressions › 1a — today's UI availability never renders an elapsed slot (2.6s)
+  ✓   11 [round3-regression] › e2e/round3-section1-booking.spec.ts:128:3 › Round 3 Section 1 — booking time and active-booking regressions › 1b — POST booking with an elapsed start is rejected (12.9s)
+  ✓   12 [round3-regression] › e2e/round3-section1-booking.spec.ts:170:3 › Round 3 Section 1 — booking time and active-booking regressions › 1c — a rejected cancellation remains visible instead of closing silently (14.6s)
+  ✓   13 [round3-regression] › e2e/round3-section1-booking.spec.ts:204:3 › Round 3 Section 1 — booking time and active-booking regressions › F12 — the UI exposes the active unit/facility rule on a second future booking (23.7s)
+  ✓   14 [round3-regression] › e2e/round3-section2-monthly-allowance.spec.ts:53:3 › Round 3 Section 2 — zero-price monthly allowance regression › a zero-priced facility booking consumes the monthly allowance (12.5s)
+  ✓   15 [round3-regression] › e2e/round3-section3-waha-second-credential.spec.ts:13:3 › Round 3 Section 3 — Waha application/unit and Credential 2 regressions › 3a — browser /mine is scoped to the current rotated unit (2.5s)
+  ✓   16 [round3-regression] › e2e/round3-section3-waha-second-credential.spec.ts:32:3 › Round 3 Section 3 — Credential 2 adult portal-access options › 3b — Assign Credential 2 omits the marked under-18 portal resident (2.0s)
+  ✓   17 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:33:3 › Round 3 Section 4 — vehicles and owner parking › 4a — owner-workflow legacy parking is selectable with lot number and type (2.8s)
+  ✓   18 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:56:3 › Round 3 Section 4 — vehicles and owner parking › 4b — vehicle registration has no Istimara field (2.8s)
+  ✓   19 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:72:3 › Round 3 Section 4 — vehicles and owner parking › 4c — clicking outside preserves the vehicle dialog and entered values (2.3s)
+  ✓   20 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:92:3 › Round 3 Section 4 — vehicles and owner parking › 4d — two vehicles may share one owner-registered lot and display its type (9.0s)
+  ✓   21 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:155:3 › Round 3 Section 4 — vehicles and owner parking › 4e — owner registration requires an explicit parking decision (2.2s)
+  ✓   22 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:166:3 › Round 3 Section 4 — vehicles and owner parking › 4f — tenant registration does not ask the tenant to declare parking (1.8s)
+(node:15775) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   23 [workbook-resident] › e2e/workbook-resident-walkthrough.spec.ts:24:3 › Go-Live Workbook Section B — verified resident › B3 — Waha Pass is presented as a facility-access credential (2.0s)
+  -   24 [workbook-resident] › e2e/workbook-resident-walkthrough.spec.ts:41:8 › Go-Live Workbook Section B — verified resident › B4 — owner verification form labels parking exactly “Underground Parking”
+  ✓   25 [workbook-resident] › e2e/workbook-resident-walkthrough.spec.ts:43:3 › Go-Live Workbook Section B — verified resident › B5 — household member phone selector defaults to Saudi Arabia (2.3s)
+  ✓   26 [workbook-resident] › e2e/workbook-resident-walkthrough.spec.ts:60:3 › Go-Live Workbook Section B — verified resident › B6 — resident cannot reach document upload or delete controls (2.1s)
+  ✓   27 [workbook-resident] › e2e/workbook-resident-walkthrough.spec.ts:77:3 › Go-Live Workbook Section B — verified resident › B8 — Maintenance is absent from resident navigation and resolves to the portal 404 (2.6s)
+  ✓   28 [workbook-resident] › e2e/workbook-resident-walkthrough.spec.ts:91:3 › Go-Live Workbook Section B — verified resident › B9 — Dalil opens with its introductory no-personal-data disclosure (2.3s)
+  ✓   29 [workbook-resident] › e2e/workbook-resident-walkthrough.spec.ts:103:3 › Go-Live Workbook Section B — verified resident › B12 — facility calendar and slots display only when seeded availability is visible (2.8s)
+(node:16079) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   30 [workbook-admin] › e2e/workbook-admin-walkthrough.spec.ts:33:3 › Go-Live Workbook Section E — admin console (read-only) › E1 — admin identity is role-first and never shows resident verification gating (3.0s)
+  ✓   31 [workbook-admin] › e2e/workbook-admin-walkthrough.spec.ts:48:3 › Go-Live Workbook Section E — admin console (read-only) › E2 — every visible attention queue exposes a numeric count and label (2.4s)
+  ✓   32 [workbook-admin] › e2e/workbook-admin-walkthrough.spec.ts:74:3 › Go-Live Workbook Section E — admin console (read-only) › E4 — admin dashboard deliberately has no tenancy-approval queue (2.6s)
+  ✓   33 [workbook-admin] › e2e/workbook-admin-walkthrough.spec.ts:85:3 › Go-Live Workbook Section E — admin console (read-only) › E6 — HOA COMMON is excluded from the Unit Registry and its count (2.6s)
+  -   34 [workbook-admin] › e2e/workbook-admin-walkthrough.spec.ts:116:8 › Go-Live Workbook Section E — admin console (read-only) › E7 — Unit Registry record displays names, mobiles, IDs, parking and resident counts
+  -   35 [workbook-admin] › e2e/workbook-admin-walkthrough.spec.ts:118:3 › Go-Live Workbook Section E — admin console (read-only) › E13/G1/G2 — safe seeded tenancy release preview reports planned destruction and paid impact
+(node:16345) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   36 [p1-evidence-resident] › e2e/p1-p4-browser-evidence.spec.ts:81:3 › UAT workbook evidence — P1 unit selectors › P1-R1/P1-R2 — resident tenant verification uses canonical selectors in English and Arabic (2.5s)
+  ✓   37 [p1-evidence-resident] › e2e/p1-p4-browser-evidence.spec.ts:98:3 › UAT workbook evidence — P1 unit selectors › P1-O1 — owner form source remains selector-backed (deliberate refusal) (2.2s)
+(node:16508) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   38 [p1-evidence-guard] › e2e/p1-p4-browser-evidence.spec.ts:114:3 › UAT workbook evidence — P1 unit selectors › P1-G1/P1-G2 — guard resident and permit searches reject non-canonical input (3.2s)
+(node:16631) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   39 [p1-evidence-admin] › e2e/p1-p4-browser-evidence.spec.ts:135:3 › UAT workbook evidence — P1 unit selectors › P1-A1/A2/A3 — admin unit selectors exclude HOA COMMON in all operational filters (10.1s)
+(node:16775) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   40 [resident] › e2e/admin-access-guard.spec.ts:57:3 › Admin page — frontend redirect guard › resident is redirected away from /portal/admin (2.2s)
+  ✓   41 [resident] › e2e/admin-access-guard.spec.ts:65:3 › Admin page — frontend redirect guard › admin stat cards are NOT rendered for a resident (1.2s)
+  ✓   42 [resident] › e2e/admin-access-guard.spec.ts:75:3 › Admin page — frontend redirect guard › admin section buttons (Users, Move Forms, Permits) are NOT visible (938ms)
+  ✓   43 [resident] › e2e/admin-access-guard.spec.ts:91:3 › Admin API — role guards return 403 for resident › GET /api/admin/summary returns 403 (1.9s)
+  ✓   44 [resident] › e2e/admin-access-guard.spec.ts:102:3 › Admin API — role guards return 403 for resident › PATCH /api/move-forms/:id/status returns 403 (role check fires before resource lookup) (2.0s)
+  ✓   45 [resident] › e2e/admin-access-guard.spec.ts:117:3 › Admin API — role guards return 403 for resident › PATCH /api/permits/:id/status returns 404 for a non-existent permit (role check passes, resource not found) (1.7s)
+  ✓   46 [resident] › e2e/announcements.spec.ts:10:3 › Announcements › page loads and shows announcements heading (1.9s)
+  ✓   47 [resident] › e2e/announcements.spec.ts:19:3 › Announcements › announcement list renders (has at least one card or empty state) (2.0s)
+  ✓   48 [resident] › e2e/announcements.spec.ts:33:3 › Announcements › admin-only Create button is NOT visible for resident (1.2s)
+  ✓   49 [resident] › e2e/communications.spec.ts:6:3 › Contact HOA — verified owner › shows the scope note before enabled submission controls (2.0s)
+  ✓   50 [resident] › e2e/documents.spec.ts:10:3 › Document Library › documents page loads with correct heading (1.7s)
+  ✓   51 [resident] › e2e/documents.spec.ts:19:3 › Document Library › document list renders or shows empty state (2.0s)
+  ✓   52 [resident] › e2e/documents.spec.ts:30:3 › Document Library › secure download or view control is present when documents exist (2.0s)
+  ✓   53 [resident] › e2e/documents.spec.ts:47:3 › Document Library › folder navigation is visible (2.2s)
+  ✓   54 [resident] › e2e/facilities.spec.ts:21:3 › Facility Booking › facilities list page loads (2.0s)
+  ✓   55 [resident] › e2e/facilities.spec.ts:31:3 › Facility Booking › facility card, empty state, or Waha Pass gate is shown (1.7s)
+  -   56 [resident] › e2e/facilities.spec.ts:52:3 › Facility Booking › clicking a facility shows the booking panel
+  ✓   57 [resident] › e2e/facilities.spec.ts:100:3 › Facility Booking › My Bookings tab shows existing bookings or empty state (1.9s)
+  ✓   58 [resident] › e2e/facilities.spec.ts:134:3 › Facility Booking — Verified Resident (Waha Pass seeded) › booking panel is accessible for a resident with an active Waha Pass (3.1s)
+  -   59 [resident] › e2e/facilities.spec.ts:197:3 › Facility Booking — end-to-end create and cancel › unitless admin can book a facility via the wizard and cancel from My Bookings
+  ✓   60 [resident] › e2e/guests.spec.ts:11:3 › Guest Registration › guest page loads with correct heading (2.2s)
+  ✓   61 [resident] › e2e/guests.spec.ts:20:3 › Guest Registration › register guest button or verification prompt is visible (2.0s)
+  -   62 [resident] › e2e/guests.spec.ts:36:3 › Guest Registration › guest registration dialog opens when button is clicked (verified user)
+  ✓   63 [resident] › e2e/guests.spec.ts:69:3 › Guest Registration › guest list shows existing guests or empty state (1.9s)
+  ✓   64 [resident] › e2e/guests.spec.ts:87:3 › Guest Registration — Verified Resident › guest registration dialog opens for verified resident (1.8s)
+  ✓   65 [resident] › e2e/key-contacts-drawer.spec.ts:20:3 › Key Contacts & Notices drawer › drawer opens after clicking the card (1.8s)
+  ✓   66 [resident] › e2e/key-contacts-drawer.spec.ts:34:3 › Key Contacts & Notices drawer › English section headings are present in the open drawer (1.9s)
+  ✓   67 [resident] › e2e/key-contacts-drawer.spec.ts:53:3 › Key Contacts & Notices drawer › Arabic section headings are present after switching language (1.9s)
+  ✓   68 [resident] › e2e/key-contacts-drawer.spec.ts:79:3 › Key Contacts & Notices drawer › all 5 disclaimer items are visible in the drawer (1.8s)
+  ✓   69 [resident] › e2e/key-contacts-drawer.spec.ts:100:3 › Key Contacts & Notices drawer › all three contact rows show 'Not yet configured' when settings returns empty (2.4s)
+  ✓   70 [resident] › e2e/owner-admin-redirect.spec.ts:41:3 › Owner redirect — admin-only routes › owner navigating to /portal/admin is redirected to /portal (1.7s)
+  ✓   71 [resident] › e2e/owner-admin-redirect.spec.ts:52:3 › Owner redirect — admin-only routes › no admin stat cards are rendered when owner is redirected from /portal/admin (1.7s)
+  ✓   72 [resident] › e2e/owner-admin-redirect.spec.ts:65:3 › Owner redirect — admin-only routes › no admin section buttons are rendered when owner is redirected from /portal/admin (1.7s)
+  ✓   73 [resident] › e2e/owner-admin-redirect.spec.ts:77:3 › Owner redirect — admin-only routes › owner navigating to /portal/admin/historical-records is redirected to /portal (1.7s)
+  ✓   74 [resident] › e2e/owner-admin-redirect.spec.ts:89:3 › Owner redirect — admin-only routes › owner navigating to /portal/unit-registry is redirected to /portal (2.0s)
+  ✓   75 [resident] › e2e/owner-admin-redirect.spec.ts:101:3 › Owner redirect — admin-only routes › owner navigating to /portal/security-gate is redirected to /portal (1.7s)
+  ✓   76 [resident] › e2e/resident-role-redirect.spec.ts:50:3 › Role redirect — guard › guard is redirected to /portal/security-gate after sign-in (2.0s)
+  -   77 [resident] › e2e/resident-role-redirect.spec.ts:81:3 › Role redirect — supervisor (X6: role removed) › supervisor is no longer a valid role — admin-only guard confirmed by other specs
+  ✓   78 [resident] › e2e/resident-role-redirect.spec.ts:87:3 › Role redirect — tenant regression › tenant stays on /portal after sign-in (no redirect) (4.1s)
+  ✓   79 [resident] › e2e/resident-role-redirect.spec.ts:108:3 › Role redirect — owner regression › owner stays on /portal after sign-in (not redirected to admin) (4.2s)
+  ✓   80 [resident] › e2e/resident-role-redirect.spec.ts:128:3 › Role redirect — guard, direct navigation › guard is redirected to the Security Gate when navigating directly (1.7s)
+  ✓   81 [resident] › e2e/resident-role-redirect.spec.ts:139:3 › Role redirect — tenant, direct navigation (no sign-in flag) › tenant stays on /portal when navigating directly (no sign-in flag) (4.1s)
+  ✓   82 [resident] › e2e/vehicles.spec.ts:10:3 › Vehicle Registration › vehicles page loads with correct heading (1.8s)
+  ✓   83 [resident] › e2e/vehicles.spec.ts:19:3 › Vehicle Registration › register vehicle button or verification prompt is visible (2.0s)
+  -   84 [resident] › e2e/vehicles.spec.ts:35:3 › Vehicle Registration › add vehicle dialog opens when button is clicked (verified user)
+  ✓   85 [resident] › e2e/vehicles.spec.ts:61:3 › Vehicle Registration › vehicle list shows existing vehicles or empty state (2.1s)
+  ✓   86 [resident] › e2e/vehicles.spec.ts:85:3 › Vehicle Registration — Verified Resident › add vehicle dialog opens for verified resident (3.0s)
+(node:18456) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   87 [mobile-sidebar] › e2e/mobile-sidebar.spec.ts:33:3 › Mobile sidebar — account actions › Manage account button opens the Clerk user-profile modal (3.2s)
+  ✓   88 [mobile-sidebar] › e2e/mobile-sidebar.spec.ts:67:3 › Mobile sidebar — account actions › Sign out button redirects to the sign-in page (3.4s)
+(node:18618) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   89 [admin] › e2e/admin-role-redirect.spec.ts:24:3 › Role redirect — admin › admin is redirected to /portal/admin after sign-in (3.0s)
+  ✓   90 [admin] › e2e/admin-role-redirect.spec.ts:35:3 › Role redirect — admin › admin stays on /portal when navigating directly (no sign-in flag) (944ms)
+  ✓   91 [admin] › e2e/admin.spec.ts:13:3 › Admin Dashboard › admin page loads without redirect (869ms)
+  ✓   92 [admin] › e2e/admin.spec.ts:20:3 › Admin Dashboard › AD6 puts attention first and community health metrics last (2.1s)
+  ✓   93 [admin] › e2e/admin.spec.ts:49:3 › Admin Dashboard › AD6 attention panel fits a 390px viewport without horizontal overflow (2.3s)
+  ✓   94 [admin] › e2e/admin.spec.ts:61:3 › Admin Dashboard › Unit Verification Queue section is visible (2.3s)
+  ✓   95 [admin] › e2e/admin.spec.ts:71:3 › Admin Dashboard › Move Forms section is visible (2.1s)
+  ✓   96 [admin] › e2e/admin.spec.ts:80:3 › Admin Dashboard › Permits section is visible (1.9s)
+  ✓   97 [admin] › e2e/admin.spec.ts:89:3 › Admin Dashboard › Tenancy releases panel is visible for an admin (2.3s)
+  ✓   98 [admin] › e2e/admin.spec.ts:98:3 › Admin Dashboard › non-admin is redirected away from /portal/admin (2.7s)
+  ✓   99 [admin] › e2e/documents-admin.spec.ts:16:3 › Document Library — admin visibility model › admin sees the document management controls (3.0s)
+  ✓  100 [admin] › e2e/documents-admin.spec.ts:28:3 › Document Library — admin visibility model › admin document list renders or shows empty state (1.7s)
+  -  101 [admin] › e2e/documents-admin.spec.ts:38:3 › Document Library — admin visibility model › admin sees visibility restriction badges when documents exist
+  ✓  102 [admin] › e2e/documents-admin.spec.ts:58:3 › Document Library — admin visibility model › API document response does not expose fileUrl to admin (3.9s)
+  ✓  103 [admin] › e2e/documents-admin.spec.ts:82:3 › Document Library — admin visibility model › folder navigation renders with both English and Arabic names (1.7s)
+  ✓  104 [admin] › e2e/key-contacts-round-trip.spec.ts:56:3 › Key Contacts — required three-contact contract › shows only Security, Technical Maintenance, and Developer contacts (3.3s)
+  ✓  105 [admin] › e2e/key-contacts-round-trip.spec.ts:92:3 › Key Contacts — required three-contact contract › cleared technical-maintenance settings show the not-configured state (3.0s)
+  ✓  106 [admin] › e2e/key-contacts-round-trip.spec.ts:109:3 › Key Contacts — required three-contact contract › admin settings exposes the technical-maintenance source and removes old contact fields (2.3s)
+  ✓  107 [admin] › e2e/ph1-admin-live.spec.ts:54:1 › PH1 — admin sees the eighth Portal Help queue and can manage a ticket (4.4s)
+(node:19398) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  108 [guard] › e2e/guard-gate-walkthrough.spec.ts:64:3 › Guard gate walkthrough — real Clerk session and live API › a signed-in guard sees all five positive decisions and signs out after 15 minutes idle (6.1s)
+
+  9 skipped
+  99 passed (6.7m)
