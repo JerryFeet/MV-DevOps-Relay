@@ -1,0 +1,80 @@
+
+ RUN  v4.1.9 /home/runner/workspace/artifacts/api-server
+
+ ✓ src/__tests__/vehicleNormalizedParking.test.ts > POST /vehicles — normalized parking_lots basement eligibility > normalized-only success > returns 201 when a normalized active underground lot exists 57ms
+ ✓ src/__tests__/vehicleNormalizedParking.test.ts > POST /vehicles — normalized parking_lots basement eligibility > normalized-only success > stores the vehicle with isBasementParking=true 13ms
+ ✓ src/__tests__/vehicleNormalizedParking.test.ts > POST /vehicles — normalized parking_lots basement eligibility > normalized stale-legacy denial > rejects a foreign lot even though legacy JSON has an underground entry 10ms
+ ✓ src/__tests__/vehicleNormalizedParking.test.ts > POST /vehicles — normalized parking_lots basement eligibility > normalized stale-legacy denial > does not insert a vehicle when stale legacy is denied by normalized records 9ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > POST /unit-verify/owner — parkingLots input validation > rejects parkingLots with a blank building 75ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > POST /unit-verify/owner — parkingLots input validation > rejects parkingLots with a blank lotNumber 8ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > POST /unit-verify/owner — parkingLots input validation > rejects parkingLots where isInside is not a boolean 5ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > POST /unit-verify/owner — parkingLots input validation > rejects parkingLots where an entry is not an object 6ms
+ ✓ src/__tests__/vehicleStage3E1E5.test.ts > E1 — verifiedResidentName in POST /vehicles response > returns verifiedResidentName from the resident stub on successful registration 67ms
+ ✓ src/__tests__/vehicleStage3E1E5.test.ts > E1 — verifiedResidentName in POST /vehicles response > returns verifiedResidentName=null for admin (staff bypass, no stub) 11ms
+ ✓ src/__tests__/vehicleStage3E1E5.test.ts > E3 — per-type parking entitlement (B8) > allows first inside (basement) vehicle when unit has 1 underground lot 15ms
+ ✓ src/__tests__/vehicleNormalizedParking.test.ts > POST /vehicles — normalized parking_lots basement eligibility > normalized inactive denial > returns 400 when the only normalized lot is inactive, even though legacy JSON has isInside:true 19ms
+ ✓ src/__tests__/vehicleNormalizedParking.test.ts > POST /vehicles — normalized parking_lots basement eligibility > normalized inactive denial > does not insert a vehicle when inactive normalized lot + stale legacy isInside:true 7ms
+ ✓ src/__tests__/vehicleNormalizedParking.test.ts > POST /vehicles — normalized parking_lots basement eligibility > normalized inactive denial > returns 400 when inactive normalized lot exists and no legacy JSON is present 8ms
+ ✓ src/__tests__/vehicleNormalizedParking.test.ts > POST /vehicles — normalized parking_lots basement eligibility > legacy fallback (no normalized records present) > legacy fallback success — isInside:true > does not use legacy JSON when no normalized rows exist 5ms
+ ✓ src/__tests__/vehicleNormalizedParking.test.ts > POST /vehicles — normalized parking_lots basement eligibility > legacy fallback (no normalized records present) > legacy fallback denial — no isInside:true in legacy JSON > returns 400 when no normalized records exist and legacy JSON has only isInside:false 17ms
+ ✓ src/__tests__/vehicleNormalizedParking.test.ts > GET /vehicles — inactive assigned parking-lot display contract > includes the inactive assigned lot on both list and detail, but not in selection 58ms
+ ✓ src/__tests__/vehicleStage3E1E5.test.ts > E3 — per-type parking entitlement (B8) > allows a second inside vehicle to share the unit's underground lot 14ms
+ ✓ src/__tests__/vehicleStage3E1E5.test.ts > E3 — per-type parking entitlement (B8) > allows first outside (surface) vehicle 9ms
+ ✓ src/__tests__/vehicleStage3E1E5.test.ts > E3 — per-type parking entitlement (B8) > allows a second outside vehicle to share the unit's surface lot 6ms
+ ✓ src/__tests__/vehicleStage3E1E5.test.ts > E3 — per-type parking entitlement (B8) > inside slot at capacity does not block outside slot (types are independent) 5ms
+ ✓ src/__tests__/vehicleStage3E1E5.test.ts > E3 — per-type parking entitlement (B8) > unit with no lots of the requested type results in 409 (0 cap) 18ms
+ ✓ src/__tests__/vehicleStage3E1E5.test.ts > E4 — uncapped vehicle sharing > accepts the request when another vehicle already uses the same lot type 8ms
+ ✓ src/__tests__/vehicleStage3E1E5.test.ts > E4 — uncapped vehicle sharing > inserts the additional vehicle without consuming a parking capacity slot 6ms
+ ✓ src/__tests__/vehicleStage3E1E5.test.ts > E5a — GET /vehicles/:id/registration-doc > owner can access their own vehicle's registration doc (200 or 404 if storage empty) 11ms
+ ✓ src/__tests__/vehicleStage3E1E5.test.ts > E5a — GET /vehicles/:id/registration-doc > guard (non-approver) cannot access registration doc (403) 3ms
+ ✓ src/__tests__/vehicleStage3E1E5.test.ts > E5a — GET /vehicles/:id/registration-doc > another resident (owner2) cannot access owner1's doc (403) 8ms
+ ✓ src/__tests__/vehicleStage3E1E5.test.ts > E5a — GET /vehicles/:id/registration-doc > admin can access any vehicle's registration doc (200/204) 15ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > POST /unit-verify/owner — parkingLots input validation > rejects when parkingLots is not an array 17ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > POST /unit-verify/owner — parkingLots input validation > accepts valid parkingLots with isInside boolean 13ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > POST /unit-verify/owner — parkingLots input validation > accepts an owner submission with no parkingLots 10ms
+ ✓ src/__tests__/vehicleStage3E1E5.test.ts > E5a — GET /vehicles/:id/registration-doc > supervisor is blocked (403) from vehicle registration doc — role removed in X6 16ms
+ ✓ src/__tests__/vehicleStage3E1E5.test.ts > E5a — GET /vehicles/:id/registration-doc > vehicle with no doc returns 404 NO_REGISTRATION_DOC 6ms
+ ✓ src/__tests__/vehicleStage3E1E5.test.ts > E5a — GET /vehicles/:id/registration-doc > non-existent vehicle returns 404 5ms
+ ✓ src/__tests__/vehicleStage3E1E5.test.ts > E5b — PATCH /vehicles/:id rejection with controlled reasons > owner cannot reject a pending vehicle (403) 6ms
+ ✓ src/__tests__/vehicleStage3E1E5.test.ts > E5b — PATCH /vehicles/:id rejection with controlled reasons > guard cannot reject a pending vehicle (403) 6ms
+ ✓ src/__tests__/vehicleStage3E1E5.test.ts > E5b — PATCH /vehicles/:id rejection with controlled reasons > admin without rejectionReason gets 400 REJECTION_REASON_REQUIRED 10ms
+ ✓ src/__tests__/vehicleStage3E1E5.test.ts > E5b — PATCH /vehicles/:id rejection with controlled reasons > admin with an invalid rejection reason gets 400 INVALID_REJECTION_REASON 5ms
+ ✓ src/__tests__/vehicleStage3E1E5.test.ts > E5b — PATCH /vehicles/:id rejection with controlled reasons > admin with a valid rejection reason succeeds (200) and sets rejectionReason 13ms
+ ✓ src/__tests__/vehicleStage3E1E5.test.ts > E5b — PATCH /vehicles/:id rejection with controlled reasons > supervisor is blocked (403) from vehicle rejection — role removed in X6 5ms
+ ✓ src/__tests__/vehicleStage3E1E5.test.ts > E5b — PATCH /vehicles/:id rejection with controlled reasons > admin can still approve (status=active) an additional pending vehicle (200) 3ms
+ ✓ src/__tests__/vehicleStage3E1E5.test.ts > E5b — PATCH /vehicles/:id rejection with controlled reasons > all valid rejection reasons are accepted 13ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > POST /unit-verify/tenant — optional parking confirmation > accepts a tenant request with no parking confirmation 86ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > POST /unit-verify/tenant — optional parking confirmation > ignores legacy parking confirmation fields 20ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > Admin parking lot CRUD — uniqueness per (unitId, building, lotNumber) > allows the same lotNumber in different buildings for the same unit 11ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > Admin parking lot CRUD — uniqueness per (unitId, building, lotNumber) > rejects duplicate building+lotNumber for the same unit 17ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > owner_manual approval writes nationalId → units.ownerNationalId (B9) > sets ownerNationalId on the unit when owner_manual is approved 6ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > ownerNationalId not exposed to non-admin callers > GET /units — does not include ownerNationalId for owner caller 6ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > ownerNationalId not exposed to non-admin callers > GET /units/:id — does not include ownerNationalId for owner caller 7ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > ownerNationalId not exposed to non-admin callers > GET /units/:id — admin sees ownerNationalId 7ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > Parking lot CRUD — admin-only role guards > GET /units/:unitId/parking-lots returns 403 for non-admin 8ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > Parking lot CRUD — admin-only role guards > POST /units/:unitId/parking-lots returns 403 for non-admin 6ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > Parking lot CRUD — admin-only role guards > PATCH /units/:unitId/parking-lots/:lotId returns 403 for non-admin 8ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > Parking lot CRUD — admin-only role guards > DELETE /units/:unitId/parking-lots/:lotId returns 403 for non-admin 4ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > Parking lot CRUD — admin-only role guards > admin can GET parking lots for a unit 7ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > Parking lot CRUD — admin-only role guards > admin can POST a new parking lot 4ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > Parking lot CRUD — admin-only role guards > POST rejects blank building 7ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > Parking lot CRUD — admin-only role guards > POST rejects blank lotNumber 4ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > Parking lot CRUD — admin-only role guards > POST rejects invalid parkingType 5ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > Parking lot CRUD — admin-only role guards > admin can PATCH a parking lot 6ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > Parking lot CRUD — admin-only role guards > allows a lot to be deactivated when registered vehicles use its type 6ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > Parking lot CRUD — admin-only role guards > allows a lot to be deleted when registered vehicles use its type 4ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > Parking lot CRUD — admin-only role guards > PATCH returns 404 for unknown lot 4ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > Parking lot CRUD — admin-only role guards > PATCH rejects blank building 8ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > Parking lot CRUD — admin-only role guards > admin can DELETE a parking lot 4ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > Parking lot CRUD — admin-only role guards > DELETE returns 404 for unknown lot 7ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > GET /data-migration-corrections — admin-only role guard > returns 403 for non-admin (owner) 6ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > GET /data-migration-corrections — admin-only role guard > returns 403 for non-admin (tenant) 4ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > GET /data-migration-corrections — admin-only role guard > returns 401 for unauthenticated request 3ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > GET /data-migration-corrections — admin-only role guard > admin can list open corrections (safe fields only) 8ms
+ ✓ src/__tests__/stage2ParkingAndCorrections.test.ts > GET /data-migration-corrections — admin-only role guard > admin sees only open corrections (resolved/ignored excluded) 4ms
+
+ Test Files  3 passed (3)
+      Tests  71 passed (71)
+   Start at  04:57:54
+   Duration  4.55s (transform 4.58s, setup 0ms, import 8.18s, tests 3.87s, environment 0ms)
+
