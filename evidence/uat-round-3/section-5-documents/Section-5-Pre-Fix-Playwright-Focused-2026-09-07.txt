@@ -1,0 +1,152 @@
+[e2e pre-flight] Portal and API server are reachable ✓
+[dotenv@17.2.2] injecting env (0) from .env.local,.env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+[e2e setup] Clerk user exists: e2e-resident+clerk_test@example.com (user_3Ge2n30N1IFH4apQKNpegAxhXrq)
+[e2e setup] Clerk user exists: e2e-admin+clerk_test@example.com (user_3Ge2nDVktp277PStuqyqcM4lGyw)
+[e2e setup] Clerk user exists: e2e-verified-resident+clerk_test@example.com (user_3IDMLt6PwzxBsKMcNUP7wurtrKg)
+[e2e setup] Clerk user exists: e2e-guard+clerk_test@example.com (user_3IPsXz9FqjDpZplchPXYAdhbZKk)
+[e2e setup] Clerk user exists: e2e-round3-waha+clerk_test@example.com (user_3IyN5yujeJpHhRo8msOLhBmqM3i)
+[e2e setup] Clerk user exists: e2e-round3-vehicles+clerk_test@example.com (user_3Iz92g7olEdKKI5vHlBSIoh1NmX)
+
+Running 11 tests using 1 worker
+
+  ✓   1 [round3-vehicles-setup] › e2e/round3-vehicles.setup.ts:11:1 › authenticate isolated Round 3 vehicle resident (7.5s)
+  ✓   2 [round3-waha-second-credential-setup] › e2e/round3-waha-second-credential.setup.ts:9:1 › authenticate and seed round3 Waha Credential 2 resident (6.9s)
+  ✓   3 [admin-setup] › e2e/admin.auth.setup.ts:41:1 › authenticate as admin (12.3s)
+  ✓   4 [verified-resident-setup] › e2e/verified-resident.setup.ts:23:1 › authenticate and seed verified resident (7.5s)
+  ✓   5 [round3-documents-fixture-setup] › e2e/round3-documents-fixture.setup.ts:12:1 › create isolated Round 3 Section 5 document fixtures as admin (9.8s)
+  ✘   6 [round3-section5-admin] › e2e/round3-section5-documents-admin.spec.ts:10:3 › Round 3 Section 5 — admin document controls › 5d — folder add and edit contain no download/view-only default control (12.6s)
+  ✘   7 [round3-section5-admin] › e2e/round3-section5-documents-admin.spec.ts:28:3 › Round 3 Section 5 — admin document controls › 5e — a download-allowed document can become view-only and remains so after reload (17.2s)
+  ✘   8 [round3-section5-admin] › e2e/round3-section5-documents-admin.spec.ts:43:3 › Round 3 Section 5 — admin document controls › 5f — choosing view-only before a custom folder preserves view-only (16.5s)
+  ✘   9 [round3-regression] › e2e/round3-section5-documents.spec.ts:8:3 › Round 3 Section 5 — resident document previews › 5a — resident view-only PDF uses portal-owned rendering, not a native browser plugin (12.7s)
+  ✓  10 [round3-regression] › e2e/round3-section5-documents.spec.ts:17:3 › Round 3 Section 5 — resident document previews › 5b — resident view-only Word document renders inside its sandboxed preview (4.9s)
+  ✓  11 [round3-regression] › e2e/round3-section5-documents.spec.ts:24:3 › Round 3 Section 5 — resident document previews › 5c — resident view-only image renders inside the portal preview (7.3s)
+
+
+  1) [round3-regression] › e2e/round3-section5-documents.spec.ts:8:3 › Round 3 Section 5 — resident document previews › 5a — resident view-only PDF uses portal-owned rendering, not a native browser plugin 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByTestId('document-pdf-canvas').or(getByTestId('document-pdf-page')).first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 10000ms
+      - waiting for getByTestId('document-pdf-canvas').or(getByTestId('document-pdf-page')).first()
+
+
+      11 |     await expect(
+      12 |       page.getByTestId("document-pdf-canvas").or(page.getByTestId("document-pdf-page")).first(),
+    > 13 |     ).toBeVisible();
+         |       ^
+      14 |     await expect(page.getByTestId("document-pdf-preview")).toHaveCount(0);
+      15 |   });
+      16 |
+        at /home/runner/workspace/artifacts/hoa-portal/e2e/round3-section5-documents.spec.ts:13:7
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/round3-section5-documents--f3e96-not-a-native-browser-plugin-round3-regression/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/round3-section5-documents--f3e96-not-a-native-browser-plugin-round3-regression/error-context.md
+
+  2) [round3-section5-admin] › e2e/round3-section5-documents-admin.spec.ts:10:3 › Round 3 Section 5 — admin document controls › 5d — folder add and edit contain no download/view-only default control 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByRole('dialog').getByText(/download|view only/i)
+    Expected: 0
+    Received: 3
+    Timeout:  10000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 10000ms
+      - waiting for getByRole('dialog').getByText(/download|view only/i)
+        24 × locator resolved to 3 elements
+           - unexpected value "3"
+
+
+      13 |     await page.getByRole("button", { name: /create folder/i }).click();
+      14 |     const addDialog = page.getByRole("dialog");
+    > 15 |     await expect(addDialog.getByText(/download|view only/i)).toHaveCount(0);
+         |                                                              ^
+      16 |
+      17 |     // Create an isolated folder through the real UI before proving edit parity.
+      18 |     await addDialog.locator("input").nth(0).fill(folder);
+        at /home/runner/workspace/artifacts/hoa-portal/e2e/round3-section5-documents-admin.spec.ts:15:62
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/round3-section5-documents--3c39c-d-view-only-default-control-round3-section5-admin/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/round3-section5-documents--3c39c-d-view-only-default-control-round3-section5-admin/error-context.md
+
+  3) [round3-section5-admin] › e2e/round3-section5-documents-admin.spec.ts:28:3 › Round 3 Section 5 — admin document controls › 5e — a download-allowed document can become view-only and remains so after reload 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByTestId('doc-card').filter({ hasText: 'R3-S5-mtquhf8g-6-0-edit-document' })
+    Expected pattern: /view only/i
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toContainText" with timeout 10000ms
+      - waiting for getByTestId('doc-card').filter({ hasText: 'R3-S5-mtquhf8g-6-0-edit-document' })
+
+
+      38 |     await expect(dialog).toBeHidden();
+      39 |     await page.reload();
+    > 40 |     await expect(page.getByTestId("doc-card").filter({ hasText: title })).toContainText(/view only/i);
+         |                                                                           ^
+      41 |   });
+      42 |
+      43 |   test("5f — choosing view-only before a custom folder preserves view-only", async ({ page }, testInfo) => {
+        at /home/runner/workspace/artifacts/hoa-portal/e2e/round3-section5-documents-admin.spec.ts:40:75
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/round3-section5-documents--4cad4-and-remains-so-after-reload-round3-section5-admin/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/round3-section5-documents--4cad4-and-remains-so-after-reload-round3-section5-admin/error-context.md
+
+  4) [round3-section5-admin] › e2e/round3-section5-documents-admin.spec.ts:43:3 › Round 3 Section 5 — admin document controls › 5f — choosing view-only before a custom folder preserves view-only 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByTestId('doc-card').filter({ hasText: 'R3-S5-mtquhta2-7-0-custom-view-only' })
+    Expected pattern: /view only/i
+    Received string:  "R3-S5-mtquhta2-7-0-custom-view-onlyAllow Download·PNG·443 KB Download"
+    Timeout: 10000ms
+
+    Call log:
+      - Expect "toContainText" with timeout 10000ms
+      - waiting for getByTestId('doc-card').filter({ hasText: 'R3-S5-mtquhta2-7-0-custom-view-only' })
+        24 × locator resolved to <div data-testid="doc-card" data-component-name="div" data-replit-metadata="artifacts/hoa-portal/src/pages/portal/documents.tsx:488:18" class="bg-white border border-slate-200 rounded-lg p-4 flex items-center gap-4 hover:border-slate-300 transition-colors">…</div>
+           - unexpected value "R3-S5-mtquhta2-7-0-custom-view-onlyAllow Download·PNG·443 KB Download"
+
+
+      47 |     // Preserve the owner ordering: choose view_only, then choose the custom folder.
+      48 |     await addDocument(page, folder, title, documentFixtures.image.file, "view_only", true);
+    > 49 |     await expect(page.getByTestId("doc-card").filter({ hasText: title })).toContainText(/view only/i);
+         |                                                                           ^
+      50 |   });
+      51 | });
+        at /home/runner/workspace/artifacts/hoa-portal/e2e/round3-section5-documents-admin.spec.ts:49:75
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/round3-section5-documents--81ec6--folder-preserves-view-only-round3-section5-admin/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/round3-section5-documents--81ec6--folder-preserves-view-only-round3-section5-admin/error-context.md
+
+  4 failed
+    [round3-regression] › e2e/round3-section5-documents.spec.ts:8:3 › Round 3 Section 5 — resident document previews › 5a — resident view-only PDF uses portal-owned rendering, not a native browser plugin 
+    [round3-section5-admin] › e2e/round3-section5-documents-admin.spec.ts:10:3 › Round 3 Section 5 — admin document controls › 5d — folder add and edit contain no download/view-only default control 
+    [round3-section5-admin] › e2e/round3-section5-documents-admin.spec.ts:28:3 › Round 3 Section 5 — admin document controls › 5e — a download-allowed document can become view-only and remains so after reload 
+    [round3-section5-admin] › e2e/round3-section5-documents-admin.spec.ts:43:3 › Round 3 Section 5 — admin document controls › 5f — choosing view-only before a custom folder preserves view-only 
+  7 passed (2.1m)
+undefined
+/home/runner/workspace/artifacts/hoa-portal:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: playwright test --config playwright.config.ts --project=round3-regression --project=round3-section5-admin --retries=0 e2e/round3-section5-documents.spec.ts e2e/round3-section5-documents-admin.spec.ts
