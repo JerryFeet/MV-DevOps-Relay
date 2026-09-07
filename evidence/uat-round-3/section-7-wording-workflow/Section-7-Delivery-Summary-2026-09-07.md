@@ -88,5 +88,7 @@ the browser reached both ends of the bounded list.
 - `Section-7-C5-Post-Fix-Approval-Then-Payment-2026-09-07.png`
 - `Section-7-C6-Post-Fix-Scrollable-Bookings-2026-09-07.png`
 - `Section-7-8-Post-Fix-Browser-PASS-2026-09-07.txt`
+- `Section-7-8-Final-Portal-Preview-2026-09-07.jpg`
+- `Section-7-8-Full-E2E-Reconciliation-2026-09-07.md`
 
 Final combined browser result: **6 passed**.
