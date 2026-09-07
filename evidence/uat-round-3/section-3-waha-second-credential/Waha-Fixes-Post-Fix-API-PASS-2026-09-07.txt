@@ -1,0 +1,144 @@
+
+ RUN  v4.1.9 /home/runner/workspace/artifacts/api-server
+
+stdout | src/__tests__/tenancyLifecycleStage6b.test.ts > F8c / T14d — pending renewal across expiry > suspends access and retains a paid future booking, then restores both after late owner approval
+Attention: Clerk collects telemetry data from its SDKs when connected to development instances.
+The data collected is used to inform Clerk's product roadmap.
+To learn more, including how to opt-out from the telemetry program, visit: https://clerk.com/docs/telemetry.
+
+
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > F8c / T14d — pending renewal across expiry > suspends access and retains a paid future booking, then restores both after late owner approval 1108ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > T14 scheduler concurrency > keeps a concurrent paid booking confirmed and produces no terminal release during duplicated expiry work 483ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > X3 event 12 — irreversible deletion notice > is enqueued once per channel at the 30-day boundary and remains deduplicated across scheduler reruns 922ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > POST /unit-verify/tenant — owner National ID is private > accepts an Ejar contract number and lease dates without collecting a document 94ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > retires the title-deed upload endpoint while retaining legacy-key lifecycle operations 38ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > POST /unit-verify/owner — titleDeedNumber persisted on manual-review record > stores the exact titleDeedNumber on the pending verification record when NID has no registry match 28ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > GET /unit-verify/pending — titleDeedKey visible to admin > includes titleDeedKey on the pending record returned to admin 7ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > GET /unit-verify/pending — titleDeedKey visible to admin > titleDeedKey is null when no deed was uploaded 5ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > POST /unit-verify/:id/approve (owner_manual) — deleteObjectEntity called > calls deleteObjectEntity with the titleDeedKey on approval 11ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > POST /unit-verify/:id/approve (owner_manual) — deleteObjectEntity called > does NOT call deleteObjectEntity when there is no titleDeedKey 6ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > POST /unit-verify/tenant — owner National ID is private > rejects legacy Ejar document fields on a new submission without storing them 13ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > POST /unit-verify/tenant — owner National ID is private > requires an owner National ID alongside the complete tenancy evidence 8ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > POST /unit-verify/tenant — owner National ID is private > rejects a non-matching owner National ID without disclosing why 17ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > POST /unit-verify/tenant — owner National ID is private > accepts the matching owner National ID without returning it 8ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > B2 — unit linkage is granted only by an authoritative flow > keeps a pending owner claim in unit_verifications without linking the requester account 7ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > B2 — unit linkage is granted only by an authoritative flow > sets the requester unit link when an admin approves the owner claim 14ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > GET /unit-verify/:id/title-deed — access control > returns 403 for a non-admin resident 12ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > GET /unit-verify/:id/title-deed — access control > returns 200 with a signed URL for an admin 13ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > GET /unit-verify/:id/title-deed — access control > returns 404 when the verification has no title deed 12ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > POST /unit-verify/owner — title deed number validation > returns 400 when titleDeedKey is outside /objects/title-deeds/ namespace 5ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > POST /unit-verify/:id/approve (owner_manual) — deleteObjectEntity called > does NOT write titleDeedKey onto the approved unit record 10ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > POST /unit-verify/:id/approve (owner_manual) — deleteObjectEntity called > retains the recorded approval basis after deleting the title deed 7ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > POST /unit-verify/:id/reject (owner_manual) — deleteObjectEntity called > calls deleteObjectEntity with the titleDeedKey on rejection 9ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > POST /unit-verify/:id/reject (owner_manual) — deleteObjectEntity called > does NOT call deleteObjectEntity for a tenant_request rejection (no deed) 7ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > POST /unit-verify/:id/reject (owner_manual) — deleteObjectEntity called > does NOT call deleteObjectEntity when there is no titleDeedKey on rejection 12ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > GET /unit-verify/:id/title-deed — 404 after approve > returns 404 when the verification has been approved (titleDeedKey cleared from record) 16ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > GET /unit-verify/:id/title-deed — 404 after reject > returns 404 when the verification has been rejected (titleDeedKey cleared from record) 12ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > POST /unit-verify/owner — duplicate pending owner_manual blocked > returns 409 when a pending owner_manual record already exists for the same user + unit 16ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > POST /unit-verify/owner — duplicate pending owner_manual blocked > allows a fresh submission after the existing pending record has been resolved (approved/rejected) 4ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > POST /unit-verify/owner — duplicate pending owner_manual blocked > concurrent submissions from one user to different units: exactly one succeeds and the other returns a bilingual 409 17ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > POST /unit-verify/owner — duplicate pending owner_manual blocked > returns 409 via DB constraint path when insert throws 23505 (race safety net) 8ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > deleteObjectEntity fire-and-forget — approve/reject succeeds even if delete throws > approve still returns 200 when deleteObjectEntity rejects 18ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > deleteObjectEntity fire-and-forget — approve/reject succeeds even if delete throws > never deletes a resident ID photo when approving or rejecting a verification document 17ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > deleteObjectEntity fire-and-forget — approve/reject succeeds even if delete throws > reject still returns 200 when deleteObjectEntity rejects 11ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Owner-manual approval concurrency — one approved claim per resident > approves one concurrent claim and cleanly refuses the other 15ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > Waha scheduler runtime observation > terminal tenancy expiry revokes the affected suspended credential while releasing only its graph 671ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > resolves Clerk metadata locale en to en 2ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > resolves Clerk metadata locale ar to ar 2ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > resolves Clerk metadata locale fr to ar 1ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > resolves Clerk metadata locale undefined to ar 2ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > enforces the renewal submission window at 31 days: rejects 7ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > POST /unit-verify/owner — title deed number validation > accepts an exact 16-digit title deed number 12ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > POST /unit-verify/title-deed-upload — retired endpoint > returns 404 for an authenticated resident and does not store an upload 23ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > POST /unit-verify/title-deed-upload — retired endpoint > returns 404 for an authenticated admin without invoking storage 10ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > POST /unit-verify/tenant — parking lot validation > ignores legacy tenant parking payload rather than requiring or persisting it 9ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > POST /unit-verify/tenant — parking lot validation > succeeds when tenant submits a registered lot 6ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > POST /unit-verify/tenant — parking lot validation > succeeds when tenant submits no parking lots at all 7ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > T7 — owner-ID check throttling and privacy > throttles the sixth fixed-window check, recovers after the window, scopes quotas per unit, and never discloses an owner ID 50ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > C1 — Arabic and Latin tenancy identity is the identity shown to the owner > preserves submitted name parts and uses them in both the owner and admin queues 30ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > T8 — ownerless tenancy submission has the mandated bilingual contract > returns 422 with the owner-registration guidance instead of an owner-ID mismatch 5ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > T3 — an expired Ejar contract cannot establish a current tenancy > rejects a lease whose end date is already in the past 24ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > enforces the renewal submission window at 30 days: accepts 325ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > enforces the renewal submission window at 1 days: accepts 323ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > enforces the renewal submission window at 0 days: rejects 2ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(a) — Verified tenant: Waha Pass access > verified_tenant can GET /api/waha-pass/eligibility 33ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(a) — Verified tenant: Waha Pass access > verified_tenant can GET /api/waha-pass/mine 11ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(a) — Verified tenant: Waha Pass access > verified_tenant can POST /api/waha-pass/apply when unit has no conflicting pass 57ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(b) — Verified tenant: Resident management access > verified_tenant can GET /api/residents (their unit's residents) 12ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(b) — Verified tenant: Resident management access > verified_tenant can GET /api/residents/:id for their own unit's resident 8ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(b) — Verified tenant: Resident management access > verified_owner can also GET /api/residents — baseline positive control 5ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(b) — Verified tenant: Resident management access > unverified user cannot GET another user's resident record 7ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(c) — Verified tenant: Guest Day Pass create/list > verified_tenant can GET /api/waha-guest-day-passes/mine 5ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(c) — Verified tenant: Guest Day Pass create/list > verified_owner can also GET /api/waha-guest-day-passes/mine — baseline 5ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(c) — Verified tenant: Guest Day Pass create/list > verified_tenant can POST a Day Pass with an optional plate (unit has active pass) 7ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(c) — Verified tenant: Guest Day Pass create/list > verified_tenant can omit the optional Day Pass plate 13ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(c) — Verified tenant: Guest Day Pass create/list > rejects an invalid Day Pass plate before a payment attempt is created 5ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(c) — Verified tenant: Guest Day Pass create/list > unverified user is blocked from POST /api/waha-guest-day-passes 4ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(c) — Verified tenant: Guest Day Pass create/list > unverified user is blocked from GET /api/waha-guest-day-passes/mine 4ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(c) — Verified tenant: Guest Day Pass create/list > denies a moved purchaser's old-unit day pass in every verification path 33ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > Exception: Ownership change initiation is owner-only > verified_tenant gets 403 on POST /api/ownership-changes (I3/I4 exception) 4ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > Exception: Ownership change initiation is owner-only > verified_owner can initiate POST /api/ownership-changes — positive control 6ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > Exception: T10 tenant linkage approval is owner-only > verified_tenant gets 403 on POST /api/unit-verify/:id/approve for tenant_request 4ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > Exception: T10 tenant linkage approval is owner-only > verified_tenant gets 403 on POST /api/unit-verify/:id/reject for tenant_request 5ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > Exception: T10 tenant linkage approval is owner-only > verified_owner (unit owner) can approve tenant_request — positive control 4ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(a) — Waha Pass applicant actions > verified_owner (applicant) can report-lost on their credential 7ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(a) — Waha Pass applicant actions > verified_tenant (not applicant) gets 403 on report-lost for owner's app 4ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(a) — Waha Pass applicant actions > blocks a moved applicant from reporting an old-unit credential lost without mutations 7ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > Admin/guard/supervisor access controls not weakened > admin can GET /api/waha-pass/admin 6ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > Admin/guard/supervisor access controls not weakened > verified_tenant cannot GET /api/waha-pass/admin (admin-only) 3ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > Admin/guard/supervisor access controls not weakened > verified_owner cannot GET /api/waha-pass/admin (admin-only) 4ms
+ ✓ src/__tests__/adminAlertOnApprovalRequired.test.ts > C4 sendApprovalQueueAlert — approval-required resident events > POST /permits — resident submits a renovation permit > routes the approval queue with an [Action Required] subject when a resident submits 32ms
+ ✓ src/__tests__/adminAlertOnApprovalRequired.test.ts > C4 sendApprovalQueueAlert — approval-required resident events > POST /permits — resident submits a renovation permit > includes the unit number in the subject when caller has a unitNumber 7ms
+ ✓ src/__tests__/adminAlertOnApprovalRequired.test.ts > C4 sendApprovalQueueAlert — approval-required resident events > POST /permits — resident submits a renovation permit > does NOT fire sendAdminAlert when the caller is an APPROVER_ROLE (admin) 6ms
+ ✓ src/__tests__/adminAlertOnApprovalRequired.test.ts > C4 sendApprovalQueueAlert — approval-required resident events > POST /unit-verify/owner — manual review path > routes the approval queue when no registry match is found (manual review) 12ms
+ ✓ src/__tests__/adminAlertOnApprovalRequired.test.ts > C4 sendApprovalQueueAlert — approval-required resident events > POST /unit-verify/owner — manual review path > still requires manual review and alerts admins when the registry has an exact match 10ms
+ ✓ src/__tests__/adminAlertOnApprovalRequired.test.ts > C4 sendApprovalQueueAlert — approval-required resident events > POST /unit-verify/tenant > routes the approval queue with Tenant Linkage Request subject 25ms
+ ✓ src/__tests__/adminAlertOnApprovalRequired.test.ts > C4 sendApprovalQueueAlert — approval-required resident events > POST /vehicles — additional vehicle request > routes the approval queue when the resident already has one active vehicle (isAdditional=true) 8ms
+ ✓ src/__tests__/adminAlertOnApprovalRequired.test.ts > C4 sendApprovalQueueAlert — approval-required resident events > POST /vehicles — additional vehicle request > does NOT fire sendAdminAlert when registering the first vehicle (isAdditional=false) 7ms
+ ✓ src/__tests__/adminAlertOnApprovalRequired.test.ts > C4 sendApprovalQueueAlert — approval-required resident events > POST /guests — resident pre-registers a guest > fires sendAdminAlert with [Action Required] New Guest Pre-Registration subject 6ms
+ ✓ src/__tests__/adminAlertOnApprovalRequired.test.ts > C4 sendApprovalQueueAlert — approval-required resident events > POST /guests — resident pre-registers a guest > rejects guest registration when National ID / Iqama is omitted 6ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > seeds the 30-day A/B boundary: both recipients receive both mandatory channels 646ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > seeds the 14-day A/B boundary: both recipients receive both mandatory channels 679ms
+ ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > uses the exact real-release graph for dry runs while mutating nothing 12ms
+ ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > serializes concurrent terminal requests and returns already_ended without repeated effects 5ms
+ ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > keeps tenant records outside a legal ownership-transfer release graph 1ms
+ ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > accepts a legacy bare unit number only when it identifies one unit 2ms
+ ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > moves an owner household out while retaining the verified ownership claim 2ms
+ ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > Stage 6C O3/O4 releases an owner once without a claimant slot and preserves the verified tenant graph 2ms
+ ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > rolls back every mutation when a postcondition is induced to fail 4ms
+ ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > rolls back when a released booking would lose its final unit attribution 2ms
+ ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > F11: refuses the HOA COMMON system unit before any release mutation 1ms
+ ✓ src/__tests__/emailSecurity.test.ts > SMTP credential and send outcomes > fails closed for plaintext or corrupt DB credentials 9ms
+ ✓ src/__tests__/emailSecurity.test.ts > SMTP credential and send outcomes > distinguishes unconfigured, provider failure, and success 3ms
+ ✓ src/__tests__/emailSecurity.test.ts > SMTP credential and send outcomes > C4 routes approval-queue email to the fixed approver inbox without destination settings 3ms
+ ✓ src/__tests__/emailSecurity.test.ts > SMTP credential and send outcomes > C4 keeps every admin-approval producer on the fixed-destination queue contract 2ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > seeds the 7-day A/B boundary: both recipients receive both mandatory channels 947ms
+ ✓ src/__tests__/bookingGuards.test.ts > #51 — Staff cannot cancel a past booking via PATCH > admin gets 409 when cancelling a booking whose endTime has passed 36ms
+ ✓ src/__tests__/bookingGuards.test.ts > #51 — Staff cannot cancel a past booking via PATCH > supervisor sees only own bookings; not owner A's — own-only 404 after X6 11ms
+ ✓ src/__tests__/bookingGuards.test.ts > Round 3 Section 1 — elapsed booking starts are never offerable or accepted > marks elapsed Riyadh-today availability slots unavailable while retaining future slots 28ms
+ ✓ src/__tests__/bookingGuards.test.ts > Round 3 Section 1 — elapsed booking starts are never offerable or accepted > returns the stable elapsed-start error before grid validation 7ms
+ ✓ src/__tests__/bookingGuards.test.ts > #52 — A past booking cannot be confirmed > admin gets 409 when confirming a booking whose endTime has passed 6ms
+ ✓ src/__tests__/bookingGuards.test.ts > #52 — A past booking cannot be confirmed > supervisor is blocked (403) before reaching business logic — role removed in X6 8ms
+ ✓ src/__tests__/bookingGuards.test.ts > #57 — Duration guard applies when min equals max (point-duration facility) > booking with duration > max (90 min) is rejected with 400 5ms
+ ✓ src/__tests__/bookingGuards.test.ts > #57 — Duration guard applies when min equals max (point-duration facility) > booking with duration < min (30 min) is also rejected with 400 4ms
+ ✓ src/__tests__/bookingGuards.test.ts > #57 — Duration guard applies when min equals max (point-duration facility) > exact-duration booking (60 min) passes the duration guard 5ms
+ ✓ src/__tests__/bookingGuards.test.ts > #61 — movieTitle is stored and returned in GET /api/bookings > cinema booking appears in staff listing with its movieTitle 7ms
+ ✓ src/__tests__/bookingGuards.test.ts > #61 — movieTitle is stored and returned in GET /api/bookings > movieTitle is null for non-cinema bookings 10ms
+ ✓ src/__tests__/bookingGuards.test.ts > Round 3 Section 2 — zero-price resident bookings > confirms a zero-price facility booking and records the resident's monthly allowance claim 13ms
+ ✓ src/__tests__/bookingGuards.test.ts > Round 3 C-5 — requiresApproval gates resident confirmation and checkout > keeps approval-on free and priced resident requests pending, blocks checkout, and preserves approval-off progression 33ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > seeds the 1-day A/B boundary: both recipients receive both mandatory channels 808ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > seeds B-to-C: submission stops B and creates C immediately, then exactly every two days 1348ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > stops C after approval and carries the renewal end date forward 895ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > closes A/B for renewal 2 after renewal 1 established the current lease cycle 996ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > stops C after rejected terminal decision 651ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > stops C after cancelled terminal decision 340ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > continues C through expiry suspension, then caps it at 30 days without lifting suspension 974ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > does not enqueue A, B, or C after completed move-out / admin release 1ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > does not enqueue A, B, or C after account deletion terminal lifecycle 1ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > does not enqueue A, B, or C after terminal release request 1ms
+
+ Test Files  8 passed (8)
+      Tests  129 passed (129)
+   Start at  10:07:02
+   Duration  13.92s (transform 4.90s, setup 0ms, import 14.00s, tests 13.42s, environment 1ms)
+
