@@ -1,0 +1,18 @@
+[e2e pre-flight] Portal and API server are reachable ✓
+[dotenv@17.2.2] injecting env (0) from .env.local,.env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+[e2e setup] Clerk user exists: e2e-resident+clerk_test@example.com (user_3J3xpKl4h56I6c6ACLiS1AiXsNl)
+[e2e setup] Clerk user exists: e2e-admin+clerk_test@example.com (user_3J3xpIThldMnP296EAfJnEGKm6X)
+[e2e setup] Clerk user exists: e2e-verified-resident+clerk_test@example.com (user_3J3xpQTE9D9kwX0rhDeJm1fi2kt)
+[e2e setup] Clerk user exists: e2e-guard+clerk_test@example.com (user_3J3xpbVAKStBSFEJdN02j5m9Ooz)
+[e2e setup] Clerk user exists: e2e-round3-waha+clerk_test@example.com (user_3J3xpdTN1GqGGDvfkmCGdHZqEbg)
+[e2e setup] Clerk user exists: e2e-round3-vehicles+clerk_test@example.com (user_3J3xpfPsubQR2LGHrjEwgwcRIJM)
+[e2e setup] Clerk user exists: e2e-round3-section8+clerk_test@example.com (user_3J3xpi1Ct49xFOYQlPZRUP75cmf)
+
+Running 4 tests using 1 worker
+
+  ✓  1 [verified-resident-setup] › e2e/verified-resident.setup.ts:26:1 › authenticate and seed verified resident (8.0s)
+  ✓  2 [admin-setup] › e2e/admin.auth.setup.ts:41:1 › authenticate as admin (11.6s)
+  ✓  3 [round4-section1-session-boundary] › e2e/round4-section1-session-change.spec.ts:36:3 › Round 4 Section 1 — session changes and admin mutation boundary › a second-tab identity change clears the first tab's stale admin screen (5.3s)
+  ✓  4 [round4-section1-session-boundary] › e2e/round4-section1-session-change.spec.ts:73:3 › Round 4 Section 1 — session changes and admin mutation boundary › an owner cannot approve an admin-reviewed unit verification (1.9s)
+
+  4 passed (32.2s)
