@@ -1,0 +1,20 @@
+[e2e pre-flight] Portal and API server are reachable ✓
+[dotenv@17.2.2] injecting env (0) from .env.local,.env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+[e2e setup] Clerk user exists: e2e-resident+clerk_test@example.com (user_3J3xpKl4h56I6c6ACLiS1AiXsNl)
+[e2e setup] Clerk user exists: e2e-admin+clerk_test@example.com (user_3J3xpIThldMnP296EAfJnEGKm6X)
+[e2e setup] Clerk user exists: e2e-verified-resident+clerk_test@example.com (user_3J3xpQTE9D9kwX0rhDeJm1fi2kt)
+[e2e setup] Clerk user exists: e2e-guard+clerk_test@example.com (user_3J3xpbVAKStBSFEJdN02j5m9Ooz)
+[e2e setup] Clerk user exists: e2e-round3-waha+clerk_test@example.com (user_3J3xpdTN1GqGGDvfkmCGdHZqEbg)
+[e2e setup] Clerk user exists: e2e-round3-vehicles+clerk_test@example.com (user_3J3xpfPsubQR2LGHrjEwgwcRIJM)
+[e2e setup] Clerk user exists: e2e-round3-section8+clerk_test@example.com (user_3J3xpi1Ct49xFOYQlPZRUP75cmf)
+
+Running 6 tests using 1 worker
+
+  ✓  1 [round3-vehicles-setup] › e2e/round3-vehicles.setup.ts:11:1 › authenticate isolated Round 3 vehicle resident (11.0s)
+  ✓  2 [round3-waha-second-credential-setup] › e2e/round3-waha-second-credential.setup.ts:9:1 › authenticate and seed round3 Waha Credential 2 resident (7.5s)
+  ✓  3 [admin-setup] › e2e/admin.auth.setup.ts:41:1 › authenticate as admin (18.6s)
+  ✓  4 [verified-resident-setup] › e2e/verified-resident.setup.ts:26:1 › authenticate and seed verified resident (8.7s)
+  ✓  5 [round3-documents-fixture-setup] › e2e/round3-documents-fixture.setup.ts:12:1 › create isolated Round 3 Section 5 document fixtures as admin (11.7s)
+  ✓  6 [round3-regression] › e2e/round3-section2-monthly-allowance.spec.ts:60:3 › Round 3 Section 2 — zero-price monthly allowance regression › B5: cancellation does not restore the monthly free allowance (10.8s)
+
+  6 passed (1.4m)
