@@ -1,0 +1,75 @@
+[e2e pre-flight] Portal and API server are reachable ✓
+[dotenv@17.2.2] injecting env (0) from .env.local,.env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+[e2e setup] Clerk user exists: e2e-resident+clerk_test@example.com (user_3J3xpKl4h56I6c6ACLiS1AiXsNl)
+[e2e setup] Clerk user exists: e2e-admin+clerk_test@example.com (user_3J3xpIThldMnP296EAfJnEGKm6X)
+[e2e setup] Clerk user exists: e2e-verified-resident+clerk_test@example.com (user_3J3xpQTE9D9kwX0rhDeJm1fi2kt)
+[e2e setup] Clerk user exists: e2e-guard+clerk_test@example.com (user_3J3xpbVAKStBSFEJdN02j5m9Ooz)
+[e2e setup] Clerk user exists: e2e-round3-waha+clerk_test@example.com (user_3J3xpdTN1GqGGDvfkmCGdHZqEbg)
+[e2e setup] Clerk user exists: e2e-round3-vehicles+clerk_test@example.com (user_3J3xpfPsubQR2LGHrjEwgwcRIJM)
+[e2e setup] Clerk user exists: e2e-round3-section8+clerk_test@example.com (user_3J3xpi1Ct49xFOYQlPZRUP75cmf)
+
+Running 2 tests using 1 worker
+
+[1/2] [verified-resident-setup] › e2e/verified-resident.setup.ts:26:1 › authenticate and seed verified resident
+[2/2] [round4-d1-d2-removal] › e2e/round4-d1-d2-removal.spec.ts:29:3 › Round 4 D-1/D-2 — resident removal lifecycle (pre-fix) › D-1 pre-fix — removal clears a mismatched same-unit pending invitation before reissue
+[3/2] (retries) [round4-d1-d2-removal] › e2e/round4-d1-d2-removal.spec.ts:29:3 › Round 4 D-1/D-2 — resident removal lifecycle (pre-fix) › D-1 pre-fix — removal clears a mismatched same-unit pending invitation before reissue (retry #1)
+  1) [round4-d1-d2-removal] › e2e/round4-d1-d2-removal.spec.ts:29:3 › Round 4 D-1/D-2 — resident removal lifecycle (pre-fix) › D-1 pre-fix — removal clears a mismatched same-unit pending invitation before reissue 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 201
+    Received: 409
+
+      51 |     );
+      52 |     await dialog.getByRole("button", { name: /add to household/i }).click();
+    > 53 |     expect((await replacementResponse).status()).toBe(201);
+         |                                                  ^
+      54 |
+      55 |     // This is intentionally the first failing assertion against the current
+      56 |     // implementation: the stale unit-keyed row still occupies the slot.
+        at /home/runner/workspace/artifacts/hoa-portal/e2e/round4-d1-d2-removal.spec.ts:53:50
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/round4-d1-d2-removal-Round-4d5f7-g-invitation-before-reissue-round4-d1-d2-removal/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/round4-d1-d2-removal-Round-4d5f7-g-invitation-before-reissue-round4-d1-d2-removal/error-context.md
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 201
+    Received: 409
+
+      51 |     );
+      52 |     await dialog.getByRole("button", { name: /add to household/i }).click();
+    > 53 |     expect((await replacementResponse).status()).toBe(201);
+         |                                                  ^
+      54 |
+      55 |     // This is intentionally the first failing assertion against the current
+      56 |     // implementation: the stale unit-keyed row still occupies the slot.
+        at /home/runner/workspace/artifacts/hoa-portal/e2e/round4-d1-d2-removal.spec.ts:53:50
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/round4-d1-d2-removal-Round-4d5f7-g-invitation-before-reissue-round4-d1-d2-removal-retry1/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/round4-d1-d2-removal-Round-4d5f7-g-invitation-before-reissue-round4-d1-d2-removal-retry1/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/round4-d1-d2-removal-Round-4d5f7-g-invitation-before-reissue-round4-d1-d2-removal-retry1/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/round4-d1-d2-removal-Round-4d5f7-g-invitation-before-reissue-round4-d1-d2-removal-retry1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  1 failed
+    [round4-d1-d2-removal] › e2e/round4-d1-d2-removal.spec.ts:29:3 › Round 4 D-1/D-2 — resident removal lifecycle (pre-fix) › D-1 pre-fix — removal clears a mismatched same-unit pending invitation before reissue 
+  1 passed (22.1s)
+undefined
+/home/runner/workspace/artifacts/hoa-portal:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: playwright test --config playwright.config.ts --project=round4-d1-d2-removal --grep D-1 pre-fix --reporter=line
+exit_code=1
