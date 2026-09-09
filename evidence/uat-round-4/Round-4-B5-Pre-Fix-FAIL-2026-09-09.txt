@@ -1,0 +1,80 @@
+[e2e pre-flight] Portal and API server are reachable ✓
+[dotenv@17.2.2] injecting env (0) from .env.local,.env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+[e2e setup] Clerk user exists: e2e-resident+clerk_test@example.com (user_3J3xpKl4h56I6c6ACLiS1AiXsNl)
+[e2e setup] Clerk user exists: e2e-admin+clerk_test@example.com (user_3J3xpIThldMnP296EAfJnEGKm6X)
+[e2e setup] Clerk user exists: e2e-verified-resident+clerk_test@example.com (user_3J3xpQTE9D9kwX0rhDeJm1fi2kt)
+[e2e setup] Clerk user exists: e2e-guard+clerk_test@example.com (user_3J3xpbVAKStBSFEJdN02j5m9Ooz)
+[e2e setup] Clerk user exists: e2e-round3-waha+clerk_test@example.com (user_3J3xpdTN1GqGGDvfkmCGdHZqEbg)
+[e2e setup] Clerk user exists: e2e-round3-vehicles+clerk_test@example.com (user_3J3xpfPsubQR2LGHrjEwgwcRIJM)
+[e2e setup] Clerk user exists: e2e-round3-section8+clerk_test@example.com (user_3J3xpi1Ct49xFOYQlPZRUP75cmf)
+
+Running 6 tests using 1 worker
+
+  ✓  1 [round3-vehicles-setup] › e2e/round3-vehicles.setup.ts:11:1 › authenticate isolated Round 3 vehicle resident (10.2s)
+  ✓  2 [round3-waha-second-credential-setup] › e2e/round3-waha-second-credential.setup.ts:9:1 › authenticate and seed round3 Waha Credential 2 resident (8.4s)
+  ✓  3 [admin-setup] › e2e/admin.auth.setup.ts:41:1 › authenticate as admin (12.1s)
+  ✓  4 [verified-resident-setup] › e2e/verified-resident.setup.ts:26:1 › authenticate and seed verified resident (7.6s)
+  ✓  5 [round3-documents-fixture-setup] › e2e/round3-documents-fixture.setup.ts:12:1 › create isolated Round 3 Section 5 document fixtures as admin (12.3s)
+  ✘  6 [round3-regression] › e2e/round3-section2-monthly-allowance.spec.ts:60:3 › Round 3 Section 2 — zero-price monthly allowance regression › B5: cancellation does not restore the monthly free allowance (9.9s)
+  ✘  7 [round3-regression] › e2e/round3-section2-monthly-allowance.spec.ts:60:3 › Round 3 Section 2 — zero-price monthly allowance regression › B5: cancellation does not restore the monthly free allowance (retry #1) (12.7s)
+
+
+  1) [round3-regression] › e2e/round3-section2-monthly-allowance.spec.ts:60:3 › Round 3 Section 2 — zero-price monthly allowance regression › B5: cancellation does not restore the monthly free allowance 
+
+    Error: Second free booking was accepted under zero_price_facility exemption: {"id":584,"facilityId":415,"userId":1503,"unitId":421,"startTime":"2026-09-13T21:00:00.000Z","endTime":"2026-09-13T22:00:00.000Z","status":"confirmed","totalAmount":"0.00","paymentStatus":"not_required","chargeId":null,"paymentUrl":null,"paymentProvider":null,"paidAt":null,"paymentMethod":null,"paymentExemptionReason":"zero_price_facility","paymentHoldExpiresAt":null,"facilityName":"E2E Round 3 Zero-Price Facility","movieTitle":null,"notes":"","createdAt":"2026-09-09T03:30:04.178Z","updatedAt":"2026-09-09T03:30:04.178Z","resident":{"id":1503,"firstName":"E2E","lastName":"VerifiedResident","email":"e2e-verified-resident+clerk_test@example.com","unitNumber":"E2E R3-mttjij0t-5-0-round3-secti-168lii"},"unit":{"id":421,"building":"E2E","unitNumber":"R3-mttjij0t-5-0-round3-secti-168lii"}}
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 409
+    Received: 201
+
+      186 |         secondResponse.status(),
+      187 |         `Second free booking was accepted under zero_price_facility exemption: ${JSON.stringify(secondBody)}`,
+    > 188 |       ).toBe(409);
+          |         ^
+      189 |       expect(secondBody.error ?? "").toMatch(/allowance|monthly|free/i);
+      190 |     } finally {
+      191 |       page.off("request", recordPaymentRequest);
+        at /home/runner/workspace/artifacts/hoa-portal/e2e/round3-section2-monthly-allowance.spec.ts:188:9
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/round3-section2-monthly-al-dc5d0--the-monthly-free-allowance-round3-regression/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/round3-section2-monthly-al-dc5d0--the-monthly-free-allowance-round3-regression/error-context.md
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: Second free booking was accepted under zero_price_facility exemption: {"id":586,"facilityId":415,"userId":1503,"unitId":422,"startTime":"2026-09-13T22:00:00.000Z","endTime":"2026-09-13T23:00:00.000Z","status":"confirmed","totalAmount":"0.00","paymentStatus":"not_required","chargeId":null,"paymentUrl":null,"paymentProvider":null,"paidAt":null,"paymentMethod":null,"paymentExemptionReason":"zero_price_facility","paymentHoldExpiresAt":null,"facilityName":"E2E Round 3 Zero-Price Facility","movieTitle":null,"notes":"","createdAt":"2026-09-09T03:30:17.008Z","updatedAt":"2026-09-09T03:30:17.008Z","resident":{"id":1503,"firstName":"E2E","lastName":"VerifiedResident","email":"e2e-verified-resident+clerk_test@example.com","unitNumber":"E2E R3-mttjirdd-6-1-round3-secti-168lii"},"unit":{"id":422,"building":"E2E","unitNumber":"R3-mttjirdd-6-1-round3-secti-168lii"}}
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 409
+    Received: 201
+
+      186 |         secondResponse.status(),
+      187 |         `Second free booking was accepted under zero_price_facility exemption: ${JSON.stringify(secondBody)}`,
+    > 188 |       ).toBe(409);
+          |         ^
+      189 |       expect(secondBody.error ?? "").toMatch(/allowance|monthly|free/i);
+      190 |     } finally {
+      191 |       page.off("request", recordPaymentRequest);
+        at /home/runner/workspace/artifacts/hoa-portal/e2e/round3-section2-monthly-allowance.spec.ts:188:9
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/round3-section2-monthly-al-dc5d0--the-monthly-free-allowance-round3-regression-retry1/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/round3-section2-monthly-al-dc5d0--the-monthly-free-allowance-round3-regression-retry1/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/round3-section2-monthly-al-dc5d0--the-monthly-free-allowance-round3-regression-retry1/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/round3-section2-monthly-al-dc5d0--the-monthly-free-allowance-round3-regression-retry1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [round3-regression] › e2e/round3-section2-monthly-allowance.spec.ts:60:3 › Round 3 Section 2 — zero-price monthly allowance regression › B5: cancellation does not restore the monthly free allowance 
+  5 passed (1.5m)
