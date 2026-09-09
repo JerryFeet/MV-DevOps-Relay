@@ -1,0 +1,128 @@
+[e2e pre-flight] Portal and API server are reachable ✓
+[dotenv@17.2.2] injecting env (0) from .env.local,.env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+[e2e setup] Clerk user exists: e2e-resident+clerk_test@example.com (user_3J3xpKl4h56I6c6ACLiS1AiXsNl)
+[e2e setup] Clerk user exists: e2e-admin+clerk_test@example.com (user_3J3xpIThldMnP296EAfJnEGKm6X)
+[e2e setup] Clerk user exists: e2e-verified-resident+clerk_test@example.com (user_3J3xpQTE9D9kwX0rhDeJm1fi2kt)
+[e2e setup] Clerk user exists: e2e-guard+clerk_test@example.com (user_3J3xpbVAKStBSFEJdN02j5m9Ooz)
+[e2e setup] Clerk user exists: e2e-round3-waha+clerk_test@example.com (user_3J3xpdTN1GqGGDvfkmCGdHZqEbg)
+[e2e setup] Clerk user exists: e2e-round3-vehicles+clerk_test@example.com (user_3J3xpfPsubQR2LGHrjEwgwcRIJM)
+[e2e setup] Clerk user exists: e2e-round3-section8+clerk_test@example.com (user_3J3xpi1Ct49xFOYQlPZRUP75cmf)
+
+Running 3 tests using 1 worker
+
+  ✓  1 [verified-resident-setup] › e2e/verified-resident.setup.ts:26:1 › authenticate and seed verified resident (9.7s)
+  ✘  2 [round4-d1-d2-removal] › e2e/round4-d1-d2-removal.spec.ts:61:3 › Round 4 D-1/D-2 — resident removal lifecycle (pre-fix) › D-2 pre-fix — removing second resident revokes only that full chain and frees the slot (3.4s)
+  ✘  3 [round4-d1-d2-removal] › e2e/round4-d1-d2-removal.spec.ts:61:3 › Round 4 D-1/D-2 — resident removal lifecycle (pre-fix) › D-2 pre-fix — removing second resident revokes only that full chain and frees the slot (retry #1) (3.5s)
+  ✘  4 [round4-d1-d2-removal] › e2e/round4-d1-d2-removal.spec.ts:76:3 › Round 4 D-1/D-2 — resident removal lifecycle (pre-fix) › D-2 pre-fix — removing the applicant ends application and both credential chains (3.3s)
+  ✘  5 [round4-d1-d2-removal] › e2e/round4-d1-d2-removal.spec.ts:76:3 › Round 4 D-1/D-2 — resident removal lifecycle (pre-fix) › D-2 pre-fix — removing the applicant ends application and both credential chains (retry #1) (3.8s)
+
+
+  1) [round4-d1-d2-removal] › e2e/round4-d1-d2-removal.spec.ts:61:3 › Round 4 D-1/D-2 — resident removal lifecycle (pre-fix) › D-2 pre-fix — removing second resident revokes only that full chain and frees the slot 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      69 |     const state = await fetchRound4WahaState(fixture.unitId);
+      70 |     expect(state).toHaveLength(6);
+    > 71 |     expect(state.filter((row) => row.credential_index === 2).every((row) => row.status === "revoked")).toBe(true);
+         |                                                                                                        ^
+      72 |     expect(state.find((row) => row.credential_index === 1)?.status).toBe("active");
+      73 |     expect(state.every((row) => row.application_status === "active")).toBe(true);
+      74 |   });
+        at /home/runner/workspace/artifacts/hoa-portal/e2e/round4-d1-d2-removal.spec.ts:71:104
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/round4-d1-d2-removal-Round-3e2f5-ll-chain-and-frees-the-slot-round4-d1-d2-removal/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/round4-d1-d2-removal-Round-3e2f5-ll-chain-and-frees-the-slot-round4-d1-d2-removal/error-context.md
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      69 |     const state = await fetchRound4WahaState(fixture.unitId);
+      70 |     expect(state).toHaveLength(6);
+    > 71 |     expect(state.filter((row) => row.credential_index === 2).every((row) => row.status === "revoked")).toBe(true);
+         |                                                                                                        ^
+      72 |     expect(state.find((row) => row.credential_index === 1)?.status).toBe("active");
+      73 |     expect(state.every((row) => row.application_status === "active")).toBe(true);
+      74 |   });
+        at /home/runner/workspace/artifacts/hoa-portal/e2e/round4-d1-d2-removal.spec.ts:71:104
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/round4-d1-d2-removal-Round-3e2f5-ll-chain-and-frees-the-slot-round4-d1-d2-removal-retry1/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/round4-d1-d2-removal-Round-3e2f5-ll-chain-and-frees-the-slot-round4-d1-d2-removal-retry1/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/round4-d1-d2-removal-Round-3e2f5-ll-chain-and-frees-the-slot-round4-d1-d2-removal-retry1/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/round4-d1-d2-removal-Round-3e2f5-ll-chain-and-frees-the-slot-round4-d1-d2-removal-retry1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [round4-d1-d2-removal] › e2e/round4-d1-d2-removal.spec.ts:76:3 › Round 4 D-1/D-2 — resident removal lifecycle (pre-fix) › D-2 pre-fix — removing the applicant ends application and both credential chains 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      85 |     expect(state).toHaveLength(6);
+      86 |     expect(state.every((row) => row.application_status === "revoked")).toBe(true);
+    > 87 |     expect(state.every((row) => row.status === "revoked")).toBe(true);
+         |                                                            ^
+      88 |   });
+      89 | });
+        at /home/runner/workspace/artifacts/hoa-portal/e2e/round4-d1-d2-removal.spec.ts:87:60
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/round4-d1-d2-removal-Round-271d0--and-both-credential-chains-round4-d1-d2-removal/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/round4-d1-d2-removal-Round-271d0--and-both-credential-chains-round4-d1-d2-removal/error-context.md
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      85 |     expect(state).toHaveLength(6);
+      86 |     expect(state.every((row) => row.application_status === "revoked")).toBe(true);
+    > 87 |     expect(state.every((row) => row.status === "revoked")).toBe(true);
+         |                                                            ^
+      88 |   });
+      89 | });
+        at /home/runner/workspace/artifacts/hoa-portal/e2e/round4-d1-d2-removal.spec.ts:87:60
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/round4-d1-d2-removal-Round-271d0--and-both-credential-chains-round4-d1-d2-removal-retry1/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/round4-d1-d2-removal-Round-271d0--and-both-credential-chains-round4-d1-d2-removal-retry1/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/round4-d1-d2-removal-Round-271d0--and-both-credential-chains-round4-d1-d2-removal-retry1/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/round4-d1-d2-removal-Round-271d0--and-both-credential-chains-round4-d1-d2-removal-retry1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [round4-d1-d2-removal] › e2e/round4-d1-d2-removal.spec.ts:61:3 › Round 4 D-1/D-2 — resident removal lifecycle (pre-fix) › D-2 pre-fix — removing second resident revokes only that full chain and frees the slot 
+    [round4-d1-d2-removal] › e2e/round4-d1-d2-removal.spec.ts:76:3 › Round 4 D-1/D-2 — resident removal lifecycle (pre-fix) › D-2 pre-fix — removing the applicant ends application and both credential chains 
+  1 passed (39.2s)
+undefined
+/home/runner/workspace/artifacts/hoa-portal:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: playwright test --config playwright.config.ts --project=round4-d1-d2-removal --grep D-2 pre-fix
