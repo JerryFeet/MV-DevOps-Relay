@@ -1,0 +1,33 @@
+Round 4 B4 and D-17 through D-22 canonical regression gate
+Date: 2026-09-10
+Command:
+  PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=$(which chromium 2>/dev/null) pnpm run round3:regression:e2e
+
+Result: PASS
+
+API:
+  Test files: 25 passed
+  Tests: 284 passed
+
+Portal contracts:
+  Test files: 3 passed
+  Tests: 14 passed
+
+Browser:
+  Tests: 39 passed
+
+Canonical total:
+  337 passed
+
+Additional verification:
+  API typecheck: PASS
+  Portal typecheck: PASS
+  git diff --check: PASS
+  Focused D-17–D-22 browser project: 3/3 PASS
+  Focused Waha revocation/API controls: 29/29 PASS
+
+Database safety:
+  No schema push
+  No migration runner
+  No push --force
+  No immutable-protection bypass
