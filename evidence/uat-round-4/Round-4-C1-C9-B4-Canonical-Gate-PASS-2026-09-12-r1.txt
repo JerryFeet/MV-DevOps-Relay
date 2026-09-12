@@ -1,0 +1,1315 @@
+
+> workspace@0.0.0 round3:regression:e2e /home/runner/workspace
+> pnpm run round3:regression:api && pnpm run round3:regression:portal && pnpm run round3:regression:mobile && pnpm --filter @workspace/hoa-portal run round3:regression:e2e
+
+
+> workspace@0.0.0 round3:regression:api /home/runner/workspace
+> pnpm --filter @workspace/api-server exec vitest run --maxWorkers=4 src/__tests__/emailSecurity.test.ts src/__tests__/adminAlertOnApprovalRequired.test.ts src/__tests__/bookingGuards.test.ts src/__tests__/unitVerificationSecurity.test.ts src/__tests__/unitVerificationTitleDeedLifecycle.test.ts src/__tests__/wahaPassCompositionI5.test.ts src/__tests__/stage4I3I4Guards.test.ts src/__tests__/tenancyLifecycleStage6b.test.ts src/__tests__/ownershipChangeScheduler.test.ts src/__tests__/releaseSubject.test.ts src/__tests__/releaseMutationBoundary.test.ts src/__tests__/familyBDivergence.test.ts src/__tests__/paymentCallbackMatrix.test.ts src/__tests__/residentStatusTransitions.test.ts src/__tests__/userPatchLifecycleBoundary.test.ts src/__tests__/residentsPortalInvite.test.ts src/__tests__/residentsSelfRegistration.test.ts src/__tests__/currentSubject.test.ts src/__tests__/userUnitProjectionBoundary.static.test.ts src/__tests__/round4D5TenantUnder18A1a.test.ts src/__tests__/round4D13D14PermitGuards.test.ts src/__tests__/wahaReplacementPaymentRaceA1a.test.ts src/__tests__/wahaPassApplyRaceA1a.test.ts src/__tests__/wahaRevocationNotificationRaceA1a.test.ts src/__tests__/round4D18D22AdminDirectPostA1a.test.ts src/__tests__/bookingAllowanceRacesA1a.test.ts src/__tests__/vehicleParkingA1aRegression.test.ts src/__tests__/remainingA1aRaceProofs.test.ts src/__tests__/round4C4PortalHelpTerminal.test.ts
+
+[?25l
+ RUN  v4.1.9 /home/runner/workspace/artifacts/api-server
+
+[?2026h
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts [queued]
+
+ Test Files 0 passed (29)
+      Tests 0 passed (0)
+   Start at 09:31:09
+   Duration 202ms
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+ ❯ src/__tests__/releaseMutationBoundary.test.ts [queued]
+ ❯ src/__tests__/round4D5TenantUnder18A1a.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts [queued]
+ ❯ src/__tests__/vehicleParkingA1aRegression.test.ts [queued]
+
+ Test Files 0 passed (29)
+      Tests 0 passed (0)
+   Start at 09:31:09
+   Duration 376ms
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+ ❯ src/__tests__/releaseMutationBoundary.test.ts 0/8
+ ❯ src/__tests__/round4D5TenantUnder18A1a.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts [queued]
+ ❯ src/__tests__/vehicleParkingA1aRegression.test.ts [queued]
+
+ Test Files 0 passed (29)
+      Tests 0 passed (8)
+   Start at 09:31:09
+   Duration 622ms
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+ ❯ src/__tests__/releaseMutationBoundary.test.ts 0/8
+ ❯ src/__tests__/round4D5TenantUnder18A1a.test.ts 0/1
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts [queued]
+ ❯ src/__tests__/vehicleParkingA1aRegression.test.ts [queued]
+
+ Test Files 0 passed (29)
+      Tests 0 passed (9)
+   Start at 09:31:09
+   Duration 924ms
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+ ❯ src/__tests__/releaseMutationBoundary.test.ts 1/8
+ ❯ src/__tests__/round4D5TenantUnder18A1a.test.ts 0/1
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts [queued]
+ ❯ src/__tests__/vehicleParkingA1aRegression.test.ts 0/2
+
+ Test Files 0 passed (29)
+      Tests 1 passed (11)
+   Start at 09:31:09
+   Duration 1.33s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/releaseMutationBoundary.test.ts > terminal release mutation boundary > allows terminal account deletion only in releaseSubject and occupancy mutations only in occupancy.ts 673ms
+
+ ❯ src/__tests__/releaseMutationBoundary.test.ts 1/8
+ ❯ src/__tests__/round4D5TenantUnder18A1a.test.ts 0/1
+   └── beforeAll 370ms
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 0/26
+ ❯ src/__tests__/vehicleParkingA1aRegression.test.ts 0/2
+   └── beforeAll 370ms
+
+ Test Files 0 passed (29)
+      Tests 1 passed (37)
+   Start at 09:31:09
+   Duration 1.47s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[Kstdout | src/__tests__/tenancyLifecycleStage6b.test.ts > F8c / T14d — pending renewal across expiry > suspends access and retains a paid future booking, then restores both after late owner approval
+Attention: Clerk collects telemetry data from its SDKs when connected to development instances.
+The data collected is used to inform Clerk's product roadmap.
+To learn more, including how to opt-out from the telemetry program, visit: https://clerk.com/docs/telemetry.
+
+
+
+ ❯ src/__tests__/releaseMutationBoundary.test.ts 1/8
+ ❯ src/__tests__/round4D5TenantUnder18A1a.test.ts 0/1
+   └── beforeAll 876ms
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 0/26
+   └── suspends access and retains a paid future booking, then restores both after late owner approval 309ms
+ ❯ src/__tests__/vehicleParkingA1aRegression.test.ts 0/2
+   └── beforeAll 876ms
+
+ Test Files 0 passed (29)
+      Tests 1 passed (37)
+   Start at 09:31:09
+   Duration 1.98s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+ ❯ src/__tests__/releaseMutationBoundary.test.ts 1/8
+ ❯ src/__tests__/round4D5TenantUnder18A1a.test.ts 0/1
+   └── beforeAll 1.69s
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 1/26
+ ❯ src/__tests__/vehicleParkingA1aRegression.test.ts 0/2
+   └── beforeAll 1.69s
+
+ Test Files 0 passed (29)
+      Tests 2 passed (37)
+   Start at 09:31:09
+   Duration 2.79s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > F8c / T14d — pending renewal across expiry > suspends access and retains a paid future booking, then restores both after late owner approval 1259ms
+
+ ❯ src/__tests__/releaseMutationBoundary.test.ts 1/8
+ ❯ src/__tests__/round4D5TenantUnder18A1a.test.ts 0/1
+   └── beforeAll 1.79s
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 2/26
+ ❯ src/__tests__/vehicleParkingA1aRegression.test.ts 0/2
+   └── beforeAll 1.79s
+
+ Test Files 0 passed (29)
+      Tests 3 passed (37)
+   Start at 09:31:09
+   Duration 2.89s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > B4-UO1 — completed release is terminal against stale renewal approval > cannot restore a previous tenant after release commits 6ms
+
+ ❯ src/__tests__/releaseMutationBoundary.test.ts 1/8
+ ❯ src/__tests__/round4D5TenantUnder18A1a.test.ts 0/1
+   └── beforeAll 2.11s
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 3/26
+ ❯ src/__tests__/vehicleParkingA1aRegression.test.ts 0/2
+   └── beforeAll 2.11s
+
+ Test Files 0 passed (29)
+      Tests 4 passed (37)
+   Start at 09:31:09
+   Duration 3.21s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > T14 scheduler concurrency > keeps a concurrent paid booking confirmed and produces no terminal release during duplicated expiry work 468ms
+
+ ❯ src/__tests__/releaseMutationBoundary.test.ts 2/8
+ ❯ src/__tests__/round4D5TenantUnder18A1a.test.ts 0/1
+   └── beforeAll 2.71s
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 3/26
+   └── is enqueued once per channel at the 30-day boundary and remains deduplicated across scheduler reruns 406ms
+ ❯ src/__tests__/vehicleParkingA1aRegression.test.ts 0/2
+   └── beforeAll 2.71s
+
+ Test Files 0 passed (29)
+      Tests 5 passed (37)
+   Start at 09:31:09
+   Duration 3.81s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/releaseMutationBoundary.test.ts > terminal release mutation boundary > requires releaseSubject to orchestrate terminal occupancy through the shared authority 5ms
+ ✓ src/__tests__/releaseMutationBoundary.test.ts > terminal release mutation boundary > allows only releaseSubject to acquire terminal authority or invoke the move-out helper 8ms
+ ✓ src/__tests__/releaseMutationBoundary.test.ts > terminal release mutation boundary > rejects forged terminal-release authority before touching the database 2540ms
+ ✓ src/__tests__/releaseMutationBoundary.test.ts > terminal release mutation boundary > rejects a synthetic new route that attempts a direct account deletion 1ms
+ ✓ src/__tests__/releaseMutationBoundary.test.ts > terminal release mutation boundary > rejects a synthetic direct move-out outside occupancy.ts 0ms
+ ✓ src/__tests__/releaseMutationBoundary.test.ts > terminal release mutation boundary > rejects the retired legacy deletion helper and ownership-route import 0ms
+ ✓ src/__tests__/releaseMutationBoundary.test.ts > terminal release mutation boundary > documents the only external-deletion adapter as a durable release-job worker 2ms
+
+ ❯ src/__tests__/releaseMutationBoundary.test.ts 8/8
+ ❯ src/__tests__/round4D5TenantUnder18A1a.test.ts 0/1
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 3/26
+   └── is enqueued once per channel at the 30-day boundary and remains deduplicated across scheduler reruns 508ms
+ ❯ src/__tests__/vehicleParkingA1aRegression.test.ts 1/2
+
+ Test Files 1 passed (29)
+      Tests 12 passed (37)
+   Start at 09:31:09
+   Duration 3.92s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/vehicleParkingA1aRegression.test.ts > A1a remaining vehicle/parking candidates > serializes same-user first/additional classification after admission 64ms
+ ✓ src/__tests__/vehicleParkingA1aRegression.test.ts > A1a remaining vehicle/parking candidates > keeps the normalized parking identity backstop and lock wired 2ms
+ ✓ src/__tests__/round4D5TenantUnder18A1a.test.ts > Round 4 D-5 tenant under-18 A1a proof > rejects a valid under-18 DOB before inserting unit verification 78ms
+
+ ❯ src/__tests__/residentsPortalInvite.test.ts [queued]
+ ❯ src/__tests__/round4D5TenantUnder18A1a.test.ts 1/1
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 3/26
+   └── is enqueued once per channel at the 30-day boundary and remains deduplicated across scheduler reruns 831ms
+ ❯ src/__tests__/unitVerificationSecurity.test.ts [queued]
+
+ Test Files 3 passed (29)
+      Tests 14 passed (37)
+   Start at 09:31:09
+   Duration 4.24s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+ ❯ src/__tests__/adminAlertOnApprovalRequired.test.ts [queued]
+ ❯ src/__tests__/residentsPortalInvite.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 4/26
+ ❯ src/__tests__/unitVerificationSecurity.test.ts [queued]
+
+ Test Files 3 passed (29)
+      Tests 15 passed (37)
+   Start at 09:31:09
+   Duration 4.64s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > X3 event 12 — irreversible deletion notice > is enqueued once per channel at the 30-day boundary and remains deduplicated across scheduler reruns 1380ms
+
+ ❯ src/__tests__/adminAlertOnApprovalRequired.test.ts [queued]
+ ❯ src/__tests__/residentsPortalInvite.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 4/26
+ ❯ src/__tests__/unitVerificationSecurity.test.ts [queued]
+
+ Test Files 3 passed (29)
+      Tests 15 passed (37)
+   Start at 09:31:09
+   Duration 4.95s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+ ❯ src/__tests__/adminAlertOnApprovalRequired.test.ts 0/13
+ ❯ src/__tests__/residentsPortalInvite.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 4/26
+   └── terminal tenancy expiry revokes the affected suspended credential while releasing only its graph 453ms
+ ❯ src/__tests__/unitVerificationSecurity.test.ts [queued]
+
+ Test Files 3 passed (29)
+      Tests 15 passed (50)
+   Start at 09:31:09
+   Duration 5.25s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+ ❯ src/__tests__/adminAlertOnApprovalRequired.test.ts 1/13
+ ❯ src/__tests__/residentsPortalInvite.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 4/26
+   └── terminal tenancy expiry revokes the affected suspended credential while releasing only its graph 553ms
+ ❯ src/__tests__/unitVerificationSecurity.test.ts 0/21
+
+ Test Files 3 passed (29)
+      Tests 16 passed (71)
+   Start at 09:31:09
+   Duration 5.35s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/adminAlertOnApprovalRequired.test.ts > C4 sendApprovalQueueAlert — approval-required resident events > POST /permits — resident submits a renovation permit > routes the approval queue with an [Action Required] subject when a resident submits 60ms
+ ✓ src/__tests__/adminAlertOnApprovalRequired.test.ts > C4 sendApprovalQueueAlert — approval-required resident events > POST /permits — resident submits a renovation permit > includes the unit number in the subject when caller has a unitNumber 14ms
+ ✓ src/__tests__/adminAlertOnApprovalRequired.test.ts > C4 sendApprovalQueueAlert — approval-required resident events > POST /permits — resident submits a renovation permit > does not let an admin create a permit or fire a resident approval alert 10ms
+ ✓ src/__tests__/adminAlertOnApprovalRequired.test.ts > C4 sendApprovalQueueAlert — approval-required resident events > POST /permits — C-3 move-out method validation > requires self_move or moving_company for a move-out permit 9ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > Waha scheduler runtime observation > terminal tenancy expiry revokes the affected suspended credential while releasing only its graph 640ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > resolves Clerk metadata locale en to en 1ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > resolves Clerk metadata locale ar to ar 1ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > resolves Clerk metadata locale fr to ar 1ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > resolves Clerk metadata locale undefined to ar 0ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > enforces the renewal submission window at 31 days: rejects 3ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > POST /unit-verify/tenant — owner National ID is private > accepts an Ejar contract number and lease dates without collecting a document 57ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > POST /unit-verify/tenant — owner National ID is private > rejects legacy Ejar document fields on a new submission without storing them 8ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > POST /unit-verify/tenant — owner National ID is private > requires an owner National ID alongside the complete tenancy evidence 4ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > POST /unit-verify/tenant — owner National ID is private > rejects a non-matching owner National ID without disclosing why 5ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > POST /unit-verify/tenant — owner National ID is private > accepts the matching owner National ID without returning it 16ms
+
+ ❯ src/__tests__/adminAlertOnApprovalRequired.test.ts 5/13
+ ❯ src/__tests__/residentsPortalInvite.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 10/26
+ ❯ src/__tests__/unitVerificationSecurity.test.ts 5/21
+
+ Test Files 3 passed (29)
+      Tests 31 passed (71)
+   Start at 09:31:09
+   Duration 5.45s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/adminAlertOnApprovalRequired.test.ts > C4 sendApprovalQueueAlert — approval-required resident events > POST /permits — C-3 move-out method validation > requires a company name for the moving_company method 13ms
+ ✓ src/__tests__/adminAlertOnApprovalRequired.test.ts > C4 sendApprovalQueueAlert — approval-required resident events > POST /permits — C-3 move-out method validation > requires a company contact for the moving_company method 10ms
+ ✓ src/__tests__/adminAlertOnApprovalRequired.test.ts > C4 sendApprovalQueueAlert — approval-required resident events > POST /unit-verify/owner — manual review path > routes the approval queue when no registry match is found (manual review) 13ms
+ ✓ src/__tests__/adminAlertOnApprovalRequired.test.ts > C4 sendApprovalQueueAlert — approval-required resident events > POST /unit-verify/owner — manual review path > still requires manual review and alerts admins when the registry has an exact match 7ms
+ ✓ src/__tests__/adminAlertOnApprovalRequired.test.ts > C4 sendApprovalQueueAlert — approval-required resident events > POST /unit-verify/tenant > routes the approval queue with Tenant Linkage Request subject 27ms
+ ✓ src/__tests__/adminAlertOnApprovalRequired.test.ts > C4 sendApprovalQueueAlert — approval-required resident events > POST /vehicles — additional vehicle request > routes the approval queue when the resident already has one active vehicle (isAdditional=true) 12ms
+ ✓ src/__tests__/adminAlertOnApprovalRequired.test.ts > C4 sendApprovalQueueAlert — approval-required resident events > POST /vehicles — additional vehicle request > does NOT fire sendAdminAlert when registering the first vehicle (isAdditional=false) 22ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > B2 — unit linkage is granted only by an authoritative flow > keeps a pending owner claim in unit_verifications without linking the requester account 14ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > B2 — unit linkage is granted only by an authoritative flow > sets the requester unit link when an admin approves the owner claim 18ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > GET /unit-verify/:id/title-deed — access control > returns 403 for a non-admin resident 10ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > GET /unit-verify/:id/title-deed — access control > returns 200 with a signed URL for an admin 8ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > GET /unit-verify/:id/title-deed — access control > returns 404 when the verification has no title deed 6ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > POST /unit-verify/owner — title deed number validation > returns 400 when titleDeedKey is outside /objects/title-deeds/ namespace 5ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > POST /unit-verify/owner — title deed number validation > accepts an exact 16-digit title deed number 8ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > POST /unit-verify/title-deed-upload — retired endpoint > returns 404 for an authenticated resident and does not store an upload 15ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > POST /unit-verify/title-deed-upload — retired endpoint > returns 404 for an authenticated admin without invoking storage 13ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > POST /unit-verify/tenant — parking lot validation > ignores legacy tenant parking payload rather than requiring or persisting it 9ms
+ ✓ src/__tests__/adminAlertOnApprovalRequired.test.ts > C4 sendApprovalQueueAlert — approval-required resident events > POST /guests — resident pre-registers a guest > fires sendAdminAlert with [Action Required] New Guest Pre-Registration subject 24ms
+ ✓ src/__tests__/adminAlertOnApprovalRequired.test.ts > C4 sendApprovalQueueAlert — approval-required resident events > POST /guests — resident pre-registers a guest > rejects guest registration when National ID / Iqama is omitted 12ms
+
+ ❯ src/__tests__/adminAlertOnApprovalRequired.test.ts 13/13
+ ❯ src/__tests__/residentsPortalInvite.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 10/26
+ ❯ src/__tests__/unitVerificationSecurity.test.ts 16/21
+
+ Test Files 4 passed (29)
+      Tests 50 passed (71)
+   Start at 09:31:09
+   Duration 5.55s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > POST /unit-verify/tenant — parking lot validation > succeeds when tenant submits a registered lot 10ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > POST /unit-verify/tenant — parking lot validation > succeeds when tenant submits no parking lots at all 13ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > T7 — owner-ID check throttling and privacy > throttles the sixth fixed-window check, recovers after the window, scopes quotas per unit, and never discloses an owner ID 69ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > C1 — Arabic and Latin tenancy identity is the identity shown to the owner > preserves submitted name parts and uses them in both the owner and admin queues 34ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > T8 — ownerless tenancy submission has the mandated bilingual contract > returns 422 with the owner-registration guidance instead of an owner-ID mismatch 14ms
+ ✓ src/__tests__/unitVerificationSecurity.test.ts > Unit verification — security and access control > T3 — an expired Ejar contract cannot establish a current tenancy > rejects a lease whose end date is already in the past 10ms
+
+ ❯ src/__tests__/residentsPortalInvite.test.ts [queued]
+ ❯ src/__tests__/stage4I3I4Guards.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 10/26
+   └── enforces the renewal submission window at 30 days: accepts 222ms
+ ❯ src/__tests__/unitVerificationSecurity.test.ts 21/21
+
+ Test Files 5 passed (29)
+      Tests 55 passed (71)
+   Start at 09:31:09
+   Duration 5.66s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > enforces the renewal submission window at 30 days: accepts 320ms
+
+ ❯ src/__tests__/bookingAllowanceRacesA1a.test.ts [queued]
+ ❯ src/__tests__/residentsPortalInvite.test.ts [queued]
+ ❯ src/__tests__/stage4I3I4Guards.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 11/26
+
+ Test Files 5 passed (29)
+      Tests 56 passed (71)
+   Start at 09:31:09
+   Duration 5.96s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+ ❯ src/__tests__/bookingAllowanceRacesA1a.test.ts [queued]
+ ❯ src/__tests__/residentsPortalInvite.test.ts 0/63
+ ❯ src/__tests__/stage4I3I4Guards.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 11/26
+   └── enforces the renewal submission window at 1 days: accepts 300ms
+
+ Test Files 5 passed (29)
+      Tests 56 passed (134)
+   Start at 09:31:09
+   Duration 6.06s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+ ❯ src/__tests__/bookingAllowanceRacesA1a.test.ts [queued]
+ ❯ src/__tests__/residentsPortalInvite.test.ts 1/63
+ ❯ src/__tests__/stage4I3I4Guards.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 11/26
+   └── enforces the renewal submission window at 1 days: accepts 400ms
+
+ Test Files 5 passed (29)
+      Tests 57 passed (134)
+   Start at 09:31:09
+   Duration 6.16s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/residents — portal access invitation > rejects resident registration without a mobile number 56ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/residents — portal access invitation > registers a resident without collecting or returning a photo key 14ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/residents — portal access invitation > rejects a resident registration without a National ID / Iqama 5ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/residents — portal access invitation > persists the guardian identifier flag only for an under-18 resident 11ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/residents — portal access invitation > derives a minor guardian identifier from the primary occupant instead of the submitted value 8ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/residents — portal access invitation > keeps a fifth resident request visible as a read-only pending-verification list item 16ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/residents — portal access invitation > rejects resident registration with gender undefined 7ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/residents — portal access invitation > rejects resident registration with gender "other" 7ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/residents — portal access invitation > returns 422 when hasPortalAccess=true and no email 7ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/residents — portal access invitation > creates a tokenised invitation and sends the Clerk email 6ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/residents — portal access invitation > fails before creating an invitation when PORTAL_BASE_URL is unset 12ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/residents — portal access invitation > returns 409 when the unit already has a pending invitation 8ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/residents — portal access invitation > returns 409 when the unit already has an accepted invitation 11ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/residents — portal access invitation > does not invite when hasPortalAccess=false 6ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/residents — portal access invitation > returns 422 when hasPortalAccess=true for a minor 9ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/residents — portal access invitation > returns 403 when an unverified caller tries to grant portal access 7ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/residents — portal access invitation > returns 422 when the caller has no linked unit 9ms
+
+ ❯ src/__tests__/bookingAllowanceRacesA1a.test.ts [queued]
+ ❯ src/__tests__/residentsPortalInvite.test.ts 18/63
+ ❯ src/__tests__/stage4I3I4Guards.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 11/26
+   └── enforces the renewal submission window at 1 days: accepts 605ms
+      └── afterEach
+
+ Test Files 5 passed (29)
+      Tests 74 passed (134)
+   Start at 09:31:09
+   Duration 6.37s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/residents — portal access invitation > compensates a failed Clerk invitation instead of committing portal access 11ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > staff role exclusion — verified status alone must not grant invitation power > POST /residents: supervisor with verified_owner status gets 403 for portal grant 5ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > staff role exclusion — verified status alone must not grant invitation power > PATCH /residents/:id: guard with verified_owner status gets 403 for portal grant 6ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > staff role exclusion — verified status alone must not grant invitation power > reissue/list: a supervisor who registered the resident still never sees the raw URL 11ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > admin invitation power > admin can grant portal access via PATCH, resolving the unit from the resident 6ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > PATCH disable revokes the slot > setting hasPortalAccess=false revokes the pending invitation (token no longer consumable) 20ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > PATCH disable revokes the slot > A1a portal-access resurrection: stale PATCH cannot restore access after revoke 21ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > PATCH disable revokes the slot > setting hasPortalAccess=false unlinks an accepted member's account 22ms
+
+ ❯ src/__tests__/bookingAllowanceRacesA1a.test.ts [queued]
+ ❯ src/__tests__/residentsPortalInvite.test.ts 26/63
+ ❯ src/__tests__/stage4I3I4Guards.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 11/26
+   └── enforces the renewal submission window at 1 days: accepts 710ms
+      └── afterEach
+
+ Test Files 5 passed (29)
+      Tests 82 passed (134)
+   Start at 09:31:09
+   Duration 6.47s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/residentsPortalInvite.test.ts > GET /api/residents — raw invite URL exposure > includes the invitation URL for the registrar 12ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > GET /api/residents — raw invite URL exposure > includes the invitation URL for an admin 5ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > GET /api/residents — raw invite URL exposure > supervisor sees own residents only after X6 — invite URL never exposed 6ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > PATCH /api/residents/:id — granting portal access later > returns 422 when flipping hasPortalAccess on with no email on file 17ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > PATCH /api/residents/:id — granting portal access later > creates the invitation when flipping hasPortalAccess on with email 45ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > PATCH /api/residents/:id — granting portal access later > compensates when Clerk fails after a PATCH portal-access grant 31ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > PATCH /api/residents/:id — granting portal access later > returns 409 when the unit slot is already taken 20ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > PATCH /api/residents/:id — granting portal access later > does not re-invite when hasPortalAccess was already true 18ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/residents/:id/invite — reissue invitation > reissues a fresh token and revokes the previous pending one 15ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/residents/:id/invite — reissue invitation > returns 409 when the invitation was already accepted 11ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/residents/:id/invite — reissue invitation > returns 409 when the member has no portal access 12ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/residents/:id/invite — reissue invitation > returns 404 for a non-staff caller who did not register the member 18ms
+
+ ❯ src/__tests__/bookingAllowanceRacesA1a.test.ts [queued]
+ ❯ src/__tests__/residentsPortalInvite.test.ts 38/63
+ ❯ src/__tests__/stage4I3I4Guards.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 11/26
+   └── enforces the renewal submission window at 1 days: accepts 918ms
+      └── afterEach
+
+ Test Files 5 passed (29)
+      Tests 94 passed (134)
+   Start at 09:31:09
+   Duration 6.68s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/residents/:id/invite — reissue invitation > returns 404 for a supervisor (staff must not obtain the raw invite URL) 12ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/residents/:id/invite — reissue invitation > allows an admin to reissue using the registrar's unit 33ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/residents/:id/invite — reissue invitation > revokes portal access when a replacement Clerk invitation fails 20ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > DELETE /api/residents/:id/invite — revoke the slot > revokes a pending invitation and clears portal access 19ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > DELETE /api/residents/:id/invite — revoke the slot > unlinks the member's portal account when revoking an accepted invitation 26ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > DELETE /api/residents/:id/invite — revoke the slot > returns 409 when there is no active invitation 16ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > DELETE /api/residents/:id/invite — revoke the slot > returns 404 for a non-admin caller who did not register the member 14ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > GET /api/invitations/validate — public token check > returns valid with email + unit for a pending unexpired token 10ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > GET /api/invitations/validate — public token check > flags a used token 11ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > GET /api/invitations/validate — public token check > flags a revoked token 19ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > GET /api/invitations/validate — public token check > flags an expired token 12ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > GET /api/invitations/validate — public token check > flags an unknown token 15ms
+
+ ❯ src/__tests__/bookingAllowanceRacesA1a.test.ts [queued]
+ ❯ src/__tests__/residentsPortalInvite.test.ts 50/63
+ ❯ src/__tests__/stage4I3I4Guards.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 11/26
+   └── enforces the renewal submission window at 1 days: accepts 1.13s
+      └── afterEach
+
+ Test Files 5 passed (29)
+      Tests 106 passed (134)
+   Start at 09:31:09
+   Duration 6.90s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/residentsPortalInvite.test.ts > GET /api/invitations/validate — public token check > 400s when the token is missing 14ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/users/me/sync — invitation consumption > links a new user presenting the token with a matching Clerk-verified email 64ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/users/me/sync — invitation consumption > does not link without a token, even when the email matches (spoofing guard) 5ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/users/me/sync — invitation consumption > does not link when the caller's Clerk-verified email differs from the invited email 9ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > enforces the renewal submission window at 1 days: accepts 315ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > enforces the renewal submission window at 0 days: rejects 6ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/users/me/sync — invitation consumption > is single-use: a second sync with the same token is not linked 13ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/users/me/sync — invitation consumption > does not link when the matching Clerk email is unverified (null verification) 7ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/users/me/sync — invitation consumption > does not link when the matching Clerk email verification status is not 'verified' 6ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/users/me/sync — invitation consumption > consume-vs-revoke: after a committed consume, revoke fully unlinks the user 17ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/users/me/sync — invitation consumption > consume-vs-revoke: after a committed revoke, the token can no longer link 11ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/users/me/sync — invitation consumption > A1a consume-vs-revoke is serialized in either arrival order (consume-first) 21ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/users/me/sync — invitation consumption > A1a consume-vs-revoke is serialized in either arrival order (revoke-first) 11ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/users/me/sync — invitation consumption > does not link an expired invitation 13ms
+ ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/users/me/sync — invitation consumption > never downgrades a verified owner syncing with a valid token 9ms
+
+ ❯ src/__tests__/bookingAllowanceRacesA1a.test.ts [queued]
+ ❯ src/__tests__/residentsPortalInvite.test.ts 63/63
+ ❯ src/__tests__/stage4I3I4Guards.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 13/26
+
+ Test Files 5 passed (29)
+      Tests 121 passed (134)
+   Start at 09:31:09
+   Duration 7.00s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/residentsPortalInvite.test.ts > POST /api/users/me/sync — invitation consumption > refuses a suspension that arrives after provisioning but before invitation linkage 2ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > seeds the 30-day A/B boundary: both recipients receive both mandatory channels 1091ms
+
+ ❯ src/__tests__/bookingAllowanceRacesA1a.test.ts [queued]
+ ❯ src/__tests__/residentsPortalInvite.test.ts 63/63
+ ❯ src/__tests__/stage4I3I4Guards.test.ts 0/26
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 14/26
+
+ Test Files 6 passed (29)
+      Tests 122 passed (160)
+   Start at 09:31:09
+   Duration 7.20s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+ ❯ src/__tests__/bookingAllowanceRacesA1a.test.ts 0/6
+ ❯ src/__tests__/residentsPortalInvite.test.ts 63/63
+ ❯ src/__tests__/stage4I3I4Guards.test.ts 1/26
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 14/26
+
+ Test Files 6 passed (29)
+      Tests 123 passed (166)
+   Start at 09:31:09
+   Duration 7.30s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(a) — Verified tenant: Waha Pass access > verified_tenant can GET /api/waha-pass/eligibility 38ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(a) — Verified tenant: Waha Pass access > verified_tenant can GET /api/waha-pass/mine 22ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(a) — Verified tenant: Waha Pass access > verified_tenant can POST /api/waha-pass/apply when unit has no conflicting pass 21ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(b) — Verified tenant: Resident management access > verified_tenant can GET /api/residents (their unit's residents) 8ms
+ ✓ src/__tests__/bookingAllowanceRacesA1a.test.ts > A1a booking/allowance race proofs > Family A — monthly allowance: both POSTs reach transaction admission, unique claim elects one winner 90ms
+
+ ❯ src/__tests__/bookingAllowanceRacesA1a.test.ts 1/6
+ ❯ src/__tests__/residentsSelfRegistration.test.ts [queued]
+ ❯ src/__tests__/stage4I3I4Guards.test.ts 5/26
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 14/26
+
+ Test Files 6 passed (29)
+      Tests 128 passed (166)
+   Start at 09:31:09
+   Duration 7.40s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(b) — Verified tenant: Resident management access > verified_tenant can GET /api/residents/:id for their own unit's resident 12ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(b) — Verified tenant: Resident management access > verified_owner can also GET /api/residents — baseline positive control 8ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(b) — Verified tenant: Resident management access > unverified user cannot GET another user's resident record 6ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(c) — Verified tenant: Guest Day Pass create/list > verified_tenant can GET /api/waha-guest-day-passes/mine 5ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(c) — Verified tenant: Guest Day Pass create/list > verified_owner can also GET /api/waha-guest-day-passes/mine — baseline 6ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(c) — Verified tenant: Guest Day Pass create/list > verified_tenant can POST a Day Pass with an optional plate (unit has active pass) 8ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(c) — Verified tenant: Guest Day Pass create/list > verified_tenant can omit the optional Day Pass plate 15ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(c) — Verified tenant: Guest Day Pass create/list > rejects an invalid Day Pass plate before a payment attempt is created 6ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(c) — Verified tenant: Guest Day Pass create/list > unverified user is blocked from POST /api/waha-guest-day-passes 5ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(c) — Verified tenant: Guest Day Pass create/list > unverified user is blocked from GET /api/waha-guest-day-passes/mine 10ms
+ ✓ src/__tests__/bookingAllowanceRacesA1a.test.ts > A1a booking/allowance race proofs > Family B — POST cancel versus POST confirm: cancellation winner is re-read 13ms
+ ✓ src/__tests__/bookingAllowanceRacesA1a.test.ts > A1a booking/allowance race proofs > Family B — PATCH cancel versus POST confirm: both cancellation paths converge 23ms
+ ✓ src/__tests__/bookingAllowanceRacesA1a.test.ts > A1a booking/allowance race proofs > Family B — POST cancel versus payment webhook: paid settlement wins 27ms
+ ✓ src/__tests__/bookingAllowanceRacesA1a.test.ts > A1a booking/allowance race proofs > Family B — PATCH cancel versus payment webhook: shared cancellation preserves paid 13ms
+ ✓ src/__tests__/bookingAllowanceRacesA1a.test.ts > A1a booking/allowance race proofs > neither — expired PATCH confirmation returns a conflict 8ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(c) — Verified tenant: Guest Day Pass create/list > denies a moved purchaser's old-unit day pass in every verification path 32ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > Exception: Ownership change initiation is owner-only > verified_tenant gets 403 on POST /api/ownership-changes (I3/I4 exception) 6ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > Exception: Ownership change initiation is owner-only > verified_owner can initiate POST /api/ownership-changes — positive control 8ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > Exception: T10 tenant linkage approval is owner-only > verified_tenant gets 403 on POST /api/unit-verify/:id/approve for tenant_request 4ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > Exception: T10 tenant linkage approval is owner-only > verified_tenant gets 403 on POST /api/unit-verify/:id/reject for tenant_request 21ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > Exception: T10 tenant linkage approval is owner-only > verified_owner (unit owner) can approve tenant_request — positive control 10ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(a) — Waha Pass applicant actions > verified_owner (applicant) can report-lost on their credential 13ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(a) — Waha Pass applicant actions > verified_tenant (not applicant) gets 403 on report-lost for owner's app 8ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > I4(a) — Waha Pass applicant actions > blocks a moved applicant from reporting an old-unit credential lost without mutations 11ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > Admin/guard/supervisor access controls not weakened > admin can GET /api/waha-pass/admin 4ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > Admin/guard/supervisor access controls not weakened > verified_tenant cannot GET /api/waha-pass/admin (admin-only) 4ms
+ ✓ src/__tests__/stage4I3I4Guards.test.ts > Admin/guard/supervisor access controls not weakened > verified_owner cannot GET /api/waha-pass/admin (admin-only) 7ms
+
+ ❯ src/__tests__/residentsSelfRegistration.test.ts [queued]
+ ❯ src/__tests__/stage4I3I4Guards.test.ts 26/26
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 14/26
+   └── seeds the 14-day A/B boundary: both recipients receive both mandatory channels 531ms
+ ❯ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts [queued]
+
+ Test Files 8 passed (29)
+      Tests 154 passed (166)
+   Start at 09:31:09
+   Duration 7.70s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > seeds the 14-day A/B boundary: both recipients receive both mandatory channels 667ms
+
+ ❯ src/__tests__/residentsSelfRegistration.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 15/26
+ ❯ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts [queued]
+ ❯ src/__tests__/wahaPassCompositionI5.test.ts [queued]
+
+ Test Files 8 passed (29)
+      Tests 155 passed (166)
+   Start at 09:31:09
+   Duration 8.01s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+ ❯ src/__tests__/residentsSelfRegistration.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 16/26
+ ❯ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts [queued]
+ ❯ src/__tests__/wahaPassCompositionI5.test.ts [queued]
+
+ Test Files 8 passed (29)
+      Tests 156 passed (166)
+   Start at 09:31:09
+   Duration 8.51s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > seeds the 7-day A/B boundary: both recipients receive both mandatory channels 702ms
+
+ ❯ src/__tests__/residentsSelfRegistration.test.ts 0/13
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 16/26
+ ❯ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts [queued]
+ ❯ src/__tests__/wahaPassCompositionI5.test.ts [queued]
+
+ Test Files 8 passed (29)
+      Tests 156 passed (179)
+   Start at 09:31:09
+   Duration 8.61s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+ ❯ src/__tests__/residentsSelfRegistration.test.ts 1/13
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 16/26
+ ❯ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts [queued]
+ ❯ src/__tests__/wahaPassCompositionI5.test.ts [queued]
+
+ Test Files 8 passed (29)
+      Tests 157 passed (179)
+   Start at 09:31:09
+   Duration 8.71s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/residentsSelfRegistration.test.ts > POST /api/residents/self — verified owner success > returns 201 with type='owner' 41ms
+ ✓ src/__tests__/residentsSelfRegistration.test.ts > POST /api/residents/self — verified owner success > sets relationship='Owner' 16ms
+ ✓ src/__tests__/residentsSelfRegistration.test.ts > POST /api/residents/self — verified owner success > sets status='active' 13ms
+ ✓ src/__tests__/residentsSelfRegistration.test.ts > POST /api/residents/self — verified owner success > does not return a legacy photo key 9ms
+ ✓ src/__tests__/residentsSelfRegistration.test.ts > POST /api/residents/self — verified owner success > copies firstName and lastName from the caller's user record 12ms
+
+ ❯ src/__tests__/residentsSelfRegistration.test.ts 6/13
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 16/26
+   └── seeds the 1-day A/B boundary: both recipients receive both mandatory channels 263ms
+ ❯ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts 0/21
+ ❯ src/__tests__/wahaPassCompositionI5.test.ts 0/12
+
+ Test Files 8 passed (29)
+      Tests 162 passed (212)
+   Start at 09:31:09
+   Duration 8.81s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/residentsSelfRegistration.test.ts > POST /api/residents/self — verified owner success > sets hasPortalAccess=true for self-registered residents 13ms
+ ✓ src/__tests__/residentsSelfRegistration.test.ts > POST /api/residents/self — verified owner success > copies the caller's canonical mobile number 8ms
+ ✓ src/__tests__/residentsSelfRegistration.test.ts > POST /api/residents/self — unverified caller blocked (403) > returns 403 for an unverified user 7ms
+ ✓ src/__tests__/residentsSelfRegistration.test.ts > POST /api/residents/self — unverified caller blocked (403) > response body carries a VERIFICATION_REQUIRED error code 9ms
+ ✓ src/__tests__/residentsSelfRegistration.test.ts > POST /api/residents/self — duplicate guard (409) > serializes two simultaneous self-registration requests into one creation and one duplicate result 42ms
+ ✓ src/__tests__/residentsSelfRegistration.test.ts > POST /api/residents/self — duplicate guard (409) > returns 409 when the caller already has an active self-registered resident 17ms
+ ✓ src/__tests__/residentsSelfRegistration.test.ts > POST /api/residents/self — duplicate guard (409) > response body carries an ALREADY_REGISTERED error code 12ms
+ ✓ src/__tests__/residentsSelfRegistration.test.ts > POST /api/residents/self — duplicate guard (409) > only one resident record is created after two POST attempts 10ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > retires the title-deed upload endpoint while retaining legacy-key lifecycle operations 59ms
+ ✓ src/__tests__/wahaPassCompositionI5.test.ts > POST /waha-pass/apply — I5 second-resident rules > DOB-1: rejects second resident with no date_of_birth with SECOND_RESIDENT_DOB_ABSENT 65ms
+ ✓ src/__tests__/wahaPassCompositionI5.test.ts > POST /waha-pass/apply — I5 second-resident rules > DOB-2: rejects second resident under 18 with SECOND_RESIDENT_UNDER_18 25ms
+
+ ❯ src/__tests__/residentsSelfRegistration.test.ts 13/13
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 16/26
+   └── seeds the 1-day A/B boundary: both recipients receive both mandatory channels 467ms
+ ❯ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts 2/21
+ ❯ src/__tests__/wahaPassCompositionI5.test.ts 2/12
+
+ Test Files 9 passed (29)
+      Tests 173 passed (212)
+   Start at 09:31:09
+   Duration 9.01s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > POST /unit-verify/owner — titleDeedNumber persisted on manual-review record > stores the exact titleDeedNumber on the pending verification record when NID has no registry match 46ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > GET /unit-verify/pending — titleDeedKey visible to admin > includes titleDeedKey on the pending record returned to admin 21ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > GET /unit-verify/pending — titleDeedKey visible to admin > titleDeedKey is null when no deed was uploaded 7ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > POST /unit-verify/:id/approve (owner_manual) — deleteObjectEntity called > calls deleteObjectEntity with the titleDeedKey on approval 8ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > POST /unit-verify/:id/approve (owner_manual) — deleteObjectEntity called > does NOT call deleteObjectEntity when there is no titleDeedKey 17ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > POST /unit-verify/:id/approve (owner_manual) — deleteObjectEntity called > does NOT write titleDeedKey onto the approved unit record 14ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > POST /unit-verify/:id/approve (owner_manual) — deleteObjectEntity called > retains the recorded approval basis after deleting the title deed 19ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > POST /unit-verify/:id/reject (owner_manual) — deleteObjectEntity called > calls deleteObjectEntity with the titleDeedKey on rejection 6ms
+ ✓ src/__tests__/wahaPassCompositionI5.test.ts > POST /waha-pass/apply — I5 second-resident rules > DOB-3: rejects second resident without portal access with SECOND_RESIDENT_NO_PORTAL_ACCESS 11ms
+ ✓ src/__tests__/wahaPassCompositionI5.test.ts > POST /waha-pass/apply — I5 second-resident rules > CTRL: accepts second resident with valid DOB ≥18 and portal access 18ms
+ ✓ src/__tests__/wahaPassCompositionI5.test.ts > POST /waha-pass/:id/assign-second — I5 parity with apply > rejects a second resident with no DOB 10ms
+ ✓ src/__tests__/wahaPassCompositionI5.test.ts > POST /waha-pass/:id/assign-second — I5 parity with apply > rejects a second resident under 18 18ms
+ ✓ src/__tests__/wahaPassCompositionI5.test.ts > POST /waha-pass/:id/assign-second — I5 parity with apply > rejects a second resident without portal access 20ms
+ ✓ src/__tests__/wahaPassCompositionI5.test.ts > POST /waha-pass/:id/assign-second — I5 parity with apply > rejects assignment when the applicant has moved units 21ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > POST /unit-verify/:id/reject (owner_manual) — deleteObjectEntity called > does NOT call deleteObjectEntity for a tenant_request rejection (no deed) 25ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > POST /unit-verify/:id/reject (owner_manual) — deleteObjectEntity called > does NOT call deleteObjectEntity when there is no titleDeedKey on rejection 9ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > GET /unit-verify/:id/title-deed — 404 after approve > returns 404 when the verification has been approved (titleDeedKey cleared from record) 16ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > GET /unit-verify/:id/title-deed — 404 after reject > returns 404 when the verification has been rejected (titleDeedKey cleared from record) 12ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > POST /unit-verify/owner — duplicate pending owner_manual blocked > returns 409 when a pending owner_manual record already exists for the same user + unit 14ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > POST /unit-verify/owner — duplicate pending owner_manual blocked > allows a fresh submission after the existing pending record has been resolved (approved/rejected) 5ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > POST /unit-verify/owner — duplicate pending owner_manual blocked > concurrent submissions from one user to different units: exactly one succeeds and the other returns a bilingual 409 35ms
+
+ ❯ src/__tests__/remainingA1aRaceProofs.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 16/26
+   └── seeds the 1-day A/B boundary: both recipients receive both mandatory channels 567ms
+ ❯ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts 16/21
+ ❯ src/__tests__/wahaPassCompositionI5.test.ts 8/12
+
+ Test Files 9 passed (29)
+      Tests 193 passed (212)
+   Start at 09:31:09
+   Duration 9.11s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/wahaPassCompositionI5.test.ts > GET /waha-pass/eligibility — I5 ineligible second resident tagging > ELG-1: resident with no DOB appears in ineligibleSecondResidents with reason=dob_absent 34ms
+ ✓ src/__tests__/wahaPassCompositionI5.test.ts > GET /waha-pass/eligibility — I5 ineligible second resident tagging > ELG-2: resident under 18 appears in ineligibleSecondResidents with reason=under_18 26ms
+ ✓ src/__tests__/wahaPassCompositionI5.test.ts > GET /waha-pass/eligibility — I5 ineligible second resident tagging > ELG-3: resident without portal access appears in ineligibleSecondResidents with reason=no_portal_access 22ms
+ ✓ src/__tests__/wahaPassCompositionI5.test.ts > GET /waha-pass/eligibility — I5 ineligible second resident tagging > ELG-4: resident meeting all I5 criteria appears in eligibleSecondResidents 13ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > POST /unit-verify/owner — duplicate pending owner_manual blocked > returns 409 via DB constraint path when insert throws 23505 (race safety net) 7ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > deleteObjectEntity fire-and-forget — approve/reject succeeds even if delete throws > approve still returns 200 when deleteObjectEntity rejects 25ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > deleteObjectEntity fire-and-forget — approve/reject succeeds even if delete throws > never deletes a resident ID photo when approving or rejecting a verification document 12ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Title deed key lifecycle — owner_manual verification > deleteObjectEntity fire-and-forget — approve/reject succeeds even if delete throws > reject still returns 200 when deleteObjectEntity rejects 6ms
+ ✓ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts > Owner-manual approval concurrency — one approved claim per resident > approves one concurrent claim and cleanly refuses the other 8ms
+
+ ❯ src/__tests__/releaseSubject.test.ts [queued]
+ ❯ src/__tests__/remainingA1aRaceProofs.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 16/26
+   └── seeds the 1-day A/B boundary: both recipients receive both mandatory channels 886ms
+ ❯ src/__tests__/unitVerificationTitleDeedLifecycle.test.ts 21/21
+
+ Test Files 11 passed (29)
+      Tests 202 passed (212)
+   Start at 09:31:09
+   Duration 9.43s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+ ❯ src/__tests__/bookingGuards.test.ts [queued]
+ ❯ src/__tests__/releaseSubject.test.ts [queued]
+ ❯ src/__tests__/remainingA1aRaceProofs.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 16/26
+   └── seeds the 1-day A/B boundary: both recipients receive both mandatory channels 1.49s
+
+ Test Files 11 passed (29)
+      Tests 202 passed (212)
+   Start at 09:31:09
+   Duration 10.03s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+ ❯ src/__tests__/bookingGuards.test.ts [queued]
+ ❯ src/__tests__/releaseSubject.test.ts [queued]
+ ❯ src/__tests__/remainingA1aRaceProofs.test.ts 0/6
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 16/26
+   └── seeds the 1-day A/B boundary: both recipients receive both mandatory channels 1.69s
+      └── afterEach
+
+ Test Files 11 passed (29)
+      Tests 202 passed (218)
+   Start at 09:31:09
+   Duration 10.24s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+ ❯ src/__tests__/bookingGuards.test.ts [queued]
+ ❯ src/__tests__/releaseSubject.test.ts [queued]
+ ❯ src/__tests__/remainingA1aRaceProofs.test.ts 1/6
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 16/26
+   └── seeds the 1-day A/B boundary: both recipients receive both mandatory channels 1.79s
+      └── afterEach
+
+ Test Files 11 passed (29)
+      Tests 203 passed (218)
+   Start at 09:31:09
+   Duration 10.34s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/remainingA1aRaceProofs.test.ts > remaining A1a permit and guest-pass race proofs > Family A1a: duplicate permit submit elects one winner after the barrier 83ms
+ ✓ src/__tests__/remainingA1aRaceProofs.test.ts > remaining A1a permit and guest-pass race proofs > Family A1a: concurrent approval issues one ordinary guest pass 22ms
+ ✓ src/__tests__/remainingA1aRaceProofs.test.ts > remaining A1a permit and guest-pass race proofs > Family A1a: duplicate revoke returns success only to the winner 18ms
+ ✓ src/__tests__/remainingA1aRaceProofs.test.ts > remaining A1a guest denial/delete versus pass use proofs > Family A1a: guest denial wins over a concurrently admitted gate entry 12ms
+ ✓ src/__tests__/remainingA1aRaceProofs.test.ts > remaining A1a guest denial/delete versus pass use proofs > Family A1a: guest delete wins over a concurrently admitted gate entry 12ms
+ ✓ src/__tests__/remainingA1aRaceProofs.test.ts > remaining A1a Waha guest-day-pass proof > Family A1a: duplicate day-pass purchase elects one pending charge 16ms
+
+ ❯ src/__tests__/bookingGuards.test.ts [queued]
+ ❯ src/__tests__/releaseSubject.test.ts 0/11
+ ❯ src/__tests__/remainingA1aRaceProofs.test.ts 6/6
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 16/26
+   └── seeds the 1-day A/B boundary: both recipients receive both mandatory channels 2.00s
+      └── afterEach
+
+ Test Files 12 passed (29)
+      Tests 208 passed (229)
+   Start at 09:31:09
+   Duration 10.54s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+ ❯ src/__tests__/bookingGuards.test.ts 0/13
+ ❯ src/__tests__/releaseSubject.test.ts 0/11
+ ❯ src/__tests__/remainingA1aRaceProofs.test.ts 6/6
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 16/26
+   └── seeds the 1-day A/B boundary: both recipients receive both mandatory channels 2.09s
+      └── afterEach
+
+ Test Files 12 passed (29)
+      Tests 208 passed (242)
+   Start at 09:31:09
+   Duration 10.64s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > diagnoses downstream entitlement per domain after canonical household release 127ms
+
+ ❯ src/__tests__/bookingGuards.test.ts 1/13
+ ❯ src/__tests__/releaseSubject.test.ts 1/11
+ ❯ src/__tests__/remainingA1aRaceProofs.test.ts 6/6
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 16/26
+   └── seeds the 1-day A/B boundary: both recipients receive both mandatory channels 2.20s
+      └── afterEach
+
+ Test Files 12 passed (29)
+      Tests 210 passed (242)
+   Start at 09:31:09
+   Duration 10.74s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/bookingGuards.test.ts > #51 — Staff cannot cancel a past booking via PATCH > admin gets 409 when cancelling a booking whose endTime has passed 53ms
+ ✓ src/__tests__/bookingGuards.test.ts > #51 — Staff cannot cancel a past booking via PATCH > supervisor sees only own bookings; not owner A's — own-only 404 after X6 8ms
+ ✓ src/__tests__/bookingGuards.test.ts > Round 3 Section 1 — elapsed booking starts are never offerable or accepted > marks elapsed Riyadh-today availability slots unavailable while retaining future slots 9ms
+ ✓ src/__tests__/bookingGuards.test.ts > Round 3 Section 1 — elapsed booking starts are never offerable or accepted > returns the stable elapsed-start error before grid validation 9ms
+ ✓ src/__tests__/bookingGuards.test.ts > #52 — A past booking cannot be confirmed > admin gets 409 when confirming a booking whose endTime has passed 11ms
+ ✓ src/__tests__/bookingGuards.test.ts > #52 — A past booking cannot be confirmed > supervisor is blocked (403) before reaching business logic — role removed in X6 8ms
+ ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > diagnoses retained-owner entitlement per domain after canonical owner move-out 100ms
+ ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > uses the exact real-release graph for dry runs while mutating nothing 9ms
+ ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > serializes concurrent terminal requests and returns already_ended without repeated effects 4ms
+ ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > keeps tenant records outside a legal ownership-transfer release graph 2ms
+ ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > accepts a legacy bare unit number only when it identifies one unit 2ms
+ ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > moves an owner household out while retaining the verified ownership claim 3ms
+ ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > Stage 6C O3/O4 releases an owner once without a claimant slot and preserves the verified tenant graph 3ms
+ ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > rolls back every mutation when a postcondition is induced to fail 8ms
+ ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > rolls back when a released booking would lose its final unit attribution 2ms
+ ✓ src/__tests__/releaseSubject.test.ts > Stage 6A releaseSubject > F11: refuses the HOA COMMON system unit before any release mutation 3ms
+
+ ❯ src/__tests__/bookingGuards.test.ts 7/13
+ ❯ src/__tests__/releaseSubject.test.ts 11/11
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 16/26
+   └── seeds the 1-day A/B boundary: both recipients receive both mandatory channels 2.30s
+      └── afterEach
+ ❯ src/__tests__/userPatchLifecycleBoundary.test.ts [queued]
+
+ Test Files 13 passed (29)
+      Tests 226 passed (242)
+   Start at 09:31:09
+   Duration 10.84s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/bookingGuards.test.ts > #57 — Duration guard applies when min equals max (point-duration facility) > booking with duration > max (90 min) is rejected with 400 7ms
+ ✓ src/__tests__/bookingGuards.test.ts > #57 — Duration guard applies when min equals max (point-duration facility) > booking with duration < min (30 min) is also rejected with 400 16ms
+ ✓ src/__tests__/bookingGuards.test.ts > #57 — Duration guard applies when min equals max (point-duration facility) > exact-duration booking (60 min) passes the duration guard 11ms
+ ✓ src/__tests__/bookingGuards.test.ts > #61 — movieTitle is stored and returned in GET /api/bookings > cinema booking appears in staff listing with its movieTitle 13ms
+ ✓ src/__tests__/bookingGuards.test.ts > #61 — movieTitle is stored and returned in GET /api/bookings > movieTitle is null for non-cinema bookings 15ms
+ ✓ src/__tests__/bookingGuards.test.ts > Round 3 Section 2 — zero-price resident bookings > confirms a zero-price facility booking and records the resident's monthly allowance claim 18ms
+ ✓ src/__tests__/bookingGuards.test.ts > Round 3 C-5 — requiresApproval gates resident confirmation and checkout > keeps approval-on free and priced resident requests pending, blocks checkout, and preserves approval-off progression 95ms
+
+ ❯ src/__tests__/bookingGuards.test.ts 13/13
+ ❯ src/__tests__/releaseSubject.test.ts 11/11
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 16/26
+   └── seeds the 1-day A/B boundary: both recipients receive both mandatory channels 2.40s
+      └── afterEach
+ ❯ src/__tests__/userPatchLifecycleBoundary.test.ts [queued]
+
+ Test Files 14 passed (29)
+      Tests 232 passed (242)
+   Start at 09:31:09
+   Duration 10.94s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+ ❯ src/__tests__/residentStatusTransitions.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 16/26
+   └── seeds the 1-day A/B boundary: both recipients receive both mandatory channels 2.60s
+      └── afterEach
+ ❯ src/__tests__/userPatchLifecycleBoundary.test.ts [queued]
+ ❯ src/__tests__/wahaRevocationNotificationRaceA1a.test.ts [queued]
+
+ Test Files 14 passed (29)
+      Tests 232 passed (242)
+   Start at 09:31:09
+   Duration 11.15s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > seeds the 1-day A/B boundary: both recipients receive both mandatory channels 1443ms
+
+
+ ❯ src/__tests__/residentStatusTransitions.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 18/26
+ ❯ src/__tests__/userPatchLifecycleBoundary.test.ts [queued]
+ ❯ src/__tests__/wahaRevocationNotificationRaceA1a.test.ts [queued]
+
+ Test Files 14 passed (29)
+      Tests 234 passed (242)
+   Start at 09:31:09
+   Duration 11.35s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > seeds B-to-C: submission stops B and creates C immediately, then exactly every two days 1407ms
+
+ ❯ src/__tests__/residentStatusTransitions.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 18/26
+   └── stops C after approval and carries the renewal end date forward 559ms
+ ❯ src/__tests__/userPatchLifecycleBoundary.test.ts 0/7
+ ❯ src/__tests__/wahaRevocationNotificationRaceA1a.test.ts [queued]
+
+ Test Files 14 passed (29)
+      Tests 234 passed (249)
+   Start at 09:31:09
+   Duration 11.95s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > stops C after approval and carries the renewal end date forward 640ms
+
+ ❯ src/__tests__/residentStatusTransitions.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 19/26
+ ❯ src/__tests__/userPatchLifecycleBoundary.test.ts 1/7
+ ❯ src/__tests__/wahaRevocationNotificationRaceA1a.test.ts [queued]
+
+ Test Files 14 passed (29)
+      Tests 236 passed (249)
+   Start at 09:31:09
+   Duration 12.05s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/userPatchLifecycleBoundary.test.ts > PATCH /api/users/:id — lifecycle authority boundary > refuses authoritative field role through generic PATCH 32ms
+ ✓ src/__tests__/userPatchLifecycleBoundary.test.ts > PATCH /api/users/:id — lifecycle authority boundary > refuses authoritative field status through generic PATCH 15ms
+ ✓ src/__tests__/userPatchLifecycleBoundary.test.ts > PATCH /api/users/:id — lifecycle authority boundary > refuses authoritative field unitNumber through generic PATCH 7ms
+ ✓ src/__tests__/userPatchLifecycleBoundary.test.ts > PATCH /api/users/:id — lifecycle authority boundary > cannot assign admin through the generic endpoint 7ms
+ ✓ src/__tests__/userPatchLifecycleBoundary.test.ts > PATCH /api/users/:id — lifecycle authority boundary > rejects unknown, mixed, empty, and wrongly typed patches 41ms
+ ✓ src/__tests__/userPatchLifecycleBoundary.test.ts > PATCH /api/users/:id — lifecycle authority boundary > preserves the admin-only caller boundary 17ms
+ ✓ src/__tests__/userPatchLifecycleBoundary.test.ts > PATCH /api/users/:id — lifecycle authority boundary > allows a boolean approval-notification preference update 9ms
+
+ ❯ src/__tests__/residentStatusTransitions.test.ts 0/7
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 19/26
+ ❯ src/__tests__/userPatchLifecycleBoundary.test.ts 7/7
+ ❯ src/__tests__/wahaRevocationNotificationRaceA1a.test.ts 0/2
+
+ Test Files 15 passed (29)
+      Tests 242 passed (258)
+   Start at 09:31:09
+   Duration 12.25s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/residentStatusTransitions.test.ts > PATCH /api/residents/:id — authoritative resident transition matrix > refuses active → inactive through generic PATCH 41ms
+ ✓ src/__tests__/residentStatusTransitions.test.ts > PATCH /api/residents/:id — authoritative resident transition matrix > refuses active → moved_out through generic PATCH 7ms
+ ✓ src/__tests__/residentStatusTransitions.test.ts > PATCH /api/residents/:id — authoritative resident transition matrix > refuses inactive → active through generic PATCH 6ms
+ ✓ src/__tests__/residentStatusTransitions.test.ts > PATCH /api/residents/:id — authoritative resident transition matrix > refuses inactive → moved_out through generic PATCH 10ms
+ ✓ src/__tests__/residentStatusTransitions.test.ts > PATCH /api/residents/:id — authoritative resident transition matrix > refuses moved_out → active through generic PATCH 7ms
+ ✓ src/__tests__/residentStatusTransitions.test.ts > PATCH /api/residents/:id — authoritative resident transition matrix > refuses moved_out → inactive through generic PATCH 27ms
+ ✓ src/__tests__/residentStatusTransitions.test.ts > PATCH /api/residents/:id — authoritative resident transition matrix > allows profile-only PATCH without a status field 17ms
+
+ ❯ src/__tests__/residentStatusTransitions.test.ts 7/7
+ ❯ src/__tests__/round4D18D22AdminDirectPostA1a.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 19/26
+   └── closes A/B for renewal 2 after renewal 1 established the current lease cycle 319ms
+ ❯ src/__tests__/wahaRevocationNotificationRaceA1a.test.ts 0/2
+
+ Test Files 16 passed (29)
+      Tests 249 passed (258)
+   Start at 09:31:09
+   Duration 12.35s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/wahaRevocationNotificationRaceA1a.test.ts > A1a concurrent Waha authoritative revocation race > serializes the transition after both requests pass outer admission 49ms
+ ✓ src/__tests__/wahaRevocationNotificationRaceA1a.test.ts > A1a concurrent Waha authoritative revocation race > C-5 notifies both credential holders when resident removal revokes the application 59ms
+
+ ❯ src/__tests__/round4D18D22AdminDirectPostA1a.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 19/26
+   └── closes A/B for renewal 2 after renewal 1 established the current lease cycle 419ms
+ ❯ src/__tests__/wahaPassApplyRaceA1a.test.ts [queued]
+ ❯ src/__tests__/wahaRevocationNotificationRaceA1a.test.ts 2/2
+
+ Test Files 17 passed (29)
+      Tests 251 passed (258)
+   Start at 09:31:09
+   Duration 12.45s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+ ❯ src/__tests__/round4D18D22AdminDirectPostA1a.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 19/26
+   └── closes A/B for renewal 2 after renewal 1 established the current lease cycle 523ms
+ ❯ src/__tests__/wahaPassApplyRaceA1a.test.ts [queued]
+ ❯ src/__tests__/wahaReplacementPaymentRaceA1a.test.ts [queued]
+
+ Test Files 17 passed (29)
+      Tests 251 passed (258)
+   Start at 09:31:09
+   Duration 12.55s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+ ❯ src/__tests__/round4D18D22AdminDirectPostA1a.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 20/26
+ ❯ src/__tests__/wahaPassApplyRaceA1a.test.ts [queued]
+ ❯ src/__tests__/wahaReplacementPaymentRaceA1a.test.ts [queued]
+
+ Test Files 17 passed (29)
+      Tests 252 passed (258)
+   Start at 09:31:09
+   Duration 12.96s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > closes A/B for renewal 2 after renewal 1 established the current lease cycle 969ms
+
+ ❯ src/__tests__/round4D18D22AdminDirectPostA1a.test.ts 0/6
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 20/26
+ ❯ src/__tests__/wahaPassApplyRaceA1a.test.ts [queued]
+ ❯ src/__tests__/wahaReplacementPaymentRaceA1a.test.ts [queued]
+
+ Test Files 17 passed (29)
+      Tests 252 passed (264)
+   Start at 09:31:09
+   Duration 13.16s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+ ❯ src/__tests__/round4D18D22AdminDirectPostA1a.test.ts 1/6
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 20/26
+   └── stops C after rejected terminal decision 262ms
+ ❯ src/__tests__/wahaPassApplyRaceA1a.test.ts [queued]
+ ❯ src/__tests__/wahaReplacementPaymentRaceA1a.test.ts [queued]
+
+ Test Files 17 passed (29)
+      Tests 253 passed (264)
+   Start at 09:31:09
+   Duration 13.26s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/round4D18D22AdminDirectPostA1a.test.ts > Round 4 D-18 through D-22 admin API A1a journeys > D-18 Family B: admin POST /residents is denied before resident insert 80ms
+ ✓ src/__tests__/round4D18D22AdminDirectPostA1a.test.ts > Round 4 D-18 through D-22 admin API A1a journeys > D-18 Family B: admin POST /residents/self is denied before resident insert 8ms
+ ✓ src/__tests__/round4D18D22AdminDirectPostA1a.test.ts > Round 4 D-18 through D-22 admin API A1a journeys > D-19 Family B: admin POST /permits is denied before permit insert 19ms
+ ✓ src/__tests__/round4D18D22AdminDirectPostA1a.test.ts > Round 4 D-18 through D-22 admin API A1a journeys > D-20 Family B: admin POST /vehicles is denied before vehicle insert 11ms
+ ✓ src/__tests__/round4D18D22AdminDirectPostA1a.test.ts > Round 4 D-18 through D-22 admin API A1a journeys > D-21 Family B: admin Waha day-pass POST is denied before insert or charge 10ms
+ ✓ src/__tests__/round4D18D22AdminDirectPostA1a.test.ts > Round 4 D-18 through D-22 admin API A1a journeys > D-22 neither family: admin Waha listing returns applications with credentials/passes 12ms
+
+ ❯ src/__tests__/round4D18D22AdminDirectPostA1a.test.ts 6/6
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 20/26
+   └── stops C after rejected terminal decision 562ms
+ ❯ src/__tests__/wahaPassApplyRaceA1a.test.ts 0/2
+ ❯ src/__tests__/wahaReplacementPaymentRaceA1a.test.ts [queued]
+
+ Test Files 18 passed (29)
+      Tests 258 passed (266)
+   Start at 09:31:09
+   Duration 13.56s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/wahaPassApplyRaceA1a.test.ts > A1a Waha initial application duplicate submission disproof > serializes admission and returns a clear conflict to the loser 65ms
+ ✓ src/__tests__/wahaPassApplyRaceA1a.test.ts > A1a Waha initial application duplicate submission disproof > rejects an opposing owner-vs-tenant competitor using authoritative occupancy 18ms
+
+ ❯ src/__tests__/familyBDivergence.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 20/26
+   └── stops C after rejected terminal decision 664ms
+ ❯ src/__tests__/wahaPassApplyRaceA1a.test.ts 2/2
+ ❯ src/__tests__/wahaReplacementPaymentRaceA1a.test.ts 0/1
+
+ Test Files 19 passed (29)
+      Tests 260 passed (267)
+   Start at 09:31:09
+   Duration 13.66s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/wahaReplacementPaymentRaceA1a.test.ts > A1a Waha replacement payment duplicate initiation proof > serializes provider initiation after both admissions pass 60ms
+
+ ❯ src/__tests__/familyBDivergence.test.ts [queued]
+ ❯ src/__tests__/round4D13D14PermitGuards.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 20/26
+   └── stops C after rejected terminal decision 764ms
+ ❯ src/__tests__/wahaReplacementPaymentRaceA1a.test.ts 1/1
+
+ Test Files 20 passed (29)
+      Tests 261 passed (267)
+   Start at 09:31:09
+   Duration 13.76s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+ ❯ src/__tests__/familyBDivergence.test.ts [queued]
+ ❯ src/__tests__/round4D13D14PermitGuards.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 21/26
+ ❯ src/__tests__/wahaReplacementPaymentRaceA1a.test.ts 1/1
+
+ Test Files 20 passed (29)
+      Tests 262 passed (267)
+   Start at 09:31:09
+   Duration 13.86s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > stops C after rejected terminal decision 942ms
+ ✓ src/__tests__/emailSecurity.test.ts > SMTP credential and send outcomes > fails closed for plaintext or corrupt DB credentials 4ms
+ ✓ src/__tests__/emailSecurity.test.ts > SMTP credential and send outcomes > distinguishes unconfigured, provider failure, and success 2ms
+ ✓ src/__tests__/emailSecurity.test.ts > SMTP credential and send outcomes > C4 routes approval-queue email to the fixed approver inbox without destination settings 3ms
+ ✓ src/__tests__/emailSecurity.test.ts > SMTP credential and send outcomes > C4 keeps every admin-approval producer on the fixed-destination queue contract 2ms
+
+ ❯ src/__tests__/emailSecurity.test.ts 4/4
+ ❯ src/__tests__/familyBDivergence.test.ts [queued]
+ ❯ src/__tests__/round4D13D14PermitGuards.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 21/26
+
+ Test Files 21 passed (29)
+      Tests 266 passed (271)
+   Start at 09:31:09
+   Duration 13.97s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+ ❯ src/__tests__/familyBDivergence.test.ts [queued]
+ ❯ src/__tests__/round4D13D14PermitGuards.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 21/26
+ ❯ src/__tests__/userUnitProjectionBoundary.static.test.ts [queued]
+
+ Test Files 21 passed (29)
+      Tests 266 passed (271)
+   Start at 09:31:09
+   Duration 14.17s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > stops C after cancelled terminal decision 338ms
+ ✓ src/__tests__/userUnitProjectionBoundary.static.test.ts > user unit projection boundary > rejects every new production projection read while preserving the reviewed deferred baseline 27ms
+ ✓ src/__tests__/userUnitProjectionBoundary.static.test.ts > user unit projection boundary > keeps the graph authority and migrated helpers projection-free 1ms
+ ✓ src/__tests__/userUnitProjectionBoundary.static.test.ts > user unit projection boundary > detects a synthetic seventh projection reader in a new route 0ms
+
+ ❯ src/__tests__/familyBDivergence.test.ts [queued]
+ ❯ src/__tests__/ownershipChangeScheduler.test.ts [queued]
+ ❯ src/__tests__/round4D13D14PermitGuards.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 22/26
+
+ Test Files 22 passed (29)
+      Tests 270 passed (274)
+   Start at 09:31:09
+   Duration 14.47s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/ownershipChangeScheduler.test.ts > runOwnershipChangeExpiry — Path A expiry does NOT touch Path B pending events > Path B pending event older than 14 days remains pending after expiry run 3ms
+ ✓ src/__tests__/ownershipChangeScheduler.test.ts > runOwnershipChangeExpiry — Path A expiry does NOT touch Path B pending events > Path A pending event older than 14 days IS auto-rejected (control) 16ms
+ ✓ src/__tests__/ownershipChangeScheduler.test.ts > runOwnershipChangeExpiry — Path A expiry does NOT touch Path B pending events > Path B approved event with no claimant is NOT touched by Path A expiry 1ms
+ ✓ src/__tests__/ownershipChangeScheduler.test.ts > runOwnershipChangeExpiry — Path A expiry does NOT touch Path B pending events > Path A pending event submitted recently is NOT auto-rejected 0ms
+ ✓ src/__tests__/ownershipChangeScheduler.test.ts > runOwnershipChangeExpiry — Path A expiry does NOT touch Path B pending events > already-rejected Path A event is left unchanged 1ms
+ ✓ src/__tests__/ownershipChangeScheduler.test.ts > runOwnershipChangeExpiry — sets rejectionReason=auto_expired on rejected events > auto-rejected Path A event has rejectionReason=auto_expired 1ms
+ ✓ src/__tests__/ownershipChangeScheduler.test.ts > runOwnershipChangeExpiry — sets rejectionReason=auto_expired on rejected events > auto-rejected Path A event gets reviewedAt timestamp 1ms
+ ✓ src/__tests__/ownershipChangeScheduler.test.ts > B4-UO2 — concurrent ownership-change expiry > allows only one stale worker to reject and notify 1ms
+
+ ❯ src/__tests__/familyBDivergence.test.ts 0/2
+ ❯ src/__tests__/ownershipChangeScheduler.test.ts 8/8
+ ❯ src/__tests__/round4D13D14PermitGuards.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 22/26
+   └── continues C through expiry suspension, then caps it at 30 days without lifting suspension 293ms
+
+ Test Files 23 passed (29)
+      Tests 278 passed (284)
+   Start at 09:31:09
+   Duration 14.57s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/familyBDivergence.test.ts > Family B: direct revoke versus terminal lifecycle release > proves corrected A1a agreement at the revocation boundary 47ms
+ ✓ src/__tests__/familyBDivergence.test.ts > Family B: direct revoke versus terminal lifecycle release > rolls back direct revocation when future-booking cancellation fails 13ms
+
+ ❯ src/__tests__/familyBDivergence.test.ts 2/2
+ ❯ src/__tests__/paymentCallbackMatrix.test.ts [queued]
+ ❯ src/__tests__/round4D13D14PermitGuards.test.ts [queued]
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 22/26
+   └── continues C through expiry suspension, then caps it at 30 days without lifting suspension 496ms
+
+ Test Files 24 passed (29)
+      Tests 280 passed (284)
+   Start at 09:31:09
+   Duration 14.77s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+ ❯ src/__tests__/currentSubject.test.ts [queued]
+ ❯ src/__tests__/paymentCallbackMatrix.test.ts [queued]
+ ❯ src/__tests__/round4D13D14PermitGuards.test.ts 0/3
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 22/26
+   └── continues C through expiry suspension, then caps it at 30 days without lifting suspension 698ms
+
+ Test Files 24 passed (29)
+      Tests 280 passed (287)
+   Start at 09:31:09
+   Duration 14.98s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/round4D13D14PermitGuards.test.ts > Round 4 D-13/D-14 permit submission guards > D-13 blocks move_in with no active resident and does not insert 28ms
+ ✓ src/__tests__/round4D13D14PermitGuards.test.ts > Round 4 D-13/D-14 permit submission guards > D-13 blocks move_out with no active resident and does not insert 4ms
+ ✓ src/__tests__/round4D13D14PermitGuards.test.ts > Round 4 D-13/D-14 permit submission guards > D-14 blocks fully valid verified-tenant renovation and does not insert 11ms
+
+ ❯ src/__tests__/currentSubject.test.ts [queued]
+ ❯ src/__tests__/paymentCallbackMatrix.test.ts 0/11
+ ❯ src/__tests__/tenancyLifecycleStage6b.test.ts 22/26
+   └── continues C through expiry suspension, then caps it at 30 days without lifting suspension 799ms
+
+ Test Files 25 passed (29)
+      Tests 283 passed (298)
+   Start at 09:31:09
+   Duration 15.08s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/paymentCallbackMatrix.test.ts > H2 deterministic callback outcome matrix > issues a day pass once after a matching paid callback and treats a duplicate as already confirmed 13ms
+ ✓ src/__tests__/paymentCallbackMatrix.test.ts > H2 deterministic callback outcome matrix > reconciles a missed callback only after the provider independently confirms payment 2ms
+ ✓ src/__tests__/paymentCallbackMatrix.test.ts > H2 deterministic callback outcome matrix > leaves a missed callback pending when Moyasar still reports the charge as pending 1ms
+ ✓ src/__tests__/paymentCallbackMatrix.test.ts > H2 deterministic callback outcome matrix > keeps a paid event retryable until a later reconciliation observes the paid provider result 1ms
+ ✓ src/__tests__/paymentCallbackMatrix.test.ts > H2 deterministic callback outcome matrix > does not issue a pass after provider failure/cancellation 2ms
+ ✓ src/__tests__/paymentCallbackMatrix.test.ts > H2 deterministic callback outcome matrix > rejects a paid callback with a wrong amount 2ms
+ ✓ src/__tests__/paymentCallbackMatrix.test.ts > H2 deterministic callback outcome matrix > rejects a paid callback with a wrong user 1ms
+ ✓ src/__tests__/paymentCallbackMatrix.test.ts > H2 deterministic callback outcome matrix > rejects a paid callback with a wrong unit 1ms
+ ✓ src/__tests__/paymentCallbackMatrix.test.ts > H2 deterministic callback outcome matrix > rejects a late paid callback after a facility hold is cancelled instead of leaving the attempt pending 1ms
+ ✓ src/__tests__/paymentCallbackMatrix.test.ts > H2 deterministic callback outcome matrix > rejects a late Waha replacement callback after the application was revoked 3ms
+ ✓ src/__tests__/paymentCallbackMatrix.test.ts > H2 deterministic callback outcome matrix > rejects a late Waha replacement callback after the second-holder slot was cleared 1ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > continues C through expiry suspension, then caps it at 30 days without lifting suspension 1012ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > does not enqueue A, B, or C after completed move-out / admin release 2ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > does not enqueue A, B, or C after account deletion terminal lifecycle 2ms
+ ✓ src/__tests__/tenancyLifecycleStage6b.test.ts > P2 seeded renewal notification lifecycle > does not enqueue A, B, or C after terminal release request 1ms
+
+ ❯ src/__tests__/currentSubject.test.ts 0/4
+
+ Test Files 27 passed (29)
+      Tests 298 passed (302)
+   Start at 09:31:09
+   Duration 15.18s
+[?2026l[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/currentSubject.test.ts > graph-backed current subject > resolves unlocked and locked subjects from the active resident graph 4ms
+ ✓ src/__tests__/currentSubject.test.ts > graph-backed current subject > rejects ended, mismatched, and ambiguous resident graphs 2ms
+ ✓ src/__tests__/currentSubject.test.ts > graph-backed current subject > keys gate purchaser occupancy to the graph rather than the stale user projection 1ms
+ ✓ src/__tests__/currentSubject.test.ts > graph-backed current subject > counts guests only through active host residents on the canonical unit 1ms
+ ✓ src/__tests__/round4C4PortalHelpTerminal.test.ts > Round 4 C-4 API Portal Help contract > Journey — reply transitions an open ticket but excludes closed tickets 1ms
+ ✓ src/__tests__/round4C4PortalHelpTerminal.test.ts > Round 4 C-4 API Portal Help contract > Final — closing remains terminal and resident listing keeps ticket history 0ms
+ ✓ src/__tests__/round4C4PortalHelpTerminal.test.ts > Round 4 C-4 API Portal Help contract > Does not cover — closure does not delete the ticket or change the schema 0ms
+
+ Test Files  29 passed (29)
+      Tests  305 passed (305)
+   Start at  09:31:09
+   Duration  15.26s (transform 5.16s, setup 0ms, import 25.95s, tests 27.46s, environment 4ms)
+
+[?25h
+> workspace@0.0.0 round3:regression:portal /home/runner/workspace
+> pnpm --filter @workspace/hoa-portal exec vitest run --config vitest.config.ts src/__tests__/round3WordingContracts.test.ts src/__tests__/unitRegistryRound3C6Presentation.test.ts src/__tests__/round4D17D22PortalContracts.test.ts src/__tests__/round4C2C3C6C7C8C9PortalContracts.test.ts
+
+[?25l DEPRECATED  `test.poolOptions` was removed in Vitest 4. All previous `poolOptions` are now top-level options. Please, refer to the migration guide: https://vitest.dev/guide/migration#pool-rework
+
+ RUN  v4.1.9 /home/runner/workspace/artifacts/hoa-portal
+
+[?2026h
+ Test Files 0 passed (4)
+      Tests 0 passed (0)
+   Start at 09:31:25
+   Duration 914ms
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K
+ ❯ src/__tests__/round4C2C3C6C7C8C9PortalContracts.test.ts [queued]
+
+ Test Files 0 passed (4)
+      Tests 0 passed (0)
+   Start at 09:31:25
+   Duration 1.62s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+ ❯ src/__tests__/round4C2C3C6C7C8C9PortalContracts.test.ts [queued]
+ ❯ src/__tests__/round4D17D22PortalContracts.test.ts 0/7
+ ❯ src/__tests__/unitRegistryRound3C6Presentation.test.ts [queued]
+
+ Test Files 0 passed (4)
+      Tests 0 passed (7)
+   Start at 09:31:25
+   Duration 1.82s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+ ❯ src/__tests__/round4C2C3C6C7C8C9PortalContracts.test.ts [queued]
+ ❯ src/__tests__/round4D17D22PortalContracts.test.ts 0/7
+ ❯ src/__tests__/unitRegistryRound3C6Presentation.test.ts [queued]
+
+ Test Files 0 passed (4)
+      Tests 0 passed (7)
+   Start at 09:31:25
+   Duration 2.13s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/round4D17D22PortalContracts.test.ts > Round 4 D-17 through D-22 portal contracts > C-5: admin confirms application revocation with both-holder notification disclosure 5ms
+ ✓ src/__tests__/round4D17D22PortalContracts.test.ts > Round 4 D-17 through D-22 portal contracts > D-17: admin opens Residents and can identify each resident's unit 59ms
+ ✓ src/__tests__/round4D17D22PortalContracts.test.ts > Round 4 D-17 through D-22 portal contracts > D-18: admin opens Residents and has no add-resident action 1ms
+ ✓ src/__tests__/round4D17D22PortalContracts.test.ts > Round 4 D-17 through D-22 portal contracts > D-19: admin opens Permits and has no add-permit action 2ms
+ ✓ src/__tests__/round4D17D22PortalContracts.test.ts > Round 4 D-17 through D-22 portal contracts > D-20: admin opens Vehicles and has no add-vehicle action 2ms
+ ✓ src/__tests__/round4D17D22PortalContracts.test.ts > Round 4 D-17 through D-22 portal contracts > D-21: admin opens Guests and cannot see or open Purchase Waha Guest Day Pass 6ms
+ ✓ src/__tests__/round4D17D22PortalContracts.test.ts > Round 4 D-17 through D-22 portal contracts > D-22: admin opens Waha Pass and sees applications plus credentials 74ms
+
+ ❯ src/__tests__/round4C2C3C6C7C8C9PortalContracts.test.ts [queued]
+ ❯ src/__tests__/unitRegistryRound3C6Presentation.test.ts [queued]
+
+ Test Files 1 passed (4)
+      Tests 7 passed (7)
+   Start at 09:31:25
+   Duration 2.25s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+ ❯ src/__tests__/round4C2C3C6C7C8C9PortalContracts.test.ts 0/7
+ ❯ src/__tests__/unitRegistryRound3C6Presentation.test.ts [queued]
+
+ Test Files 1 passed (4)
+      Tests 7 passed (14)
+   Start at 09:31:25
+   Duration 2.39s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/round4C2C3C6C7C8C9PortalContracts.test.ts > Round 4 C-2/C-3/C-6/C-7/C-8/C-9 portal contracts > Journey — resident navigation uses the bilingual Portal Help label and stable route 8ms
+ ✓ src/__tests__/round4C2C3C6C7C8C9PortalContracts.test.ts > Round 4 C-2/C-3/C-6/C-7/C-8/C-9 portal contracts > Journey — Dalil is described without weakening the personal-records boundary 2ms
+ ✓ src/__tests__/round4C2C3C6C7C8C9PortalContracts.test.ts > Round 4 C-2/C-3/C-6/C-7/C-8/C-9 portal contracts > Final — the permits navigation label changes without changing its route 0ms
+ ✓ src/__tests__/round4C2C3C6C7C8C9PortalContracts.test.ts > Round 4 C-2/C-3/C-6/C-7/C-8/C-9 portal contracts > Final — booking wording is explicit before submission in both languages 3ms
+ ✓ src/__tests__/round4C2C3C6C7C8C9PortalContracts.test.ts > Round 4 C-2/C-3/C-6/C-7/C-8/C-9 portal contracts > Final — Portal Help pre-submit guidance and title-reference helper are adjacent to their controls 1ms
+ ✓ src/__tests__/round4C2C3C6C7C8C9PortalContracts.test.ts > Round 4 C-2/C-3/C-6/C-7/C-8/C-9 portal contracts > Does not cover — labels do not rename API routes or alter raw title-reference values 2ms
+ ✓ src/__tests__/round4C2C3C6C7C8C9PortalContracts.test.ts > Round 4 C-2/C-3/C-6/C-7/C-8/C-9 portal contracts > Final — closed Portal Help history is labeled and has no reply or reopen controls 1ms
+
+ ❯ src/__tests__/unitRegistryRound3C6Presentation.test.ts 0/6
+
+ Test Files 2 passed (4)
+      Tests 14 passed (20)
+   Start at 09:31:25
+   Duration 3.05s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/unitRegistryRound3C6Presentation.test.ts > Round 3 C-6 — many-booking registry UI > keeps every booking row in an independently bounded, keyboard-reachable scroll list 3ms
+ ✓ src/__tests__/unitRegistryRound3C6Presentation.test.ts > Round 3 C-6 — normalized parking presentation > returns canonical parking lots with the fields needed for the registry count and rows 1ms
+ ✓ src/__tests__/unitRegistryRound3C6Presentation.test.ts > Round 3 C-6 — normalized parking presentation > renders the normalized lot count and type, rather than parsing legacy unit JSON 0ms
+ ✓ src/__tests__/unitRegistryRound3C6Presentation.test.ts > Round 3 C-6 — normalized parking presentation > mounts exactly one admin parking editor for a unit detail sheet 1ms
+ ✓ src/__tests__/unitRegistryRound3C6Presentation.test.ts > Round 3 C-6 — ownership reference label > labels a title-reference value accurately instead of using an owner-name identifier 0ms
+ ✓ src/__tests__/unitRegistryRound3C6Presentation.test.ts > Round 3 C-6 — refreshed selected-unit detail > uses the current query row for an open stable unit ID, including refreshed bookings 1ms
+
+ ❯ src/__tests__/round3WordingContracts.test.ts [queued]
+
+ Test Files 3 passed (4)
+      Tests 20 passed (20)
+   Start at 09:31:25
+   Duration 3.15s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+ ❯ src/__tests__/round3WordingContracts.test.ts 1/2
+
+ Test Files 3 passed (4)
+      Tests 21 passed (22)
+   Start at 09:31:25
+   Duration 3.35s
+[?2026l[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ src/__tests__/round3WordingContracts.test.ts > Round 3 C-2 — additional-resident refusal wording > keeps the approved English standard explanation exact 2ms
+ ✓ src/__tests__/round3WordingContracts.test.ts > Round 3 C-2 — additional-resident refusal wording > keeps a complete, distinct Arabic explanation 1ms
+
+ Test Files  4 passed (4)
+      Tests  22 passed (22)
+   Start at  09:31:25
+   Duration  3.36s (transform 1.47s, setup 497ms, import 1.95s, tests 196ms, environment 5.20s)
+
+[?25h
+> workspace@0.0.0 round3:regression:mobile /home/runner/workspace
+> pnpm --filter @workspace/hoa-mobile exec vitest run __tests__/round4MobileContracts.test.ts
+
+[?25l
+ RUN  v4.1.9 /home/runner/workspace/artifacts/hoa-mobile
+
+[?2026h
+ ❯ __tests__/round4MobileContracts.test.ts [queued]
+
+ Test Files 0 passed (1)
+      Tests 0 passed (0)
+   Start at 09:31:30
+   Duration 703ms
+[?2026l[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K ✓ __tests__/round4MobileContracts.test.ts > Round 4 mobile labels and guardian-ID entry point > keeps the Help tab translated as Portal Help in both tab implementations 1ms
+ ✓ __tests__/round4MobileContracts.test.ts > Round 4 mobile labels and guardian-ID entry point > keeps Dalil translated and preserves the no-personal-records boundary 1ms
+ ✓ __tests__/round4MobileContracts.test.ts > Round 4 mobile labels and guardian-ID entry point > names the permits entry point for renovation and move journeys 0ms
+ ✓ __tests__/round4MobileContracts.test.ts > Round 4 mobile labels and guardian-ID entry point > offers a translated portal-only guardian-ID entry from the unit screen 0ms
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  09:31:30
+   Duration  874ms (transform 39ms, setup 33ms, import 26ms, tests 4ms, environment 660ms)
+
+[?25h
+> @workspace/hoa-portal@0.0.0 round3:regression:e2e /home/runner/workspace/artifacts/hoa-portal
+> PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=$(which chromium 2>/dev/null) playwright test --config playwright.config.ts --project=round3-regression --project=round3-section5-admin --project=round3-section5-signed-out --project=round3-section8-tenancy --project=round3-c5-approval-workflow --project=round3-c6-admin --project=round4-section1-session-boundary --project=round4-d1-d2-removal --project=round4-d15-d16-permit-approval --project=round4-d17-d22-admin
+
+[e2e pre-flight] Portal and API server are reachable ✓
+[dotenv@17.2.2] injecting env (0) from .env.local,.env [2m-- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }[0m
+[e2e setup] Clerk user exists: e2e-resident+clerk_test@example.com (user_3J3xpKl4h56I6c6ACLiS1AiXsNl)
+[e2e setup] Clerk user exists: e2e-admin+clerk_test@example.com (user_3J3xpIThldMnP296EAfJnEGKm6X)
+[e2e setup] Clerk user exists: e2e-verified-resident+clerk_test@example.com (user_3J3xpQTE9D9kwX0rhDeJm1fi2kt)
+[e2e setup] Clerk user exists: e2e-guard+clerk_test@example.com (user_3J3xpbVAKStBSFEJdN02j5m9Ooz)
+[e2e setup] Clerk user exists: e2e-round3-waha+clerk_test@example.com (user_3J3xpdTN1GqGGDvfkmCGdHZqEbg)
+[e2e setup] Clerk user exists: e2e-round3-vehicles+clerk_test@example.com (user_3J3xpfPsubQR2LGHrjEwgwcRIJM)
+[e2e setup] Clerk user exists: e2e-round3-section8+clerk_test@example.com (user_3J3xpi1Ct49xFOYQlPZRUP75cmf)
+
+Running 39 tests using 1 worker
+
+(node:11396) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+      1 [round3-vehicles-setup] › e2e/round3-vehicles.setup.ts:11:1 › authenticate isolated Round 3 vehicle resident
+  ✓   1 [round3-vehicles-setup] › e2e/round3-vehicles.setup.ts:11:1 › authenticate isolated Round 3 vehicle resident (10.6s)(node:11533) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+      2 [round3-waha-second-credential-setup] › e2e/round3-waha-second-credential.setup.ts:9:1 › authenticate and seed round3 Waha Credential 2 resident
+  ✓   2 [round3-waha-second-credential-setup] › e2e/round3-waha-second-credential.setup.ts:9:1 › authenticate and seed round3 Waha Credential 2 resident (7.2s)(node:11673) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+      3 [verified-resident-setup] › e2e/verified-resident.setup.ts:26:1 › authenticate and seed verified resident
+  ✓   3 [verified-resident-setup] › e2e/verified-resident.setup.ts:26:1 › authenticate and seed verified resident (6.6s)(node:11808) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+      4 [round3-section8-tenancy-setup] › e2e/round3-section8-tenancy.setup.ts:8:1 › authenticate isolated Round 3 Section 8 tenant
+  ✓   4 [round3-section8-tenancy-setup] › e2e/round3-section8-tenancy.setup.ts:8:1 › authenticate isolated Round 3 Section 8 tenant (6.7s)(node:11946) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+      5 [admin-setup] › e2e/admin.auth.setup.ts:41:1 › authenticate as admin
+  ✓   5 [admin-setup] › e2e/admin.auth.setup.ts:41:1 › authenticate as admin (11.8s)(node:12086) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+      6 [round3-section5-signed-out] › e2e/round3-section5-dalil-signed-out.spec.ts:4:1 › 5g — signed-out Dalil shows sign-in guidance and never calls the authenticated chat endpoint
+  ✓   6 [round3-section5-signed-out] › e2e/round3-section5-dalil-signed-out.spec.ts:4:1 › 5g — signed-out Dalil shows sign-in guidance and never calls the authenticated chat endpoint (3.6s)(node:12204) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+      7 [round3-documents-fixture-setup] › e2e/round3-documents-fixture.setup.ts:12:1 › create isolated Round 3 Section 5 document fixtures as admin
+  ✓   7 [round3-documents-fixture-setup] › e2e/round3-documents-fixture.setup.ts:12:1 › create isolated Round 3 Section 5 document fixtures as admin (11.3s)(node:12331) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+      8 … e2e/round3-section8-tenancy.spec.ts:12:3 › Round 3 Section 8 — document-free Ejar tenancy verification › requires contract number and lease dates, then submits without Ejar document metadata
+  ✓   8 …und3-section8-tenancy.spec.ts:12:3 › Round 3 Section 8 — document-free Ejar tenancy verification › requires contract number and lease dates, then submits without Ejar document metadata (3.6s)(node:12456) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+      9 …ound3-section5-admin] › e2e/round3-section5-documents-admin.spec.ts:12:3 › Round 3 Section 5 — admin document controls › 5d — folder add and edit contain no download/view-only default control
+  ✓   9 …ection5-admin] › e2e/round3-section5-documents-admin.spec.ts:12:3 › Round 3 Section 5 — admin document controls › 5d — folder add and edit contain no download/view-only default control (3.4s)     10 …on5-admin] › e2e/round3-section5-documents-admin.spec.ts:32:3 › Round 3 Section 5 — admin document controls › 5e — a download-allowed document can become view-only and remains so after reload
+  ✓  10 …in] › e2e/round3-section5-documents-admin.spec.ts:32:3 › Round 3 Section 5 — admin document controls › 5e — a download-allowed document can become view-only and remains so after reload (9.0s)     11 [round3-section5-admin] › e2e/round3-section5-documents-admin.spec.ts:50:3 › Round 3 Section 5 — admin document controls › 5f — choosing view-only before a custom folder preserves view-only
+  ✓  11 …d3-section5-admin] › e2e/round3-section5-documents-admin.spec.ts:50:3 › Round 3 Section 5 — admin document controls › 5f — choosing view-only before a custom folder preserves view-only (6.4s)(node:12660) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+     12 [round3-c6-admin] › e2e/round3-c6-unit-registry.spec.ts:11:3 › Round 3 C-6 — Unit Registry browser regression › admin sees canonical parking and can independently scroll all booking rows
+  ✓  12 …ound3-c6-admin] › e2e/round3-c6-unit-registry.spec.ts:11:3 › Round 3 C-6 — Unit Registry browser regression › admin sees canonical parking and can independently scroll all booking rows (3.3s)(node:12787) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+     13 …y] › e2e/round4-section1-session-change.spec.ts:60:3 › Round 4 Section 1 — session changes and admin mutation boundary › a second-tab identity change clears the first tab's stale admin screen
+  ✓  13 …e/round4-section1-session-change.spec.ts:60:3 › Round 4 Section 1 — session changes and admin mutation boundary › a second-tab identity change clears the first tab's stale admin screen (7.2s)     14 …on-boundary] › e2e/round4-section1-session-change.spec.ts:108:3 › Round 4 Section 1 — session changes and admin mutation boundary › an owner cannot approve an admin-reviewed unit verification
+  ✓  14 …dary] › e2e/round4-section1-session-change.spec.ts:108:3 › Round 4 Section 1 — session changes and admin mutation boundary › an owner cannot approve an admin-reviewed unit verification (2.2s)(node:13003) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+     15 [round4-d1-d2-removal] › e2e/round4-d1-d2-removal.spec.ts:32:3 › Round 4 D-1/D-2 — resident removal lifecycle › D-1 — removal clears a mismatched same-unit pending invitation before reissue
+  ✓  15 …d4-d1-d2-removal] › e2e/round4-d1-d2-removal.spec.ts:32:3 › Round 4 D-1/D-2 — resident removal lifecycle › D-1 — removal clears a mismatched same-unit pending invitation before reissue (4.4s)     16 [round4-d1-d2-removal] › e2e/round4-d1-d2-removal.spec.ts:66:3 › Round 4 D-1/D-2 — resident removal lifecycle › D-2 — removing second resident revokes only that full chain and frees the slot
+  ✓  16 …4-d1-d2-removal] › e2e/round4-d1-d2-removal.spec.ts:66:3 › Round 4 D-1/D-2 — resident removal lifecycle › D-2 — removing second resident revokes only that full chain and frees the slot (3.0s)     17 [round4-d1-d2-removal] › e2e/round4-d1-d2-removal.spec.ts:81:3 › Round 4 D-1/D-2 — resident removal lifecycle › D-2 — removing the applicant ends application and both credential chains
+  ✓  17 [round4-d1-d2-removal] › e2e/round4-d1-d2-removal.spec.ts:81:3 › Round 4 D-1/D-2 — resident removal lifecycle › D-2 — removing the applicant ends application and both credential chains (2.8s)(node:13205) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+     18 …oval] › e2e/round4-d15-d16-permit-approval.spec.ts:27:3 › Round 4 D-15/D-16 — move-out permit approval and dates › review then approve is reliable and the requested completion date is visible
+  ✓  18 … e2e/round4-d15-d16-permit-approval.spec.ts:27:3 › Round 4 D-15/D-16 — move-out permit approval and dates › review then approve is reliable and the requested completion date is visible (3.4s)(node:13330) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+     19 [round4-d17-d22-admin] › e2e/round4-d17-d22-admin.spec.ts:27:3 › Round 4 D-17–D-22 — admin portal role-aware UI › admin sees resident units and the read/review-only portal surface
+  ✓  19 [round4-d17-d22-admin] › e2e/round4-d17-d22-admin.spec.ts:27:3 › Round 4 D-17–D-22 — admin portal role-aware UI › admin sees resident units and the read/review-only portal surface (9.3s)(node:13463) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+     20 [round3-regression] › e2e/round3-section1-booking.spec.ts:118:3 › Round 3 Section 1 — booking time and active-booking regressions › 1a — today's UI availability never renders an elapsed slot
+  ✓  20 …3-regression] › e2e/round3-section1-booking.spec.ts:118:3 › Round 3 Section 1 — booking time and active-booking regressions › 1a — today's UI availability never renders an elapsed slot (3.2s)     21 [round3-regression] › e2e/round3-section1-booking.spec.ts:130:3 › Round 3 Section 1 — booking time and active-booking regressions › 1b — POST booking with an elapsed start is rejected
+  ✓  21 [round3-regression] › e2e/round3-section1-booking.spec.ts:130:3 › Round 3 Section 1 — booking time and active-booking regressions › 1b — POST booking with an elapsed start is rejected (4.8s)     22 …ssion] › e2e/round3-section1-booking.spec.ts:172:3 › Round 3 Section 1 — booking time and active-booking regressions › 1c — a rejected cancellation remains visible instead of closing silently
+  ✓  22 …› e2e/round3-section1-booking.spec.ts:172:3 › Round 3 Section 1 — booking time and active-booking regressions › 1c — a rejected cancellation remains visible instead of closing silently (6.8s)     23 …] › e2e/round3-section1-booking.spec.ts:207:3 › Round 3 Section 1 — booking time and active-booking regressions › F12 — the UI exposes the active unit/facility rule on a second future booking
+  ✓  23 …/round3-section1-booking.spec.ts:207:3 › Round 3 Section 1 — booking time and active-booking regressions › F12 — the UI exposes the active unit/facility rule on a second future booking (8.8s)     24 …3-regression] › e2e/round3-section2-monthly-allowance.spec.ts:60:3 › Round 3 Section 2 — zero-price monthly allowance regression › B5: cancellation does not restore the monthly free allowance
+  ✓  24 …sion] › e2e/round3-section2-monthly-allowance.spec.ts:60:3 › Round 3 Section 2 — zero-price monthly allowance regression › B5: cancellation does not restore the monthly free allowance (10.3s)     25 …] › e2e/round3-section3-waha-second-credential.spec.ts:13:3 › Round 3 Section 3 — Waha application/unit and Credential 2 regressions › 3a — browser /mine is scoped to the current rotated unit
+  ✓  25 …/round3-section3-waha-second-credential.spec.ts:13:3 › Round 3 Section 3 — Waha application/unit and Credential 2 regressions › 3a — browser /mine is scoped to the current rotated unit (2.5s)     26 …] › e2e/round3-section3-waha-second-credential.spec.ts:32:3 › Round 3 Section 3 — Credential 2 adult portal-access options › 3b — Assign Credential 2 omits the marked under-18 portal resident
+  ✓  26 …/round3-section3-waha-second-credential.spec.ts:32:3 › Round 3 Section 3 — Credential 2 adult portal-access options › 3b — Assign Credential 2 omits the marked under-18 portal resident (3.0s)     27 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:35:3 › Round 3 Section 4 — vehicles and owner parking › 4a — owner-workflow legacy parking is selectable with lot number and type
+  ✓  27 …nd3-regression] › e2e/round3-section4-vehicles.spec.ts:35:3 › Round 3 Section 4 — vehicles and owner parking › 4a — owner-workflow legacy parking is selectable with lot number and type (2.4s)     28 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:58:3 › Round 3 Section 4 — vehicles and owner parking › 4b — vehicle registration has no Istimara field
+  ✓  28 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:58:3 › Round 3 Section 4 — vehicles and owner parking › 4b — vehicle registration has no Istimara field (3.0s)     29 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:74:3 › Round 3 Section 4 — vehicles and owner parking › 4c — clicking outside preserves the vehicle dialog and entered values
+  ✓  29 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:74:3 › Round 3 Section 4 — vehicles and owner parking › 4c — clicking outside preserves the vehicle dialog and entered values (3.0s)     30 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:94:3 › Round 3 Section 4 — vehicles and owner parking › 4d — two vehicles may share one owner-registered lot and display its type
+  ✓  30 …nd3-regression] › e2e/round3-section4-vehicles.spec.ts:94:3 › Round 3 Section 4 — vehicles and owner parking › 4d — two vehicles may share one owner-registered lot and display its type (7.5s)     31 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:157:3 › Round 3 Section 4 — vehicles and owner parking › 4e — owner registration requires an explicit parking decision
+  ✓  31 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:157:3 › Round 3 Section 4 — vehicles and owner parking › 4e — owner registration requires an explicit parking decision (2.1s)     32 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:168:3 › Round 3 Section 4 — vehicles and owner parking › 4f — tenant registration does not ask the tenant to declare parking
+  ✓  32 [round3-regression] › e2e/round3-section4-vehicles.spec.ts:168:3 › Round 3 Section 4 — vehicles and owner parking › 4f — tenant registration does not ask the tenant to declare parking (2.1s)     33 …egression] › e2e/round3-section5-documents.spec.ts:10:3 › Round 3 Section 5 — resident document previews › 5a — resident view-only PDF uses portal-owned rendering, not a native browser plugin
+  ✓  33 …on] › e2e/round3-section5-documents.spec.ts:10:3 › Round 3 Section 5 — resident document previews › 5a — resident view-only PDF uses portal-owned rendering, not a native browser plugin (8.4s)     34 [round3-regression] › e2e/round3-section5-documents.spec.ts:20:3 › Round 3 Section 5 — resident document previews › 5b — resident view-only Word document renders inside its sandboxed preview
+  ✓  34 …3-regression] › e2e/round3-section5-documents.spec.ts:20:3 › Round 3 Section 5 — resident document previews › 5b — resident view-only Word document renders inside its sandboxed preview (5.8s)     35 [round3-regression] › e2e/round3-section5-documents.spec.ts:30:3 › Round 3 Section 5 — resident document previews › 5c — resident view-only image renders inside the portal preview
+  ✓  35 [round3-regression] › e2e/round3-section5-documents.spec.ts:30:3 › Round 3 Section 5 — resident document previews › 5c — resident view-only image renders inside the portal preview (8.1s)     36 [round3-regression] › e2e/round3-section6-residents.spec.ts:37:3 › Round 3 Section 6 — residents › 6a — guardian checkbox fills the registered primary occupant identifier
+  ✓  36 [round3-regression] › e2e/round3-section6-residents.spec.ts:37:3 › Round 3 Section 6 — residents › 6a — guardian checkbox fills the registered primary occupant identifier (3.5s)     37 [round3-regression] › e2e/round3-section6-residents.spec.ts:48:3 › Round 3 Section 6 — residents › 6b — fifth resident remains visible as pending verification and has no delete control
+  ✓  37 [round3-regression] › e2e/round3-section6-residents.spec.ts:48:3 › Round 3 Section 6 — residents › 6b — fifth resident remains visible as pending verification and has no delete control (8.5s)     38 [round3-regression] › e2e/round3-section7-wording-workflow.spec.ts:12:3 › Round 3 Section 7 — wording and workflow › C-3 — move-out requires self-move or moving-company workflow
+  ✓  38 [round3-regression] › e2e/round3-section7-wording-workflow.spec.ts:12:3 › Round 3 Section 7 — wording and workflow › C-3 — move-out requires self-move or moving-company workflow (2.4s)(node:14279) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+     39 …roval.spec.ts:114:3 › Round 3 C-5 — requires-approval resident browser workflow › approval toggle keeps resident requests pending without Pay Now, then admin advances free and priced bookings
+  ✓  39 …ec.ts:114:3 › Round 3 C-5 — requires-approval resident browser workflow › approval toggle keeps resident requests pending without Pay Now, then admin advances free and priced bookings (20.8s)
+  39 passed (4.5m)
